@@ -1,7 +1,9 @@
 ﻿using JeBalance.API.Admin.Models;
 using JeBalance.API.Admin.Ressources;
 using JeBalance.Domain.Models.Person;
+using JeBalance.Domain.Queries.PersonneQueries;
 using JeBalance.Domain.ValueObjects;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -14,29 +16,34 @@ namespace JeBalance.API.Admin.Controllers
 	[ApiController]
 	public class VIPController : ControllerBase
 	{
-		public static List<Personne> GenererListePersonnes()
+        private readonly IMediator _mediator;
+        public VIPController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+        public static List<Personne> GenererListePersonnes()
 		{
 			List<Personne> personnes = new List<Personne>();
-			Adresse adresse = new Adresse(42, "Rue de l'Exemple", 12345, "Ville Exemple");
+			Adresse adresse = new(42, "Rue de l'Exemple", 12345, "Ville Exemple");
 
 			for (int i = 1; i <= 5; i++)
 			{
-				personnes.Add(new Personne($"PrénomVIP{i}", $"NomVIP{i}", TypePersonne.VIP, 0, adresse));
+				personnes.Add(new Personne(i, $"PrénomVIP{i}", $"NomVIP{i}", TypePersonne.VIP, 0, adresse));
 			}
 
 			for (int i = 6; i <= 15; i++)
 			{
-				personnes.Add(new Personne($"PrénomInformateur{i}", $"NomInformateur{i}", TypePersonne.INFORMATEUR, 0, adresse));
+				personnes.Add(new Personne(i,$"PrénomInformateur{i}", $"NomInformateur{i}", TypePersonne.INFORMATEUR, 0, adresse));
 			}
 
 			for (int i = 16; i <= 18; i++)
 			{
-				personnes.Add(new Personne($"PrénomSuspect{i}", $"NomSuspect{i}", TypePersonne.SUSPECT, 0, adresse));
+				personnes.Add(new Personne(i, $"PrénomSuspect{i}", $"NomSuspect{i}", TypePersonne.SUSPECT, 0, adresse));
 			}
 
 			for (int i = 19; i <= 20; i++)
 			{
-				personnes.Add(new Personne($"PrénomCalomniateur{i}", $"NomCalomniateur{i}", TypePersonne.CALOMNIATEUR, 0, adresse));
+				personnes.Add(new Personne(i,$"PrénomCalomniateur{i}", $"NomCalomniateur{i}", TypePersonne.CALOMNIATEUR, 0, adresse));
 			}
 
 			return personnes;
@@ -46,27 +53,26 @@ namespace JeBalance.API.Admin.Controllers
 
 		// GET: api/<VIPController>
 		[HttpGet]
-		public ActionResult<IEnumerable<Personne>> Get()
-		{
-			return Ok(personnes);
+        public ActionResult<IEnumerable<Personne>> Get()
+        {
+            return Ok(personnes);
 
-		}
+        }
+        // GET api/<VIPController>/5
+        [HttpGet("{id}")]
+        public ActionResult<Personne> Get(int id)
+        {
+            var personne = personnes.FirstOrDefault(b => b.Id == id);
 
-		// GET api/<VIPController>/5
-		[HttpGet("{id}")]
-		public ActionResult<Personne> Get(int id)
-		{
-			var personne = personnes.FirstOrDefault(b => b.Id == id);
+            if (personne == null)
+                return NotFound();
 
-			if (personne == null)
-				return NotFound();
+            return Ok(personne);
+        }
 
-			return Ok(personne);
-		}
-
-		// POST api/<VIPController>
-		[HttpPost]
-		public ActionResult<Personne> Post([FromBody] IPersonneAPI personneAPI)
+        // POST api/<VIPController>
+        [HttpPost]
+		public ActionResult<Personne> Post([FromBody] PersonneAPI personneAPI)
 		{
 
 			Personne personne = personneAPI.ToPersonne();

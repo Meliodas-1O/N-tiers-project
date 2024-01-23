@@ -5,11 +5,15 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JeBalance.Domain", "JeBalance.Domain.csproj", "{424CDAD1-78D2-440F-A4CD-86F644250610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeBalance.Domain.Tests", "..\JeBalance.Domain.Tests\JeBalance.Domain.Tests.csproj", "{88D329D5-707B-42DC-A7BE-814E32CF2529}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JeBalance.Domain.Tests", "..\JeBalance.Domain.Tests\JeBalance.Domain.Tests.csproj", "{88D329D5-707B-42DC-A7BE-814E32CF2529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeBalance.API.InspectionFiscale", "..\JeBalance.API\JeBalance.API.InspectionFiscale\JeBalance.API.InspectionFiscale.csproj", "{4AF5FE63-ECDC-4FAB-ADF3-E3117FD95340}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JeBalance.API.InspectionFiscale", "..\JeBalance.API\JeBalance.API.InspectionFiscale\JeBalance.API.InspectionFiscale.csproj", "{4AF5FE63-ECDC-4FAB-ADF3-E3117FD95340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeBalance.API.Admin", "..\JeBalance.API\JeBalance.API.Admin\JeBalance.API.Admin.csproj", "{4517DF81-E960-47CE-B9B3-F75DBE8E4D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JeBalance.API.Admin", "..\JeBalance.API\JeBalance.API.Admin\JeBalance.API.Admin.csproj", "{4517DF81-E960-47CE-B9B3-F75DBE8E4D80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeBalance.Infrastructure", "..\JeBalance.Infrastructure\JeBalance.Infrastructure.csproj", "{B7DE6889-8E86-41FF-A250-EEBF9F28187C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeBalance.Public.API", "..\JeBalance.Public.API\JeBalance.Public.API.csproj", "{9EDDA2EF-E427-4BD2-BD24-7D6CB8FFBF4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{4517DF81-E960-47CE-B9B3-F75DBE8E4D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4517DF81-E960-47CE-B9B3-F75DBE8E4D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4517DF81-E960-47CE-B9B3-F75DBE8E4D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7DE6889-8E86-41FF-A250-EEBF9F28187C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7DE6889-8E86-41FF-A250-EEBF9F28187C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7DE6889-8E86-41FF-A250-EEBF9F28187C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7DE6889-8E86-41FF-A250-EEBF9F28187C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EDDA2EF-E427-4BD2-BD24-7D6CB8FFBF4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EDDA2EF-E427-4BD2-BD24-7D6CB8FFBF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EDDA2EF-E427-4BD2-BD24-7D6CB8FFBF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EDDA2EF-E427-4BD2-BD24-7D6CB8FFBF4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
