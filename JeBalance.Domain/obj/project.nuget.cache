@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "B1BtMQdbNIzsBoAXo3AjeNXGOkeIyFwxGC9ny/GiYAL9x6a0OQNEOB/yISFu08nypxblBi006lq5ASwEfmdpeA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.Domain\\JeBalance.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cisko\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

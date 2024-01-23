@@ -1,0 +1,12 @@
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.csproj.AssemblyReference.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.AssemblyInfoInputs.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.AssemblyInfo.cs
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.csproj.CoreCompileInputs.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\bin\Debug\net6.0\JeBalance.Domain.deps.json
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\bin\Debug\net6.0\JeBalance.Domain.dll
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\bin\Debug\net6.0\JeBalance.Domain.pdb
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.dll
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\refint\JeBalance.Domain.dll
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.pdb
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain\obj\Debug\net6.0\ref\JeBalance.Domain.dll
