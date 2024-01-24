@@ -22,8 +22,9 @@ namespace JeBalance.Domain.Models.Person
 			string nom,
 			TypePersonne typePersonne,
 			int nombreAvertissement,
-			Adresse adresse) : base(0)
+			Adresse adresse) : base(-1)
 		{
+			Id = -1;
 			Prenom = new Prenom (prenom);
 			Nom = new Nom(nom);
 			TypePersonne = typePersonne;
@@ -39,6 +40,7 @@ namespace JeBalance.Domain.Models.Person
 			int nombreAvertissement,
 			Adresse adresse) : base(id)
 		{
+			Id = id;
 			Prenom = new Prenom(prenom);
 			Nom = new Nom(nom);
 			TypePersonne = typePersonne;
@@ -46,7 +48,7 @@ namespace JeBalance.Domain.Models.Person
 			Adresse = adresse;
 		}
 
-		public Personne(): base(0)
+		public Personne(): base(-1)
 		{
 		}
 	}

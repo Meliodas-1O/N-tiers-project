@@ -16,7 +16,10 @@ namespace JeBalance.Domain.ValueObjects
 		{
 		}
 
-		public override string Validate(string value)
+        public Nom() : base("ALBERT")
+        {
+        }
+        public override string Validate(string value)
 		{
 			var trimmedValue = value.Trim();
 

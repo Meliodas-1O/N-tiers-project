@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,8 @@ namespace JeBalance.Domain.Contracts
 {
 	public abstract class Entity
 	{
-		public int Id { get; }
+		[Key]
+		public int Id { get; set; }
 		public Entity(int id) => Id = id;
 	}
 }

@@ -15,10 +15,10 @@ namespace JeBalance.Domain.Queries.PersonneQueries
 		public (int Limit, int Offset) Pagination { get; }
 		public FindPersonnesSpecification Specification { get; }
 
-		public FindPersonneQuery(int limit, int offset, string Prenom, string Nom, TypePersonne PersonneType, int NombreAvertissement, Adresse Adresse)
+		public FindPersonneQuery(int limit, int offset, string Prenom, string Nom, TypePersonne PersonneType, int NombreAvertissement)
 		{
 			Pagination = (limit, offset);
-			Specification = new FindPersonnesSpecification(Prenom, Nom, PersonneType, NombreAvertissement, Adresse);
+			Specification = new FindPersonnesSpecification(Prenom, Nom, PersonneType, NombreAvertissement);
 		}
 	}
 }

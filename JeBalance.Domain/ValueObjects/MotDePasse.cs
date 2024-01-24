@@ -14,6 +14,9 @@ namespace JeBalance.Domain.ValueObjects
         public MotDePasse(string value) : base(value)
         {
         }
+        public MotDePasse() : base("ABCDEFGHIJK")
+        {
+        }
 
         public override string Validate(string value)
         {

@@ -16,8 +16,11 @@ namespace JeBalance.Domain.ValueObjects
 		public NumeroVoie(int value) : base(value)
 		{
 		}
+        public NumeroVoie() : base(0)
+        {
+        }
 
-		public override int Validate(int value)
+        public override int Validate(int value)
 		{
 			if (value < MIN) throw new ApplicationException($"le Numero de Voie ne peut pas etre inferieur a {MIN}");
 

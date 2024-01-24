@@ -10,8 +10,11 @@ namespace JeBalance.Domain.ValueObjects
 		public CodePostal(int value) : base(value)
 		{
 		}
+        public CodePostal() : base(0)
+        {
+        }
 
-		public override int Validate(int value)
+        public override int Validate(int value)
 		{
 			if (value.ToString().Length != LENGTH) throw new ApplicationException($"le Code Postal doit avoir exactement {LENGTH} chiffres");
 
