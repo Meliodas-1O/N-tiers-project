@@ -2,6 +2,7 @@
 using JeBalance.Public.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JeBalance.Public.API.Migrations
 {
     [DbContext(typeof(PublicApiDatabaseContext))]
-    partial class PublicApiDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240124144943_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.26");

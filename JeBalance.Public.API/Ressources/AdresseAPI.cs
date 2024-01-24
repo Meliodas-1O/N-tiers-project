@@ -28,5 +28,7 @@ namespace JeBalance.Public.API.Ressources
             };
             return adresseApi;
         }
+
+
     }
 }

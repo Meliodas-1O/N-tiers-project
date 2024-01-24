@@ -9,7 +9,7 @@ namespace JeBalance.Public.API.Data
 {
     public class PublicApiDatabaseContext : DbContext
     {
-        public DbSet<Personne> Personnes => Set<Personne>();
+        public DbSet<PersonneAPI> Personnes => Set<PersonneAPI>();
 
         public PublicApiDatabaseContext(DbContextOptions<PublicApiDatabaseContext> options) : base(options) { }
 
