@@ -23,3 +23,5 @@ C:\Users\fode.cissokho\Source\Repos\N-tiers-project\JeBalance.Domain\obj\Debug\n
 C:\Users\fode.cissokho\Source\Repos\N-tiers-project\JeBalance.Domain\obj\Debug\net6.0\refint\JeBalance.Domain.dll
 C:\Users\fode.cissokho\Source\Repos\N-tiers-project\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.pdb
 C:\Users\fode.cissokho\Source\Repos\N-tiers-project\JeBalance.Domain\obj\Debug\net6.0\ref\JeBalance.Domain.dll
+C:\Users\fode.cissokho\source\repos\N-tiers-project\JeBalance.Domain\bin\Debug\net6.0\JeBalance.Domain.runtimeconfig.json
+C:\Users\fode.cissokho\source\repos\N-tiers-project\JeBalance.Domain\obj\Debug\net6.0\JeBalance.Domain.genruntimeconfig.cache

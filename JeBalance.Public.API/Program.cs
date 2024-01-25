@@ -1,4 +1,5 @@
-using JeBalance.Public.API.Data;
+
+using JeBalance.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<PublicApiDatabaseContext>(option => option.UseSqlite(connectionString));
+builder.Services.AddDbContext<DatabaseContext>(option =>
+            option.UseSqlite(connectionString),
+            contextLifetime: ServiceLifetime.Scoped,
+            optionsLifetime: ServiceLifetime.Transient);
 
 var app = builder.Build();
 

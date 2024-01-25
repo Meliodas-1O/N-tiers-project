@@ -23,5 +23,9 @@ namespace JeBalance.Domain.Models.Reponse
 			Type = type;
 			Retribution = retribution;
 		}
-	}
+
+        public DenonciationReponse() : base(-1)
+        {
+        }
+    }
 }

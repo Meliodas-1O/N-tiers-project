@@ -35,5 +35,10 @@ namespace JeBalance.Domain.Models.Denonciation
 			PaysEvasion = new PaysEvasion(paysEvasion);
 			Reponse = reponse;
 		}
-	}
+
+        public Denonciation() : base(-1)
+        {
+        }
+    }
+
 }
