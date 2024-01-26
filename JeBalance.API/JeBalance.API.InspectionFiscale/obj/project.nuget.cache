@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "zlrB3UCNVJK3b5/AiRolq4/T156hfHE6EKZCKvhbpLulxcNlM27Ob1MfRqR+ANFHfR7VHPnA+wfJreihWzMQQg==",
+  "dgSpecHash": "rJYRWImBqFKWPXpKoz90qnJCmDPCSe+aSz4OSUHuPK5GXTV3EcwARsp0gvmNWXWbrNoL7B3oB0Yzj9V1WfelHQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj",
+  "projectFilePath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+    "C:\\Users\\cisko\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -10,8 +10,14 @@ namespace JeBalance.Public.API.Ressources
         public string Commune { get; set; }
 
         public AdresseAPI() { }
-
-        public Adresse ToAdresse()
+		public AdresseAPI(int numeroVoie, string nomVoie, int codePostal, string commune)
+		{
+			NumeroVoie = numeroVoie;
+			NomVoie = nomVoie;
+			CodePostal = codePostal;
+			Commune = commune;
+		}
+		public Adresse ToAdresse()
         {
             Adresse adresse = new (NumeroVoie, NomVoie, CodePostal,Commune);
             return adresse;

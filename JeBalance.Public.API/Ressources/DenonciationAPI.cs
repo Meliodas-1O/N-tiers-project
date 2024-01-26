@@ -2,12 +2,13 @@ using JeBalance.Domain.Models.Denonciation;
 using JeBalance.Domain.ValueObjects;
 using JeBalance.Domain.Models.Person;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace JeBalance.Public.API.Ressources
 {
     public class DenonciationAPI
     {
-        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public PersonneAPI Informateur { get; set; }

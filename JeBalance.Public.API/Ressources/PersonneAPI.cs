@@ -1,24 +1,25 @@
 ﻿using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace JeBalance.Public.API.Ressources
 {
     public class PersonneAPI
     {
-        [Key]
-        public int Id { get; set; }
+		[JsonIgnore]
+		public int? Id { get; set; }
         public string Prenom { get; set; }
         public string Nom { get; set; }
-        public string Adresse { get; set; }
+        public AdresseAPI Adresse { get; set; }
+		[JsonIgnore]
+		public string? TypePersonne { get; set; }
         public PersonneAPI() { }
 
         public Personne ToPersonne()
         {
-            var parametres = ExtraireParametresAdresse(Adresse);
-            Adresse adresse = new(parametres.numeroVoie, parametres.nomVoie, parametres.codePostal, parametres.nomCommune);
-            Personne personne = new(-1234, Prenom, Nom, TypePersonne.VIP, 0, adresse);
-
+            Adresse adresse = new(Adresse.NumeroVoie, Adresse.NomVoie, Adresse.CodePostal, Adresse.Commune);;
+            Personne personne = new(Prenom, Nom, (TypePersonne)Enum.Parse(typeof(TypePersonne), TypePersonne!), 0, adresse);
             return personne;
         }
 
@@ -28,7 +29,7 @@ namespace JeBalance.Public.API.Ressources
             {
                 Prenom = personne.Prenom.Value,
                 Nom = personne.Nom.Value,
-                Adresse = BuildStringValue(personne.Adresse.NumeroVoie.Value, personne.Adresse.NomVoie.Value, personne.Adresse.CodePostal.Value, personne.Adresse.NomCommune.Value)
+                Adresse = new AdresseAPI(personne.Adresse.NumeroVoie.Value, personne.Adresse.NomVoie.Value, personne.Adresse.CodePostal.Value, personne.Adresse.NomCommune.Value)
             };
             return personneApi;
         }

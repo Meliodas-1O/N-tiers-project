@@ -13,8 +13,7 @@ namespace JeBalance.API.Admin.Ressources
 		public Personne ToPersonne()
 		{
 			Adresse adresse = new(Address.NumeroVoie, Address.NomVoie, Address.CodePostal, Address.Commune);
-			Personne personne = new (new int(), Prenom, Nom, TypePersonne.VIP,0, adresse);
-
+			Personne personne = new (Prenom, Nom, TypePersonne.VIP,0, adresse);
 			return personne;
 		}
 	}

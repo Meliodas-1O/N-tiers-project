@@ -239,3 +239,4 @@ C:\Users\fode.cissokho\source\repos\N-tiers-project\JeBalance.Domain.Tests\obj\D
 C:\Users\fode.cissokho\source\repos\N-tiers-project\JeBalance.Domain.Tests\obj\Debug\net6.0\JeBalance.Domain.Tests.pdb
 C:\Users\fode.cissokho\source\repos\N-tiers-project\JeBalance.Domain.Tests\obj\Debug\net6.0\JeBalance.Domain.Tests.genruntimeconfig.cache
 C:\Users\fode.cissokho\source\repos\N-tiers-project\JeBalance.Domain.Tests\obj\Debug\net6.0\ref\JeBalance.Domain.Tests.dll
+C:\Users\cisko\source\repos\JeBalance\JeBalance.Domain.Tests\obj\Debug\net6.0\JeBalance.Domain.Tests.sourcelink.json

@@ -1,12 +1,10 @@
-﻿using JeBalance.API.Admin.Models;
+﻿using JeBalance.API.Admin.Parameters;
 using JeBalance.API.Admin.Ressources;
 using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Queries.PersonneQueries;
-using JeBalance.Domain.ValueObjects;
+using JeBalance.DomainCommands.PersonneCommands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using static System.Reflection.Metadata.BlobBuilder;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,94 +18,63 @@ namespace JeBalance.API.Admin.Controllers
         public VIPController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-        public static List<Personne> GenererListePersonnes()
-		{
-			List<Personne> personnes = new List<Personne>();
-			Adresse adresse = new(42, "Rue de l'Exemple", 12345, "Ville Exemple");
-
-			for (int i = 1; i <= 5; i++)
-			{
-				personnes.Add(new Personne(i, $"PrénomVIP{i}", $"NomVIP{i}", TypePersonne.VIP, 0, adresse));
-			}
-
-			for (int i = 6; i <= 15; i++)
-			{
-				personnes.Add(new Personne(i,$"PrénomInformateur{i}", $"NomInformateur{i}", TypePersonne.INFORMATEUR, 0, adresse));
-			}
-
-			for (int i = 16; i <= 18; i++)
-			{
-				personnes.Add(new Personne(i, $"PrénomSuspect{i}", $"NomSuspect{i}", TypePersonne.SUSPECT, 0, adresse));
-			}
-
-			for (int i = 19; i <= 20; i++)
-			{
-				personnes.Add(new Personne(i,$"PrénomCalomniateur{i}", $"NomCalomniateur{i}", TypePersonne.CALOMNIATEUR, 0, adresse));
-			}
-
-			return personnes;
 		}
-
-		List < Personne > personnes = GenererListePersonnes();
 
 		// GET: api/<VIPController>
 		[HttpGet]
-        public ActionResult<IEnumerable<Personne>> Get()
+        public async Task<ActionResult> Get([FromQuery] FindPersonnesParameters parameters)
         {
-            return Ok(personnes);
 
-        }
-        // GET api/<VIPController>/5
-        [HttpGet("{id}")]
-        public ActionResult<Personne> Get(int id)
-        {
-            var personne = personnes.FirstOrDefault(b => b.Id == id);
-
-            if (personne == null)
-                return NotFound();
-
-            return Ok(personne);
-        }
-
-        // POST api/<VIPController>
-        [HttpPost]
-		public ActionResult<Personne> Post([FromBody] PersonneAPI personneAPI)
+			var query = new FindPersonneQuery(
+				parameters.Limit, 
+				parameters.Offset,
+				parameters.Prenom,
+				parameters.Nom,
+				parameters.TypePersonne,
+				parameters.NombreAvertissement
+				);
+			var response = await _mediator.Send(query);
+			Response.Headers.Add("X-Pagination-Limit", parameters.Limit.ToString());
+			Response.Headers.Add("X-Pagination-Offset", parameters.Offset.ToString());
+			Response.Headers.Add("X-Pagination-Count", response.Count().ToString());
+			return Ok(response);
+		}
+		// GET api/<VIPController>/5
+		[HttpGet("{id}")]
+		public async Task<ActionResult> Get(int id)
 		{
+			var query = new FindOnePersonneQuery(id);
+			var place = await _mediator.Send(query);
+			return Ok(place);
+		}
 
+		// POST api/<VIPController>
+        [HttpPost]
+		public async Task<ActionResult> Post([FromBody] PersonneAPI personneAPI)
+		{
 			Personne personne = personneAPI.ToPersonne();
-			personnes.Add(personne);
-			return CreatedAtAction(nameof(Get), new { id = personne.Id }, personne);
+			var command = new CreatePersonneCommand(personne.Prenom.Value, personne.Nom.Value, personne.TypePersonne, personne.NombreAvertissement, personne.Adresse);
+			var id = await _mediator.Send(command);
+			return Ok(id);
 		}
 
 		// PUT api/<VIPController>/5
 		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody] Personne value)
+		public async Task<ActionResult> Put(int id, [FromBody] PersonneAPI personneAPI)
 		{
-			var existingPersonne = personnes.FirstOrDefault(b => b.Id == id);
-
-			if (existingPersonne == null)
-				return NotFound();
-
-			existingPersonne.Prenom = value.Prenom;
-			existingPersonne.Nom = value.Nom;
-			existingPersonne.Adresse = value.Adresse;
-
-			return NoContent();
+			Personne personne = personneAPI.ToPersonne();
+			var command = new UpdatePersonneCommand(id,personne.Prenom.Value, personne.Nom.Value, personne.TypePersonne, personne.NombreAvertissement, personne.Adresse);
+			await _mediator.Send(command);
+			return Ok(id);
 		}
 
 		// DELETE api/<VIPController>/5
 		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
+		public async Task<ActionResult> Delete(int id)
 		{
-			var book = personnes.FirstOrDefault(b => b.Id == id);
-
-			if (book == null)
-				return NotFound();
-
-			personnes.Remove(book);
-
-			return NoContent();
+			var command = new DeletePersonneCommand(id);
+			await _mediator.Send(command);
+			return Ok(id);
 		}
 	}
 }

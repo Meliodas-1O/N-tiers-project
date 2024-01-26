@@ -12,9 +12,9 @@ namespace JeBalance.Public.API.Controllers
     [Route("[controller]")]
     public class DenonciationController : ControllerBase
     {
+        private const string INFORMATEUR_TYPE = "INFORMATEUR";
+        private const string SUSPECT_TYPE = "SUSPECT";
 
-        private static List<Denonciation> _denonciations = new List<Denonciation>();
-        private static List<Personne> _personnes = new List<Personne>();
         private readonly IMediator _mediator;
         public DenonciationController(IMediator mediator)
         {
@@ -23,7 +23,9 @@ namespace JeBalance.Public.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPI denonciation)
         {
-            var command = new CreateDenonciationCommand(denonciation.Date, denonciation.Informateur.ToPersonne(),denonciation.Suspect.ToPersonne(), denonciation.delit,denonciation.PaysEvasion, null);
+            denonciation.Informateur.TypePersonne = INFORMATEUR_TYPE;
+            denonciation.Suspect.TypePersonne = SUSPECT_TYPE;
+            var command = new CreateDenonciationCommand(DateTime.Now, denonciation.Informateur.ToPersonne(),denonciation.Suspect.ToPersonne(), denonciation.delit,denonciation.PaysEvasion, null);
             var id = await _mediator.Send(command);
             return Ok(id);
         }
