@@ -13,13 +13,13 @@ namespace JeBalance.Public.API.Ressources
 
         public Adresse ToAdresse()
         {
-            Adresse adresse = new Adresse(NumeroVoie, NomVoie, CodePostal,Commune);
+            Adresse adresse = new (NumeroVoie, NomVoie, CodePostal,Commune);
             return adresse;
         }
 
         public static AdresseAPI FromAdresse(Adresse adresse)
         {
-            AdresseAPI adresseApi = new AdresseAPI
+            AdresseAPI adresseApi = new()
             {
                 NumeroVoie = adresse.NumeroVoie.Value,
                 NomVoie = adresse.NomVoie.Value, 

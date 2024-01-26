@@ -13,8 +13,8 @@ namespace JeBalance.Domain.Models.Denonciation
         public Personne Suspect { get; set; } = null!;
 		public Delit Delit { get; set; }
         public PaysEvasion PaysEvasion { get; set; } = null!;
-		public DenonciationReponse? Reponse { get; set; }
-		public Denonciation(int id, DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, DenonciationReponse? reponse)
+		public int? ReponseId { get; set; }
+		public Denonciation(int id, DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, int? reponseId)
 			: base(id)
 		{
 			Horodatage = horodatage;
@@ -22,10 +22,10 @@ namespace JeBalance.Domain.Models.Denonciation
 			Suspect = suspect;
 			Delit = delit;
 			PaysEvasion = new PaysEvasion(paysEvasion);
-			Reponse = reponse;
-		}
+            ReponseId = reponseId;
+        }
 
-		public Denonciation(DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, DenonciationReponse? reponse)
+        public Denonciation(DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, int? reponseId)
 			: base(0)
 		{
 			Horodatage = horodatage;
@@ -33,7 +33,7 @@ namespace JeBalance.Domain.Models.Denonciation
 			Suspect = suspect;
 			Delit = delit;
 			PaysEvasion = new PaysEvasion(paysEvasion);
-			Reponse = reponse;
+            ReponseId = reponseId;
 		}
 
         public Denonciation() : base(-1)

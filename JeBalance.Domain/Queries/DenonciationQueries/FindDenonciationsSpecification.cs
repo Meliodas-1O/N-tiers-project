@@ -37,9 +37,8 @@ namespace JeBalance.Domain.Queries.AdresseQueries
 				(!_horodatage.HasValue || denonciation.Horodatage == _horodatage) &&
 				(_informateur == null || denonciation.Informateur == _informateur) &&
 				(_suspect == null || denonciation.Suspect == _suspect) &&
-				(_delit.Equals(Delit.NONE) || _delit.Equals(denonciation.Delit))&&
-				(string.IsNullOrEmpty(_paysEvasion) || denonciation.PaysEvasion.Value.ToLower().Contains(_paysEvasion)) &&
-				(_reponseType.Equals(TypeReponse.NONE) || (denonciation.Reponse != null && _reponseType.Equals(denonciation.Reponse.Type)));
+				(_delit.Equals(Delit.NONE) || _delit.Equals(denonciation.Delit)) &&
+				(string.IsNullOrEmpty(_paysEvasion) || denonciation.PaysEvasion.Value.ToLower().Contains(_paysEvasion));
 		}
 	}
 

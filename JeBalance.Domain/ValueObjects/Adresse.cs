@@ -1,10 +1,4 @@
 ﻿using JeBalance.Domain.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JeBalance.Domain.ValueObjects
 {
@@ -15,7 +9,6 @@ namespace JeBalance.Domain.ValueObjects
 		public NomVoie NomVoie { get; private set; }
 		public CodePostal CodePostal { get; private set; }
 		public NomCommune NomCommune { get; private set; }
-
 		public Adresse(int numeroVoie, string nomVoie, int codePostal, string nomCommune)
 			: base(BuildStringValue(numeroVoie, nomVoie, codePostal, nomCommune))
 		{
@@ -29,7 +22,7 @@ namespace JeBalance.Domain.ValueObjects
 		{
 			if (string.IsNullOrWhiteSpace(value))
 			{
-				throw new ArgumentException("Address value cannot be empty or null.");
+				throw new ArgumentException("L'adresse ne peut pas être null ou vide.");
 			}
 			return value;
 		}

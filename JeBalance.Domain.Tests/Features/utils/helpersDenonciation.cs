@@ -68,7 +68,7 @@ namespace JeBalance.Domain.Tests.Features.utils
 				suspect: Suspect,
 				delit: Enum.Parse<Delit>(updatedDelit),
 				paysEvasion: updatedPaysEvasion,
-				reponse: null);
+				reponseId: -1);
 		}
 	}
 }

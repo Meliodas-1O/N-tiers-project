@@ -6,6 +6,5 @@ namespace JeBalance.Domain.Repository
 {
 	public interface IReponseRepository : Repository<DenonciationReponse>
 	{
-		Task SetTypeResponse(DenonciationReponse reponse);
 	}
 }

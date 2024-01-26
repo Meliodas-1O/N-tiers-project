@@ -12,17 +12,20 @@ namespace JeBalance.Domain.Models.Reponse
 		public DateTime Timestamp { get; set; }
 		public TypeReponse Type { get; set; }
 		public int Retribution { get; set; }
-		public DenonciationReponse(DateTime timestamp, TypeReponse type, int retribution) : base(0) {
+		public int DenonciationId { get; set; }
+		public DenonciationReponse(DateTime timestamp, TypeReponse type, int retribution, int denonciationId) : base(0) {
 			Timestamp = timestamp;
 			Type = type;
 			Retribution = retribution;
+			DenonciationId = denonciationId;
 		}
-		public DenonciationReponse(int id,DateTime timestamp, TypeReponse type, int retribution) : base(id)
+		public DenonciationReponse(int id,DateTime timestamp, TypeReponse type, int retribution, int denonciationId) : base(id)
 		{
 			Timestamp = timestamp;
 			Type = type;
 			Retribution = retribution;
-		}
+            DenonciationId = denonciationId;
+        }
 
         public DenonciationReponse() : base(-1)
         {

@@ -1,6 +1,9 @@
+using JeBalance.Domain.Commands.DenonciationCommandsCommands;
 using JeBalance.Domain.Models.Denonciation;
 using JeBalance.Domain.Models.Person;
+using JeBalance.Domain.Queries.DenonciationQueries;
 using JeBalance.Public.API.Ressources;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JeBalance.Public.API.Controllers
@@ -12,56 +15,25 @@ namespace JeBalance.Public.API.Controllers
 
         private static List<Denonciation> _denonciations = new List<Denonciation>();
         private static List<Personne> _personnes = new List<Personne>();
-
-
-        [HttpPost]
-        public ActionResult CreateDenonciation([FromBody] DenonciationAPI denonciation)
+        private readonly IMediator _mediator;
+        public DenonciationController(IMediator mediator)
         {
-            try
-            {
-                var informateur = _personnes.FirstOrDefault(p => p.Nom.Value.Equals(denonciation.Informateur));
-
-                if (informateur == null)
-                {
-                    _personnes.Add(denonciation.Informateur.ToPersonne());
-                }
-                else
-                {
-                    denonciation.Informateur = PersonneAPI.FromPersonne(informateur);
-                }
-
-                var suspect = _personnes.FirstOrDefault(p => p.Nom.Value.Equals(denonciation.Suspect));
-
-                if (suspect == null)
-                {
-                    _personnes.Add(denonciation.Suspect.ToPersonne());
-                }
-                else
-                {
-                    denonciation.Suspect = PersonneAPI.FromPersonne(suspect);
-                }
-                denonciation.Date = DateTime.Now;
-                Denonciation _denonciation = denonciation.ToDenonciation();
-                _denonciations.Add(_denonciation);
-                return Ok($"Dénonciation créée avec succès. Voici l'id : {_denonciation.Id}");
-            }
-            catch (Exception ex) {
-                return StatusCode(500, "Une erreur s'est produite lors de la création de la dénonciation.");
-            }
-
+            _mediator = mediator;
+        }
+        [HttpPost]
+        public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPI denonciation)
+        {
+            var command = new CreateDenonciationCommand(denonciation.Date, denonciation.Informateur.ToPersonne(),denonciation.Suspect.ToPersonne(), denonciation.delit,denonciation.PaysEvasion, null);
+            var id = await _mediator.Send(command);
+            return Ok(id);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<DenonciationAPI> FindDenonciationByInformateur(string id)
+        public async Task<ActionResult> FindDenonciation(int id)
         {
-            var denonciation = _denonciations.FirstOrDefault(d => d.Informateur.Id.ToString() == id);
-
-            if (denonciation == null)
-            {
-                return NotFound("Dénonciation non trouvée pour l'informateur spécifié.");
-            }
-
-            return Ok(denonciation);
+            var query = new FindOneDenonciationQuery(id);
+            await _mediator.Send(query);
+            return Ok(id);
         }
     }
 }

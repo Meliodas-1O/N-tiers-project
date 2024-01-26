@@ -7,6 +7,5 @@ namespace JeBalance.Domain.Repository
 {
 	public interface IPersonneRepository : Repository<Personne>
 	{
-		Task SetAdresse(Adresse adresse);
 	}
 }

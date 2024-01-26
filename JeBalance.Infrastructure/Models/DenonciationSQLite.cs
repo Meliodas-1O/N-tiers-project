@@ -13,6 +13,6 @@ public class DenonciationSQLite : Denonciation
     public string Delit { get; set; } = null!;
     public string PaysEvasion { get; set; } = null!;
     [ForeignKey("Reponse")]
-    public int ReponseId { get; set; }
+    public int? ReponseId { get; set; }
     public virtual ReponseSQLite? Reponse { get; set; }
 }

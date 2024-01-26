@@ -13,10 +13,10 @@ namespace JeBalance.Domain.Commands.ReponseCommands
 		public int Id { get; }
 		public DenonciationReponse Response { get; }
 
-		public UpdateReponseCommand(int id, DateTime timestamp, TypeReponse type, int retribution)
+		public UpdateReponseCommand(int id, DateTime timestamp, TypeReponse type, int retribution, int denonciationId)
 		{
 			Id = id;
-			Response = new DenonciationReponse (timestamp, type,retribution);
+			Response = new DenonciationReponse (timestamp, type,retribution, denonciationId);
 		}
 	}
 }

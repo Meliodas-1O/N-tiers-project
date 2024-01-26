@@ -23,7 +23,7 @@ namespace JeBalance.Domain.Commands.DenonciationCommands
 			DenonciationReponse? reponse)
 		{
 			Id = id;
-			Denonciation = new Denonciation(horodatage, informateur, suspect, delit, paysEvasion, reponse);
+			Denonciation = new Denonciation(horodatage, informateur, suspect, delit, paysEvasion, reponse?.DenonciationId);
 		}
 	}
 }
