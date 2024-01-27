@@ -18,7 +18,8 @@ namespace JeBalance.API.Admin.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMediator _mediator;
 
-        public AuthenticationController(
+
+		public AuthenticationController(
             UserManager<AdminUser> adminManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
@@ -60,7 +61,39 @@ namespace JeBalance.API.Admin.Controllers
             return Unauthorized();
         }
 
-        [HttpPost]
+		[HttpPost]
+		[Route("token")]
+		public  async Task<IActionResult> GenerateToken([FromBody] LoginModel request)
+        {
+            if(request.Password.Equals("12345azerty") && request.Username.Equals("admin"))
+            {
+				AdminUser adminUser = new()
+				{
+					SecurityStamp = Guid.NewGuid().ToString(),
+					UserName = request.Username
+				};
+
+				var authClaims = new List<Claim>
+				{
+					new (ClaimTypes.Name, adminUser.UserName),
+					new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+					new (ClaimTypes.Role, UserRole.Admin),
+				};
+
+				var token = GetToken(authClaims);
+
+				return Ok(new
+				{
+					token = new JwtSecurityTokenHandler().WriteToken(token),
+					expiration = token.ValidTo
+				});
+
+			}
+            return Unauthorized(); 
+
+		}
+
+		[HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {

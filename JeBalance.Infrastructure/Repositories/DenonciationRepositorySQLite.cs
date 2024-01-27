@@ -1,5 +1,6 @@
 ﻿using JeBalance.Domain.Contracts;
 using JeBalance.Domain.Models.Denonciation;
+using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Repository;
 using JeBalance.Infrastructure.Data;
@@ -23,7 +24,7 @@ namespace JeBalance.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<int> Create(Denonciation denonciation)
+        public async Task<string> Create(Denonciation denonciation)
         {
             var denonciationToSave = denonciation.ToSQLite();
             await _context.Denonciations.AddAsync(denonciationToSave);
@@ -31,10 +32,10 @@ namespace JeBalance.Infrastructure.Repositories
             return denonciationToSave.Id;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(string id)
         {
             try{
-                var denonciationToDelete = await _context.Denonciations.FirstOrDefaultAsync(denonciation => denonciation.Id == id);
+                var denonciationToDelete = await _context.Denonciations.FirstOrDefaultAsync(denonciation => denonciation.Id.Equals(id));
 
                 if (denonciationToDelete == null)
                     return true;
@@ -54,23 +55,32 @@ namespace JeBalance.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Denonciation> GetOne(int id)
+        public async Task<Denonciation?> GetOne(string id)
         {
-            throw new NotImplementedException();
-        }
+            var denonciation = _context.Denonciations
+                .Include(d => d.Informateur)
+                .Include(d => d.Suspect)
+                .FirstOrDefault(personne => personne.Id.Equals(id));
+			if (denonciation != null)
+			{
+				return denonciation.ToDomain();
+			}
+			else
+			{
+				return null;
+			}
+		}
 
         public async Task SetReponse(DenonciationReponse newReponse)
         {
-            var denonciationToUpdate = _context.Denonciations.FirstOrDefault(denonciation =>  denonciation.Id == newReponse.DenonciationId);
+            var denonciationToUpdate = _context.Denonciations.FirstOrDefault(denonciation =>  denonciation.Id.Equals(newReponse.DenonciationId));
             denonciationToUpdate.ReponseId = newReponse.Id;
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> Update(int id, Denonciation denonciation)
+        public async Task<string> Update(string id, Denonciation denonciation)
         {
-            var denonciationToUpdate = _context.Denonciations.First(denonciation => denonciation.Id == id);
-            denonciationToUpdate.Informateur = denonciation.Informateur.ToSQLite();
-            denonciationToUpdate.Suspect = denonciation.Suspect.ToSQLite();
+            var denonciationToUpdate = _context.Denonciations.First(denonciation => denonciation.Id.Equals(id));
             denonciationToUpdate.Delit = denonciation.Delit.ToString();
             denonciationToUpdate.PaysEvasion = denonciation.PaysEvasion.Value;
 

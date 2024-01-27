@@ -19,9 +19,8 @@ namespace JeBalance.Infrastructure.Migrations
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.DenonciationSQLite", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Delit")
                         .IsRequired()
@@ -30,18 +29,20 @@ namespace JeBalance.Infrastructure.Migrations
                     b.Property<DateTime>("Horodatage")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("InformateurId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("InformateurId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PaysEvasion")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ReponseId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ReponseId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("SuspectId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("SuspectId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -57,9 +58,8 @@ namespace JeBalance.Infrastructure.Migrations
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.PersonneSQLite", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Adresse")
                         .IsRequired()
@@ -87,12 +87,12 @@ namespace JeBalance.Infrastructure.Migrations
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.ReponseSQLite", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("DenonciationId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("DenonciationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Retribution")
                         .HasColumnType("INTEGER");

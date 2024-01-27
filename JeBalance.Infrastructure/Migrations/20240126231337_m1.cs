@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JeBalance.Infrastructure.Migrations
 {
-    public partial class m4 : Migration
+    public partial class m1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,7 @@ namespace JeBalance.Infrastructure.Migrations
                 name: "Personnes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Prenom = table.Column<string>(type: "TEXT", nullable: false),
                     Nom = table.Column<string>(type: "TEXT", nullable: false),
                     TypePersonne = table.Column<string>(type: "TEXT", nullable: false),
@@ -27,16 +26,31 @@ namespace JeBalance.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reponses",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Type = table.Column<string>(type: "TEXT", nullable: false),
+                    Retribution = table.Column<int>(type: "INTEGER", nullable: false),
+                    DenonciationId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reponses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Denonciations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Horodatage = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    InformateurId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SuspectId = table.Column<int>(type: "INTEGER", nullable: false),
+                    InformateurId = table.Column<string>(type: "TEXT", nullable: false),
+                    SuspectId = table.Column<string>(type: "TEXT", nullable: false),
                     Delit = table.Column<string>(type: "TEXT", nullable: false),
-                    PaysEvasion = table.Column<string>(type: "TEXT", nullable: false)
+                    PaysEvasion = table.Column<string>(type: "TEXT", nullable: false),
+                    ReponseId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,32 +67,23 @@ namespace JeBalance.Infrastructure.Migrations
                         principalTable: "Personnes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reponses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    Retribution = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reponses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reponses_Denonciations_Id",
-                        column: x => x.Id,
-                        principalTable: "Denonciations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Denonciations_Reponses_ReponseId",
+                        column: x => x.ReponseId,
+                        principalTable: "Reponses",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Denonciations_InformateurId",
                 table: "Denonciations",
                 column: "InformateurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Denonciations_ReponseId",
+                table: "Denonciations",
+                column: "ReponseId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Denonciations_SuspectId",
@@ -89,13 +94,13 @@ namespace JeBalance.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reponses");
-
-            migrationBuilder.DropTable(
                 name: "Denonciations");
 
             migrationBuilder.DropTable(
                 name: "Personnes");
+
+            migrationBuilder.DropTable(
+                name: "Reponses");
         }
     }
 }

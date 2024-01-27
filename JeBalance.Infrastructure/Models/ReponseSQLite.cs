@@ -11,11 +11,11 @@ namespace JeBalance.Infrastructure.Models;
 public class ReponseSQLite : DenonciationReponse
 {
     [Key]
-    public new int Id { get; set; }
+    public new string Id { get; set; }
     public DateTime Timestamp { get; set; }
     public string Type { get; set; } = null!;
     public int Retribution { get; set; }
     [ForeignKey("Denonciation")]
-    public int DenonciationId { get; set; }
+    public string DenonciationId { get; set; }
     public DenonciationSQLite? DenonciationSQLite { get; set; }
 }

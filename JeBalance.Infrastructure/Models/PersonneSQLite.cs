@@ -6,7 +6,7 @@ namespace JeBalance.Infrastructure.Models;
 public class PersonneSQLite : Personne
 {
     [Key]
-    public new int Id { get; set; }
+    public new string Id { get; set; } = null!;
     public string Prenom { get; set; } = null!;
     public string Nom { get; set; } = null!;
     public string TypePersonne { get; set; } = null!;

@@ -72,8 +72,8 @@ namespace JeBalance.Infrastructure.Models
             {
                 Id = denonciation.Id,
                 Horodatage = denonciation.Horodatage,
-                Informateur = denonciation.Informateur.ToSQLite(),
-                Suspect = denonciation.Suspect.ToSQLite(),
+                InformateurId = denonciation.InformateurId,
+                SuspectId = denonciation.SuspectId,
                 Delit = denonciation.Delit.ToString(),
                 PaysEvasion = denonciation.PaysEvasion.Value,
                 ReponseId = denonciation.ReponseId
@@ -85,8 +85,8 @@ namespace JeBalance.Infrastructure.Models
             return new(
                 denonciation.Id,
                 denonciation.Horodatage,
-                denonciation.Informateur,
-                denonciation.Suspect,
+                denonciation.InformateurId,
+                denonciation.SuspectId,
                 (Delit)Enum.Parse(typeof(Delit),denonciation.Delit),
                 denonciation.PaysEvasion,
                 denonciation.ReponseId

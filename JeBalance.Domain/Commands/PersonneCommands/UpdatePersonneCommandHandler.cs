@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace JeBalance.DomainCommands.PersonneCommands
 {
-	public class UpdatePersonneCommandHandler : IRequestHandler<UpdatePersonneCommand, int>
+	public class UpdatePersonneCommandHandler : IRequestHandler<UpdatePersonneCommand, string>
 	{
 		private readonly IPersonneRepository _repository;
 
 		public UpdatePersonneCommandHandler(IPersonneRepository repository) => _repository = repository;
 
-		public Task<int> Handle(UpdatePersonneCommand command, CancellationToken cancellationToken)
+		public Task<string> Handle(UpdatePersonneCommand command, CancellationToken cancellationToken)
 		{
 			return _repository.Update(command.Id, command.Personne);
 		}

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.DenonciationCommands
 {
-	public class CreateDenonciationCommandHandler : IRequestHandler<CreateDenonciationCommand, int>
+	public class CreateDenonciationCommandHandler : IRequestHandler<CreateDenonciationCommand, string>
 	{
 		private readonly IDenonciationRepository _repository;
 
 		public CreateDenonciationCommandHandler(IDenonciationRepository repository) => _repository = repository;
 
-		public Task<int> Handle(CreateDenonciationCommand command, CancellationToken cancellationToken)
+		public Task<string> Handle(CreateDenonciationCommand command, CancellationToken cancellationToken)
 		{
 			return _repository.Create(command.Denonciation);
 		}

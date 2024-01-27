@@ -1,6 +1,7 @@
 ﻿using JeBalance.Domain.Contracts;
 using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Repository;
+using JeBalance.Domain.ValueObjects;
 using JeBalance.Infrastructure.Data;
 using JeBalance.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace JeBalance.Infrastructure.Repositories
 		{
 			_context = context;
 		}
-		public async Task<int> Create(Personne personne)
+		public async Task<string> Create(Personne personne)
         {
 			var personneToSave = personne.ToSQLite();
 			await _context.Personnes.AddAsync(personneToSave);
@@ -24,7 +25,7 @@ namespace JeBalance.Infrastructure.Repositories
 			return personneToSave.Id;
 		}
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(string id)
         {
 			try
 			{
@@ -54,16 +55,31 @@ namespace JeBalance.Infrastructure.Repositories
 
 			return Task.FromResult(results);
 		}
+		public Task<IEnumerable<Personne>> FindAllVIP()
+		{
+			var results = _context.Personnes
+				.Where(p => p.TypePersonne.Equals("VIP"))
+				.AsEnumerable()
+				.Select(place => place.ToDomain());
 
-		public async Task<Personne> GetOne(int id)
+			return Task.FromResult(results);
+		}
+		public async Task<Personne?> GetOne(string id)
         {
-			var place = await _context.Personnes.FirstAsync(personne => personne.Id == id);
-			return place.ToDomain();
+			var personne = _context.Personnes.FirstOrDefault(p => p.Id.Equals(id));
+			if (personne != null)
+			{
+				return personne.ToDomain();
+			}
+			else
+			{
+				return null;
+			}
 		}
 
-		public async Task<int> Update(int id, Personne personne)
+		public async Task<string> Update(string id, Personne personne)
         {
-			var personneToUpdate = _context.Personnes.First(personne => personne.Id == id);
+			var personneToUpdate = _context.Personnes.First(personne => personne.Id.Equals(id));
 			personneToUpdate.Prenom = personne.Prenom.Value;
 			personneToUpdate.Nom = personne.Nom.Value;
 			personneToUpdate.Adresse = personne.Adresse.Value;

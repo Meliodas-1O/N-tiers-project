@@ -9,7 +9,7 @@ namespace JeBalance.DomainCommands.PersonneCommands
 {
 	public class DeletePersonneCommand : IRequest<bool>
 	{
-		public int Id { get; }
-		public DeletePersonneCommand(int id) => Id = id;
+		public string Id { get; }
+		public DeletePersonneCommand(string id) => Id = id;
 	}
 }

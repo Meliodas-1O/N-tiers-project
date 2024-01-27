@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace JeBalance.DomainCommands.PersonneCommands
 {
-    public class UpdatePersonneCommand : IRequest<int>
+    public class UpdatePersonneCommand : IRequest<string>
 	{
-		public int Id { get; }
+		public string Id { get; }
 		public Personne Personne { get; }
 
 		public UpdatePersonneCommand(
-			int id,
+			string id,
 			string prenom,
 			string nom,
 			TypePersonne typePersonne,

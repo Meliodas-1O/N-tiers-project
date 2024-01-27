@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.DenonciationCommandsCommands
 {
-	public class CreateDenonciationCommand : IRequest<int>
+	public class CreateDenonciationCommand : IRequest<string>
 	{
 		public Denonciation Denonciation { get; set; }
 		public CreateDenonciationCommand(
 			DateTime horodatage,
-			Personne informateur,
-			Personne suspect,
+			string informateur,
+			string suspect,
 			Delit delit,
 			string paysEvasion,
 			DenonciationReponse? reponse)

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.ReponseCommands
 {
-	public class UpdateReponseCommandHandler : IRequestHandler<UpdateReponseCommand, int>
+	public class UpdateReponseCommandHandler : IRequestHandler<UpdateReponseCommand, string>
 	{
 		private readonly IReponseRepository _repository;
 
 		public UpdateReponseCommandHandler(IReponseRepository repository) => _repository = repository;
 
-		public Task<int> Handle(UpdateReponseCommand command, CancellationToken cancellationToken)
+		public Task<string> Handle(UpdateReponseCommand command, CancellationToken cancellationToken)
 		{
 			return _repository.Update(command.Id, command.Response);
 		}

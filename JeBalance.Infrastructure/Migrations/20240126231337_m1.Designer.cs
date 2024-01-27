@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JeBalance.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240125093808_m5")]
-    partial class m5
+    [Migration("20240126231337_m1")]
+    partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,8 @@ namespace JeBalance.Infrastructure.Migrations
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.DenonciationSQLite", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Delit")
                         .IsRequired()
@@ -32,19 +31,27 @@ namespace JeBalance.Infrastructure.Migrations
                     b.Property<DateTime>("Horodatage")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("InformateurId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("InformateurId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PaysEvasion")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SuspectId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ReponseId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SuspectId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InformateurId");
+
+                    b.HasIndex("ReponseId")
+                        .IsUnique();
 
                     b.HasIndex("SuspectId");
 
@@ -53,9 +60,8 @@ namespace JeBalance.Infrastructure.Migrations
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.PersonneSQLite", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Adresse")
                         .IsRequired()
@@ -83,8 +89,12 @@ namespace JeBalance.Infrastructure.Migrations
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.ReponseSQLite", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DenonciationId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Retribution")
                         .HasColumnType("INTEGER");
@@ -109,6 +119,10 @@ namespace JeBalance.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("JeBalance.Infrastructure.Models.ReponseSQLite", "Reponse")
+                        .WithOne("DenonciationSQLite")
+                        .HasForeignKey("JeBalance.Infrastructure.Models.DenonciationSQLite", "ReponseId");
+
                     b.HasOne("JeBalance.Infrastructure.Models.PersonneSQLite", "Suspect")
                         .WithMany()
                         .HasForeignKey("SuspectId")
@@ -117,24 +131,14 @@ namespace JeBalance.Infrastructure.Migrations
 
                     b.Navigation("Informateur");
 
+                    b.Navigation("Reponse");
+
                     b.Navigation("Suspect");
                 });
 
             modelBuilder.Entity("JeBalance.Infrastructure.Models.ReponseSQLite", b =>
                 {
-                    b.HasOne("JeBalance.Infrastructure.Models.DenonciationSQLite", "DenonciationSQLite")
-                        .WithOne("Reponse")
-                        .HasForeignKey("JeBalance.Infrastructure.Models.ReponseSQLite", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("DenonciationSQLite");
-                });
-
-            modelBuilder.Entity("JeBalance.Infrastructure.Models.DenonciationSQLite", b =>
-                {
-                    b.Navigation("Reponse")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

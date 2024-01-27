@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JeBalance.DomainCommands.PersonneCommands
 {
-    public class CreatePersonneCommand : IRequest<int>
+    public class CreatePersonneCommand : IRequest<string>
 	{
 		public Personne Personne { get; set; }
 		public CreatePersonneCommand(

@@ -20,7 +20,7 @@ namespace JeBalance.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<int> Create(DenonciationReponse Reponse)
+        public async Task<string> Create(DenonciationReponse Reponse)
         {
             var responseToSave = Reponse.ToSQLite();
             await _context.Reponses.AddAsync(responseToSave);
@@ -28,7 +28,7 @@ namespace JeBalance.Infrastructure.Repositories
             return responseToSave.Id;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(string id)
         {
             try
             {
@@ -52,13 +52,13 @@ namespace JeBalance.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<DenonciationReponse> GetOne(int id)
+        public async Task<DenonciationReponse> GetOne(string id)
         {
             var reponse = await _context.Reponses.FirstAsync(reponse => reponse.Id == id);
             return reponse.ToDomain();
         }
 
-        public async Task<int> Update(int id, DenonciationReponse reponse)
+        public async Task<string> Update(string id, DenonciationReponse reponse)
         {
             var reponseToUpdate = _context.Reponses.First(reponse => reponse.Id == id);
             reponseToUpdate.Retribution = reponse.Retribution;

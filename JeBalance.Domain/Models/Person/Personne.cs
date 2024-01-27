@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,17 +23,33 @@ namespace JeBalance.Domain.Models.Person
 			string nom,
 			TypePersonne typePersonne,
 			int nombreAvertissement,
-			Adresse adresse) : base(0)
+			Adresse adresse) : base("0")
 		{
 			Prenom = new Prenom (prenom);
 			Nom = new Nom(nom);
 			TypePersonne = typePersonne;
 			NombreAvertissement = nombreAvertissement;
 			Adresse = adresse;
+			Id = CalculateHash(Prenom.Value, Nom.Value, Adresse.Value);
+
 		}
 
 		public Personne(
-			int id,
+			string prenom,
+			string nom,
+			int nombreAvertissement,
+			Adresse adresse) : base("0")
+		{
+			Prenom = new Prenom(prenom);
+			Nom = new Nom(nom);
+			NombreAvertissement = nombreAvertissement;
+			Adresse = adresse;
+			Id = CalculateHash(Prenom.Value, Nom.Value, Adresse.Value);
+
+		}
+
+		public Personne(
+			string id,
 			string prenom,
 			string nom,
 			TypePersonne typePersonne,
@@ -45,10 +62,28 @@ namespace JeBalance.Domain.Models.Person
 			TypePersonne = typePersonne;
 			NombreAvertissement = nombreAvertissement;
 			Adresse = adresse;
+			Id = CalculateHash(Prenom.Value, Nom.Value, Adresse.Value);
+
 		}
 
-		public Personne(): base(0)
+		public Personne(): base("0")
 		{
+		}
+
+		private string CalculateHash(params string[] values)
+		{
+			using (SHA256 sha256 = SHA256.Create())
+			{
+				string combinedValues = string.Join("", values);
+				byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(combinedValues));
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (byte b in hashedBytes)
+				{
+					stringBuilder.Append(b.ToString("x2"));
+				}
+
+				return stringBuilder.ToString();
+			}
 		}
 	}
 }

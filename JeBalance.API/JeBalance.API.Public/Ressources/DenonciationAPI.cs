@@ -1,7 +1,4 @@
 using JeBalance.Domain.Models.Denonciation;
-using JeBalance.Domain.ValueObjects;
-using JeBalance.Domain.Models.Person;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace JeBalance.Public.API.Ressources
@@ -9,7 +6,7 @@ namespace JeBalance.Public.API.Ressources
     public class DenonciationAPI
     {
         [JsonIgnore]
-        public int Id { get; set; }
+        public string? Id { get; set; }
         public DateTime Date { get; set; }
         public PersonneAPI Informateur { get; set; }
         public PersonneAPI Suspect { get; set; }
@@ -20,7 +17,7 @@ namespace JeBalance.Public.API.Ressources
 
         public Denonciation ToDenonciation()
         {
-            Denonciation denonciation = new Denonciation(Date, Informateur.ToPersonne(), Suspect.ToPersonne(), delit, PaysEvasion,null);
+            Denonciation denonciation = new (Date, (string)Informateur.Id!, (string)Suspect.Id!, delit, PaysEvasion,null);
             return denonciation;
         }
     }

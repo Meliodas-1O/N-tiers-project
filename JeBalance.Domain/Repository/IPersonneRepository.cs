@@ -7,5 +7,6 @@ namespace JeBalance.Domain.Repository
 {
 	public interface IPersonneRepository : Repository<Personne>
 	{
+		Task<IEnumerable<Personne>> FindAllVIP();
 	}
 }
