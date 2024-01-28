@@ -58,7 +58,7 @@ namespace JeBalance.Infrastructure.Repositories
             return reponse.ToDomain();
         }
 
-        public async Task<string> Update(string id, DenonciationReponse reponse)
+        public async Task<DenonciationReponse> Update(string id, DenonciationReponse reponse)
         {
             var reponseToUpdate = _context.Reponses.First(reponse => reponse.Id == id);
             reponseToUpdate.Retribution = reponse.Retribution;
@@ -67,7 +67,7 @@ namespace JeBalance.Infrastructure.Repositories
             reponseToUpdate.DenonciationId = reponse.DenonciationId;
 
             await _context.SaveChangesAsync();
-            return id;
+            return reponseToUpdate;
         }
     }
 }

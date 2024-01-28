@@ -11,7 +11,7 @@ namespace JeBalance.Domain.Contracts
 		public Task<IEnumerable<T>> Find(int limit, int offset, Specification<T> specification);
 		public Task<T> GetOne(string id);
 		public Task<string> Create(T T);
-		public Task<string> Update(string id, T T);
+		public Task<T> Update(string id, T T);
 		public Task<bool> Delete(string id);
 	}
 }

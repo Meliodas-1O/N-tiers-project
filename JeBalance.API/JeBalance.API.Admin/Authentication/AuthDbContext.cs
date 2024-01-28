@@ -18,4 +18,12 @@ public class AuthDbContext : IdentityDbContext<AdminUser>
 		builder.HasDefaultSchema("auth");
 		base.OnModelCreating(builder);
 	}
+
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		if (!optionsBuilder.IsConfigured)
+		{
+			optionsBuilder.UseSqlite("DataSource=../../Database/database.db");
+		}
+	}
 }

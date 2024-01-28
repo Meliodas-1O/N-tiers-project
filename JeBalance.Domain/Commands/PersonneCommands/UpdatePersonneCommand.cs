@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JeBalance.DomainCommands.PersonneCommands
 {
-    public class UpdatePersonneCommand : IRequest<string>
+    public class UpdatePersonneCommand : IRequest<Personne>
 	{
 		public string Id { get; }
 		public Personne Personne { get; }

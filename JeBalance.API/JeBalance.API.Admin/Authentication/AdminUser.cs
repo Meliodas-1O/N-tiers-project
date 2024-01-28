@@ -4,5 +4,4 @@ namespace JeBalance.API.Admin.Authentication;
 
 public class AdminUser : IdentityUser
 {
-    public string AdminId { get; set; }
 }

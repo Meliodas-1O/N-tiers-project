@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.DenonciationCommands
 {
-	public class UpdateDenonciationCommand : IRequest<string>
+	public class UpdateDenonciationCommand : IRequest<Denonciation>
 	{
 		public string Id { get; }
 		public Denonciation Denonciation { get; }

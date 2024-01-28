@@ -5,6 +5,7 @@ using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Queries.DenonciationQueries;
 using JeBalance.Domain.Queries.PersonneQueries;
 using JeBalance.Domain.ValueObjects;
+using JeBalance.DomainCommands.PersonneCommands;
 using JeBalance.Public.API.Ressources;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -55,5 +56,5 @@ namespace JeBalance.Public.API.Controllers
 			}
 			return Ok(denonciation);
         }
-    }
+	}
 }

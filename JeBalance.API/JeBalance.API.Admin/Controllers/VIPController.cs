@@ -1,9 +1,8 @@
-﻿using JeBalance.API.Admin.Parameters;
+﻿using JeBalance.API.Admin.Authentication;
+using JeBalance.API.Admin.Parameters;
 using JeBalance.API.Admin.Ressources;
+using JeBalance.API.Admin.Services.Models;
 using JeBalance.Domain.Models.Person;
-using JeBalance.Domain.Queries.PersonneQueries;
-using JeBalance.DomainCommands.PersonneCommands;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,62 +11,66 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JeBalance.API.Admin.Controllers
 {
-	[Authorize]
-	[Route("api/[controller]")]
+	[Authorize(Roles = UserRole.Admin)]
+	[Route("api/personnes/")]
 	[ApiController]
 	public class VIPController : ControllerBase
 	{
-        private readonly IMediator _mediator;
-        public VIPController(IMediator mediator)
+		private readonly IVIPService _VIPService;
+        public VIPController(IVIPService vipService)
         {
-            _mediator = mediator;
+			_VIPService = vipService;
 		}
 
-		// GET: api/<VIPController>
-		[HttpGet]
-        public async Task<ActionResult> Get([FromQuery] FindPersonnesParameters parameters)
-        {
-
-			var query = new FindVIPQuery();
-			var response = await _mediator.Send(query);
-			return Ok(response);
+		[HttpGet("vip")]
+		public async Task<IActionResult> Get([FromQuery] FindVIParameters parameter)
+		{
+			var vips = await _VIPService.GetAll(parameter);
+			Response.Headers.Add("X-Pagination-Limit", parameter.Limit.ToString());
+			Response.Headers.Add("X-Pagination-Offset", parameter.Offset.ToString());
+			Response.Headers.Add("X-Pagination-Count", vips.Count().ToString());
+			return Ok(vips.Select(v => PersonneAPI.FromPersonne(v)));
 		}
+
 		// GET api/<VIPController>/5
-		[HttpGet("{id}")]
+		[HttpGet("vip/{id}")]
 		public async Task<ActionResult> Get(string id)
 		{
-			var query = new FindOnePersonneQuery(id);
-			var place = await _mediator.Send(query);
-			return Ok(place);
+			var personne = await _VIPService.GetOneVIP(id);
+			return Ok(PersonneAPI.FromPersonne(personne));
 		}
 
 		// POST api/<VIPController>
-        [HttpPost]
-		public async Task<ActionResult> Post([FromBody] PersonneAPI personneAPI)
+        [HttpPost("vip")]
+		public async Task<ActionResult> Post([FromBody] PersonneAPICreation personneAPI)
 		{
 			Personne personne = personneAPI.ToPersonne();
-			var command = new CreatePersonneCommand(personne.Prenom.Value, personne.Nom.Value, personne.TypePersonne, personne.NombreAvertissement, personne.Adresse);
-			var id = await _mediator.Send(command);
+			var id = await _VIPService.GetOrCreateVIPId(personne);
 			return Ok(id);
 		}
 
 		// PUT api/<VIPController>/5
-		[HttpPut("{id}")]
-		public async Task<ActionResult> Put(string id, [FromBody] PersonneAPI personneAPI)
+		[HttpPut("vip/{id}")]
+		public async Task<ActionResult> Put(string id, [FromBody] PersonneAPICreation personneAPI)
 		{
 			Personne personne = personneAPI.ToPersonne();
-			var command = new UpdatePersonneCommand(id,personne.Prenom.Value, personne.Nom.Value, personne.TypePersonne, personne.NombreAvertissement, personne.Adresse);
-			await _mediator.Send(command);
-			return Ok(id);
+			var updatedPersonne = await _VIPService.UpdateVIP(id, personne);
+			return Ok(PersonneAPI.FromPersonne(updatedPersonne));
+		}
+
+		[HttpPut("vip/{id}/type")]
+		public async Task<ActionResult> SetType(string id, [FromBody] UpdateStatusAPI personneAPI)
+		{
+			var updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
+			return Ok(PersonneAPI.FromPersonne(updateVipId));
 		}
 
 		// DELETE api/<VIPController>/5
-		[HttpDelete("{id}")]
+		[HttpDelete("vip/{id}")]
 		public async Task<ActionResult> Delete(string id)
 		{
-			var command = new DeletePersonneCommand(id);
-			await _mediator.Send(command);
-			return Ok(id);
+			var deletedVIPId = await _VIPService.DeleteVIP(id);
+			return Ok(deletedVIPId);
 		}
 	}
 }

@@ -82,6 +82,9 @@ namespace JeBalance.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Nom", "Prenom", "Adresse", "TypePersonne")
+                        .IsUnique();
+
                     b.ToTable("Personnes");
                 });
 

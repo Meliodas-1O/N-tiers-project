@@ -1,4 +1,5 @@
 ﻿
+using JeBalance.API.Admin.Services.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JeBalance.Domain
@@ -7,7 +8,7 @@ namespace JeBalance.Domain
     {
         public static IServiceCollection AddDomain(this IServiceCollection services)
         {
-            services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+			services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
             return services;
 

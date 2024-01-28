@@ -1,19 +1,15 @@
 ﻿using JeBalance.Domain.Models.Person;
-using System.Text.Json.Serialization;
+using JeBalance.Domain.Parameters;
 
 namespace JeBalance.API.Admin.Parameters;
-	public class FindPersonnesParameters
-	{
+public class FindPersonnesParameters : IParameters
+{
 	public int Limit { get; set; }
-
 	public int Offset { get; set; }
-	public int NombreAvertissement { get; set; }
 	public string? Prenom { get; set; }
 	public string? Nom { get; set; }
-
-	[JsonConverter(typeof(JsonStringEnumConverter))]
 	public TypePersonne TypePersonne { get; set; }
-	public FindPersonnesParameters()
-	{
-	}
+
+	public string? Adresse { get; set; }
+	public FindPersonnesParameters() { }
 }

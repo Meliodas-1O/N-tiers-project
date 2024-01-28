@@ -35,6 +35,10 @@ namespace JeBalance.Domain.ValueObjects
 			return Value == obj?.ToString();
 		}
 
+		public bool Contains(object? obj)
+		{
+			return Value.Contains(obj?.ToString());
+		}
 		public override int GetHashCode()
 		{
 			return HashCode.Combine(Value);

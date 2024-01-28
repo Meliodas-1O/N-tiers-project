@@ -16,16 +16,15 @@ namespace JeBalance.API.Public.Services
 
 		public async Task<string> GetOrCreatePersonId(Personne personne)
 		{
-			var existingPersonneCommand = new FindOnePersonneQuery(personne.Id);
+			var existingPersonneCommand = new FindPersonneQuery(int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, TypePersonne.NONE, personne.Adresse.Value);
 			var existingPersonne = await _mediator.Send(existingPersonneCommand);
 
-			if (existingPersonne != null)
+			if (existingPersonne == null || !existingPersonne.Any())
 			{
-				return existingPersonne.Id;
+				var newVIPCommand = new CreatePersonneCommand(personne.Prenom.Value, personne.Nom.Value, TypePersonne.NONE, 0, personne.Adresse);
+				return await _mediator.Send(newVIPCommand);
 			}
-
-			var newPersonCommand = new CreatePersonneCommand(personne.Prenom.Value, personne.Nom.Value, TypePersonne.NONE, 0, personne.Adresse);
-			return await _mediator.Send(newPersonCommand);
+			return existingPersonne.First().Id;
 		}
 	}
 

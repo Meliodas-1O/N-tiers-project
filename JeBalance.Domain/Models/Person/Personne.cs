@@ -17,6 +17,7 @@ namespace JeBalance.Domain.Models.Person
 		public Nom Nom { get; set; } = null!;
 		public TypePersonne TypePersonne { get; set; }
 		public int NombreAvertissement { get; set; }
+		public new string Id { get; set; }
 		public Adresse Adresse { get; set; } = null!;
 		public Personne(
 			string prenom,
@@ -25,13 +26,12 @@ namespace JeBalance.Domain.Models.Person
 			int nombreAvertissement,
 			Adresse adresse) : base("0")
 		{
+			Id = Guid.NewGuid().ToString();
 			Prenom = new Prenom (prenom);
 			Nom = new Nom(nom);
 			TypePersonne = typePersonne;
 			NombreAvertissement = nombreAvertissement;
 			Adresse = adresse;
-			Id = CalculateHash(Prenom.Value, Nom.Value, Adresse.Value);
-
 		}
 
 		public Personne(
@@ -40,12 +40,11 @@ namespace JeBalance.Domain.Models.Person
 			int nombreAvertissement,
 			Adresse adresse) : base("0")
 		{
+			Id = Guid.NewGuid().ToString();
 			Prenom = new Prenom(prenom);
 			Nom = new Nom(nom);
 			NombreAvertissement = nombreAvertissement;
 			Adresse = adresse;
-			Id = CalculateHash(Prenom.Value, Nom.Value, Adresse.Value);
-
 		}
 
 		public Personne(
@@ -62,28 +61,10 @@ namespace JeBalance.Domain.Models.Person
 			TypePersonne = typePersonne;
 			NombreAvertissement = nombreAvertissement;
 			Adresse = adresse;
-			Id = CalculateHash(Prenom.Value, Nom.Value, Adresse.Value);
-
 		}
 
 		public Personne(): base("0")
 		{
-		}
-
-		private string CalculateHash(params string[] values)
-		{
-			using (SHA256 sha256 = SHA256.Create())
-			{
-				string combinedValues = string.Join("", values);
-				byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(combinedValues));
-				StringBuilder stringBuilder = new StringBuilder();
-				foreach (byte b in hashedBytes)
-				{
-					stringBuilder.Append(b.ToString("x2"));
-				}
-
-				return stringBuilder.ToString();
-			}
 		}
 	}
 }

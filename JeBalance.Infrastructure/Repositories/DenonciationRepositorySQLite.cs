@@ -1,18 +1,10 @@
 ﻿using JeBalance.Domain.Contracts;
 using JeBalance.Domain.Models.Denonciation;
-using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Repository;
 using JeBalance.Infrastructure.Data;
 using JeBalance.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JeBalance.Infrastructure.Repositories
 {
@@ -24,13 +16,14 @@ namespace JeBalance.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<string> Create(Denonciation denonciation)
+        public async Task<string?> Create(Denonciation denonciation)
         {
-            var denonciationToSave = denonciation.ToSQLite();
-            await _context.Denonciations.AddAsync(denonciationToSave);
-            await _context.SaveChangesAsync();
-            return denonciationToSave.Id;
-        }
+				var denonciationToSave = denonciation.ToSQLite();
+				await _context.Denonciations.AddAsync(denonciationToSave);
+				await _context.SaveChangesAsync();
+				return denonciationToSave.Id;
+
+		}
 
         public async Task<bool> Delete(string id)
         {
@@ -78,14 +71,14 @@ namespace JeBalance.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<string> Update(string id, Denonciation denonciation)
+        public async Task<Denonciation> Update(string id, Denonciation denonciation)
         {
             var denonciationToUpdate = _context.Denonciations.First(denonciation => denonciation.Id.Equals(id));
             denonciationToUpdate.Delit = denonciation.Delit.ToString();
             denonciationToUpdate.PaysEvasion = denonciation.PaysEvasion.Value;
 
             await _context.SaveChangesAsync();
-            return id;
+            return denonciationToUpdate;
         }
     }
 }

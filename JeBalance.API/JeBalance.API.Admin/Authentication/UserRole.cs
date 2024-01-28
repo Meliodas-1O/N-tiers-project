@@ -2,6 +2,6 @@
 {
 	public class UserRole
 	{
-		public const string Admin = "Admin";
+		public const string Admin = "JE_BALANCE_ADMIN";
 	}
 }

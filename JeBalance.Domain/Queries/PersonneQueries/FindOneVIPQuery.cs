@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Queries.PersonneQueries
 {
-	public class FindVIPQuery : IRequest<IEnumerable<Personne>>
+	public class FindOneVIPQuery : IRequest<Personne>
 	{
-		public FindVIPQuery()
-		{
-		}
+		public string Id { get; }
+		public FindOneVIPQuery(string id) => Id = id;
 	}
 }

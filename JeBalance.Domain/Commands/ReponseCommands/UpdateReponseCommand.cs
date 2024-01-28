@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.ReponseCommands
 {
-	public class UpdateReponseCommand : IRequest<string>
+	public class UpdateReponseCommand : IRequest<DenonciationReponse>
 	{
 		public string Id { get; }
 		public DenonciationReponse Response { get; }

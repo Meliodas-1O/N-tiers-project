@@ -17,7 +17,7 @@ namespace JeBalance.Domain.Models.Person
         public Adresse Adresse { get; set; } = null!;
 
         public AdminPersonne():base("0") { }
-        public AdminPersonne(String prenom, String nom, String nomUtilisateur, String motDePasse, Adresse adresse) : base("0") 
+        public AdminPersonne(string prenom, string nom, string nomUtilisateur, string motDePasse, Adresse adresse) : base("0") 
         {
             Prenom = new Prenom(prenom);
             Nom = new Nom(nom);

@@ -62,7 +62,7 @@ namespace JeBalance.API.Admin.Controllers
         }
 
 		[HttpPost]
-		[Route("token")]
+		[Route("GoodJWTWithWrongRole")]
 		public  async Task<IActionResult> GenerateToken([FromBody] LoginModel request)
         {
             if(request.Password.Equals("12345azerty") && request.Username.Equals("admin"))
@@ -77,7 +77,7 @@ namespace JeBalance.API.Admin.Controllers
 				{
 					new (ClaimTypes.Name, adminUser.UserName),
 					new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-					new (ClaimTypes.Role, UserRole.Admin),
+					new (ClaimTypes.Role, "FAKE_ADMIN"),
 				};
 
 				var token = GetToken(authClaims);
@@ -90,7 +90,6 @@ namespace JeBalance.API.Admin.Controllers
 
 			}
             return Unauthorized(); 
-
 		}
 
 		[HttpPost]
@@ -104,11 +103,11 @@ namespace JeBalance.API.Admin.Controllers
             AdminUser user = new()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.NomUtilisateur
+                UserName = model.NomUtilisateur,
             };
             var result = await _adminManager.CreateAsync(user, model.MotDePasse);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"User creation failed {result.Errors}! Please check user details and try again." });
 
             if (!await _roleManager.RoleExistsAsync(UserRole.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRole.Admin));
@@ -128,7 +127,7 @@ namespace JeBalance.API.Admin.Controllers
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddDays(5),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );

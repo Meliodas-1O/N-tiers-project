@@ -1,11 +1,7 @@
 ﻿using JeBalance.Domain.Commands.DenonciationCommandsCommands;
 using JeBalance.Domain.Repository;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace JeBalance.Domain.Commands.DenonciationCommands
 {
