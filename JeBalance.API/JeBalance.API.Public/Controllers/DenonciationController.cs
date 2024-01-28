@@ -1,12 +1,6 @@
 using JeBalance.API.Public.Services;
-using JeBalance.Domain.Commands.DenonciationCommandsCommands;
-using JeBalance.Domain.Commands.PersonneCommands;
 using JeBalance.Domain.Models.Denonciation;
 using JeBalance.Domain.Models.Person;
-using JeBalance.Domain.Queries.DenonciationQueries;
-using JeBalance.Domain.Queries.PersonneQueries;
-using JeBalance.Domain.ValueObjects;
-using JeBalance.DomainCommands.PersonneCommands;
 using JeBalance.Public.API.Ressources;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
