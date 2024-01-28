@@ -22,10 +22,11 @@ namespace JeBalance.Infrastructure.Repositories
         }
         public async Task<string> Create(DenonciationReponse Reponse)
         {
-            var responseToSave = Reponse.ToSQLite();
-            await _context.Reponses.AddAsync(responseToSave);
+            var reponseToSave = Reponse.ToSQLite();
+            reponseToSave.DenonciationId = Reponse.DenonciationId;
+            await _context.Reponses.AddAsync(reponseToSave);
             await _context.SaveChangesAsync();
-            return responseToSave.Id;
+            return reponseToSave.Id;
         }
 
         public async Task<bool> Delete(string id)

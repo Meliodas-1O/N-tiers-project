@@ -61,21 +61,11 @@ namespace JeBalance.Infrastructure.Repositories
 				.Skip(offset)
 				.Take(limit)
 				.AsEnumerable()
-				.Select(place => place.ToDomain());
+				.Select(personne => personne.ToDomain());
 
 			return Task.FromResult(results);
 		}
-		
-		public Task<IEnumerable<Personne>> FindAllVIP()
-		{
-			var results = _context.Personnes
-				.Where(p => p.TypePersonne.Equals("VIP"))
-				.AsEnumerable()
-				.Select(place => place.ToDomain());
-
-			return Task.FromResult(results);
-		}
-		
+	
 		public async Task<Personne?> GetOne(string id)
         {
 			var personne = _context.Personnes.FirstOrDefault(p => p.Id.Equals(id));

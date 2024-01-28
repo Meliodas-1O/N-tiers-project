@@ -19,6 +19,11 @@ namespace JeBalance.Infrastructure.Data
 			modelBuilder.Entity<PersonneSQLite>()
 				.HasIndex(p => new { p.Nom, p.Prenom, p.Adresse,p.TypePersonne})
 				.IsUnique();
+
+			modelBuilder.Entity<ReponseSQLite>()
+				.HasOne(r => r.DenonciationSQLite)
+				.WithOne(d => d.Reponse)
+				.HasForeignKey<DenonciationSQLite>(d => d.ReponseId);
 		}
 	}
 }

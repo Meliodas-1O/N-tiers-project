@@ -1,5 +1,6 @@
 ﻿using JeBalance.Domain.Contracts;
 using JeBalance.Domain.Models.Denonciation;
+using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Repository;
 using JeBalance.Infrastructure.Data;
@@ -22,7 +23,6 @@ namespace JeBalance.Infrastructure.Repositories
 				await _context.Denonciations.AddAsync(denonciationToSave);
 				await _context.SaveChangesAsync();
 				return denonciationToSave.Id;
-
 		}
 
         public async Task<bool> Delete(string id)
@@ -43,10 +43,18 @@ namespace JeBalance.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Denonciation>> Find(int limit, int offset, Specification<Denonciation> specification)
+        public Task<IEnumerable<Denonciation>> Find(int limit, int offset, Specification<Denonciation> specification)
         {
-            throw new NotImplementedException();
-        }
+            var results = _context.Denonciations
+                .Apply(specification.ToSQLiteExpression<Denonciation, DenonciationSQLite>())
+				.OrderByDescending(d => d.Horodatage)
+				.Skip(offset)
+                .Take(limit)
+				.AsEnumerable()
+				.Select(denonciation => denonciation.ToDomain());
+
+			return Task.FromResult(results);
+		}
 
         public async Task<Denonciation?> GetOne(string id)
         {
@@ -64,11 +72,12 @@ namespace JeBalance.Infrastructure.Repositories
 			}
 		}
 
-        public async Task SetReponse(DenonciationReponse newReponse)
+        public async Task<Denonciation> SetReponse(string denonciationId, string reponseId)
         {
-            var denonciationToUpdate = _context.Denonciations.FirstOrDefault(denonciation =>  denonciation.Id.Equals(newReponse.DenonciationId));
-            denonciationToUpdate.ReponseId = newReponse.Id;
+            var denonciationToUpdate =  await _context.Denonciations.FirstOrDefaultAsync(denonciation =>  denonciation.Id.Equals(denonciationId));
+            denonciationToUpdate.ReponseId = reponseId;
             await _context.SaveChangesAsync();
+            return denonciationToUpdate;
         }
 
         public async Task<Denonciation> Update(string id, Denonciation denonciation)

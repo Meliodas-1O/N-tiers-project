@@ -17,5 +17,5 @@ public class ReponseSQLite : DenonciationReponse
     public int Retribution { get; set; }
     [ForeignKey("Denonciation")]
     public string DenonciationId { get; set; }
-    public DenonciationSQLite? DenonciationSQLite { get; set; }
+    public virtual DenonciationSQLite? DenonciationSQLite { get; set; }
 }

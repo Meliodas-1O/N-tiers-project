@@ -9,6 +9,5 @@ namespace JeBalance.Domain.Repository
 	{
 		Task<Personne> ChangeStatus(string id, TypePersonne type);
 		Task<Personne> FindOneVIP(string id);
-		Task<IEnumerable<Personne>> FindAllVIP();
 	}
 }

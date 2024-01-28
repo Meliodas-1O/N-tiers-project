@@ -2,7 +2,6 @@ using JeBalance.API.Public.Services;
 using JeBalance.Domain.Models.Denonciation;
 using JeBalance.Domain.Models.Person;
 using JeBalance.Public.API.Ressources;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JeBalance.Public.API.Controllers

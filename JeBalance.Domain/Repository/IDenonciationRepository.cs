@@ -7,6 +7,6 @@ namespace JeBalance.Domain.Repository
 {
 	public interface IDenonciationRepository : Repository<Denonciation>
 	{
-		Task SetReponse(DenonciationReponse newReponse);
+		Task<Denonciation> SetReponse(string denonciationId, string reponseId);
 	}
 }

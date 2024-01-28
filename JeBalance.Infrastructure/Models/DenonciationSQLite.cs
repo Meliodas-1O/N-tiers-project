@@ -19,7 +19,7 @@ public class DenonciationSQLite : Denonciation
 	public virtual PersonneSQLite Suspect { get; set; } 
 	public new string Delit { get; set; } = null!;
     public string PaysEvasion { get; set; } = null!;
-    [ForeignKey("Reponse")]
+    [ForeignKey("Reponses")]
     public new string? ReponseId { get; set; }
     public virtual ReponseSQLite? Reponse { get; set; }
 }
