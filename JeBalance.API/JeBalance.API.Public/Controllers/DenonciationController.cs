@@ -1,5 +1,6 @@
 using JeBalance.API.Public.Services;
 using JeBalance.Domain.Commands.DenonciationCommandsCommands;
+using JeBalance.Domain.Commands.PersonneCommands;
 using JeBalance.Domain.Models.Denonciation;
 using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Queries.DenonciationQueries;
@@ -25,28 +26,46 @@ namespace JeBalance.Public.API.Controllers
             _denonciationService = denonciationService;
         }
         [HttpPost]
-        public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPI denonciationApi)
-        {
-            Personne informateur = denonciationApi.Informateur.ToPersonne();
-            Personne suspect = denonciationApi.Suspect.ToPersonne();
+		public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPI denonciationApi)
+		{
+			Personne informateur = denonciationApi.Informateur.ToPersonne();
+			Personne suspect = denonciationApi.Suspect.ToPersonne();
 
-            if (!(informateur != null && suspect != null))
-            {
-                return StatusCode(500, $"Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement");
-            }
-            var informateurId = await _personneService.GetOrCreatePersonId(informateur);
-            var suspectId = await _personneService.GetOrCreatePersonId(suspect);
+			if (informateur == null || suspect == null)
+			{
+				return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Les informations sur l'informateur ou le suspect sont invalides.");
+			}
 
-            Denonciation denonciation = new Denonciation(DateTime.Now, informateurId, suspectId, denonciationApi.delit, denonciationApi.PaysEvasion, null);
+			bool estCalomniateur = await _personneService.EstCalomniateur(informateur);
+			if (estCalomniateur)
+			{
+				return StatusCode(403, "Vous êtes banni de ce site et n'avez plus le droit de créer des dénonciations.");
+			}
 
-            string id = await _denonciationService.GetOrCreateDenonciation(denonciation);
-            if (String.IsNullOrEmpty(id)) { 
-				return StatusCode(500, $"Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement");
-		    }
+			string informateurId = await _personneService.GetOrCreatePersonId(informateur);
+			bool estVIP = await _personneService.EstVIP(suspect);
+			if (estVIP)
+			{
+				Personne calomniateurInformateur = await _personneService.ChangeStatus(informateurId, TypePersonne.CALOMNIATEUR);
+				if (calomniateurInformateur != null)
+				{
+					return StatusCode(403, "Vous êtes banni de ce site et n'avez plus le droit de créer des dénonciations.");
+				}
+				return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement.");
+			}
+			string suspectId = await _personneService.GetOrCreatePersonId(suspect);
+			Denonciation denonciation = new (DateTime.Now, informateurId, suspectId, denonciationApi.delit, denonciationApi.PaysEvasion, null);
+
+			string id = await _denonciationService.GetOrCreateDenonciation(denonciation);
+			if (string.IsNullOrEmpty(id))
+			{
+				return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement.");
+			}
 			return Ok(id);
-        }
+		}
 
-        [HttpGet("{id}")]
+
+		[HttpGet("{id}")]
         public async Task<ActionResult> FindDenonciation(string id)
         {
             Denonciation denonciation = await _denonciationService.GetDenonciation(id);

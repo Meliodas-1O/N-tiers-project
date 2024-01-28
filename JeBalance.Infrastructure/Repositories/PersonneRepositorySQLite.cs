@@ -95,32 +95,11 @@ namespace JeBalance.Infrastructure.Repositories
 			personneToUpdate.Prenom = personne.Prenom.Value;
 			personneToUpdate.Nom = personne.Nom.Value;
 			personneToUpdate.Adresse = personne.Adresse.Value;
+			personneToUpdate.NombreAvertissement = personne.NombreAvertissement;
 
 			await _context.SaveChangesAsync();
 			return personneToUpdate;
 		}
-
-		public async Task<bool> DeleteVIP(string id)
-		{
-			try
-			{
-				var personne = await _context.Personnes
-					.Where(p => p.TypePersonne.Equals("VIP"))
-					.FirstOrDefaultAsync(personne => personne.Id.ToString() == id);
-
-				if (personne == null)
-					return true;
-
-				_context.Remove(personne);
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
 		public async Task<Personne?> FindOneVIP(string id)
 		{
 			var personne = _context.Personnes

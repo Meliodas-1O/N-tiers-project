@@ -46,7 +46,9 @@ namespace JeBalance.Domain.Models.Denonciation
         }
 		private string GenerateId()
 		{
-			string dataToHash = $"{InformateurId}-{SuspectId}-{Delit.ToString()}-{PaysEvasion.Value}";
+			const string SEL = "MON_BEAU_SEL";
+			const string POIVRE = "MON_BEAU_POIVRE";
+			string dataToHash = $"{InformateurId}-{SuspectId}-{POIVRE}-{SEL}";
 
 			byte[] dataBytes = Encoding.UTF8.GetBytes(dataToHash);
 			using (MD5 md5 = MD5.Create())
