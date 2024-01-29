@@ -1,21 +1,18 @@
-﻿using JeBalance.API.InspectionFiscale.Parameters;
+﻿using JeBalance.API.InspectionFiscale.Authentication;
+using JeBalance.API.InspectionFiscale.Parameters;
 using JeBalance.API.InspectionFiscale.Ressources;
-using JeBalance.Domain.Commands.DenonciationCommands;
-using JeBalance.Domain.Commands.DenonciationCommandsCommands;
-using JeBalance.Domain.Commands.ReponseCommands;
 using JeBalance.Domain.Models.Denonciation;
-using JeBalance.Domain.Models.Reponse;
-using JeBalance.Domain.Queries.DenonciationQueries;
 using JeBalance.Domain.Services;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JeBalance.API.InspectionFiscale.Controllers
 {
-	[Route("api/denonciations")]
-	[ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRole.Inspecteur)]
+    [Route("api/denonciations")]
+    [ApiController]
 	public class ReponseController : ControllerBase
 	{
 
@@ -30,13 +27,12 @@ namespace JeBalance.API.InspectionFiscale.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get([FromQuery] FindDenonciationParameters parameter)
 		{
-
 			var denonciation = await _denonciationReponseService.GetUnansweredDenonciation(parameter);
 			return Ok(denonciation);
 		}
 
-		// POST api/<ValuesController>
-		[HttpPost("{denonciationId}/reponse")]
+        // POST api/<ValuesController>
+        [HttpPost("{denonciationId}/reponse")]
 		public async Task<IActionResult> Post(string denonciationId, [FromBody] ReponseAPI reponseAPI)
 		{
             var denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);

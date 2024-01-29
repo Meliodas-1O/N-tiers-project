@@ -1,28 +1,26 @@
-﻿using JeBalance.API.Admin.Authentication;
+﻿using JeBalance.API.InspectionFiscale.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
-using JeBalance.API.Admin.Authentication.JeBalance.API.Admin.Authentication;
 
-
-namespace JeBalance.API.Admin.Controllers
+namespace JeBalance.API.InspectionFiscale.Controllers
 {
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<AdminUser> _adminManager;
+        private readonly UserManager<InspectionFiscaleUser> _inspecteurFiscaleManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
 
 
-		public AuthenticationController(
-            UserManager<AdminUser> adminManager,
+        public AuthenticationController(
+            UserManager<InspectionFiscaleUser> adminManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
-            _adminManager = adminManager;
+            _inspecteurFiscaleManager = adminManager;
             _roleManager = roleManager;
             _configuration = configuration;
         }
@@ -32,10 +30,10 @@ namespace JeBalance.API.Admin.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _adminManager.FindByNameAsync(model.Username);
-            if (user != null && await _adminManager.CheckPasswordAsync(user, model.Password))
+            var user = await _inspecteurFiscaleManager.FindByNameAsync(model.Username);
+            if (user != null && await _inspecteurFiscaleManager.CheckPasswordAsync(user, model.Password))
             {
-                var UserRole = await _adminManager.GetRolesAsync(user);
+                var UserRole = await _inspecteurFiscaleManager.GetRolesAsync(user);
 
                 var authClaims = new List<Claim>
                 {
@@ -59,29 +57,29 @@ namespace JeBalance.API.Admin.Controllers
             return Unauthorized();
         }
 
-		[HttpPost]
-        [Route("register-admin")]
+        [HttpPost]
+        [Route("register-inspecteur-fiscale")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            var userExists = await _adminManager.FindByNameAsync(model.NomUtilisateur);
+            var userExists = await _inspecteurFiscaleManager.FindByNameAsync(model.NomUtilisateur);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            AdminUser user = new()
+            InspectionFiscaleUser user = new()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.NomUtilisateur,
             };
-            var result = await _adminManager.CreateAsync(user, model.MotDePasse);
+            var result = await _inspecteurFiscaleManager.CreateAsync(user, model.MotDePasse);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"User creation failed {result.Errors}! Please check user details and try again." });
 
-            if (!await _roleManager.RoleExistsAsync(UserRole.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRole.Admin));
+            if (!await _roleManager.RoleExistsAsync(UserRole.Inspecteur))
+                await _roleManager.CreateAsync(new IdentityRole(UserRole.Inspecteur));
 
-            if (await _roleManager.RoleExistsAsync(UserRole.Admin))
+            if (await _roleManager.RoleExistsAsync(UserRole.Inspecteur))
             {
-                await _adminManager.AddToRoleAsync(user, UserRole.Admin);
+                await _inspecteurFiscaleManager.AddToRoleAsync(user, UserRole.Inspecteur);
             }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
