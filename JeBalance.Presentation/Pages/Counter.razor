@@ -1,7 +1,11 @@
 ﻿@page "/counter"
 
+@using System.Text.Json;
 @using JeBalance.Presentation.Data;
 @using JeBalance.Domain.Models.Denonciation;
+@using System.Text;
+@using System.Net.Http;
+@using System.Threading.Tasks;
 
 <PageTitle>Create Denunciation</PageTitle>
 
@@ -47,6 +51,11 @@
                 <label for="InformateurNomCommune">Commune:</label>
                 <InputText id="InformateurNomCommune" class="form-control" @bind-Value="@FormModel.InformateurNomCommune" />
                 <ValidationMessage For="@(() => FormModel.InformateurNomCommune)" />
+            </div>
+            <div class="form-group">
+                <label for="Id">Commune:</label>
+                <InputText id="Id" class="form-control" @bind-Value="@FormModel.Id" />
+                <ValidationMessage For="@(() => FormModel.Id)" />
             </div>
         </div>
         <br />
@@ -107,19 +116,36 @@
     <br />
     <button type="submit" class="btn btn-primary">Create Denunciation</button>
 </EditForm>
+
+@if (FormModel.Id != null)
+{
+    <p>Identifiant de la dénonciation créée : @FormModel.Id</p>
+}
+
 @code {
 
     private DenonciationFormModel FormModel { get; set; } = new DenonciationFormModel();
 
-    // Add more properties as needed
-
-    private void CreateDenunciation()
+    private async Task CreateDenunciation()
     {
         AdresseItem adresseInformateur = new AdresseItem(FormModel.InformateurNumeroVoie, FormModel.InformateurNomVoie, FormModel.InformateurCodePostal, FormModel.InformateurNomCommune);
         PersonneItem informateur = new PersonneItem(FormModel.InformateurPrenom, FormModel.InformateurNom, adresseInformateur);        
         AdresseItem adresseSuspect = new AdresseItem(FormModel.SuspectNumeroVoie, FormModel.SuspectNomVoie, FormModel.SuspectCodePostal, FormModel.SuspectNomCommune);
         PersonneItem suspect = new PersonneItem(FormModel.SuspectPrenom, FormModel.SuspectNom, adresseSuspect);
         DenonciationItem denonciation = new DenonciationItem(informateur, suspect, FormModel.PaysEvasion ?? "NON_RENSEIGNE", FormModel.Delit);
+
+        var httpClient = new HttpClient();
+        var url = "https://localhost:7180/api/denonciations";
+        var json = JsonSerializer.Serialize(denonciation);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await httpClient.PostAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            FormModel.Id = responseContent;
+        }
     }
 
 }

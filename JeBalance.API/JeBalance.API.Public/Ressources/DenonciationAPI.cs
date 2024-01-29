@@ -7,7 +7,6 @@ namespace JeBalance.Public.API.Ressources
     {
         [JsonIgnore]
         public string? Id { get; set; }
-        public DateTime Date { get; set; }
         public PersonneAPI Informateur { get; set; }
         public PersonneAPI Suspect { get; set; }
         public string PaysEvasion { get; set; } = null!;
@@ -17,7 +16,7 @@ namespace JeBalance.Public.API.Ressources
 
         public Denonciation ToDenonciation()
         {
-            Denonciation denonciation = new (Date, (string)Informateur.Id!, (string)Suspect.Id!, delit, PaysEvasion,null);
+            Denonciation denonciation = new (DateTime.Now, (string)Informateur.Id!, (string)Suspect.Id!, delit, PaysEvasion,null);
             return denonciation;
         }
     }

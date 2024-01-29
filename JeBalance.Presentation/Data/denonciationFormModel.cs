@@ -52,6 +52,7 @@ namespace JeBalance.Presentation.Data
 
         // PaysEvasion n'est pas requis
         public string PaysEvasion { get; set; }
+        public string Id { get; set; }
     }
 
 }
