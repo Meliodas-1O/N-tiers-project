@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JeBalance.API.InspectionFiscale")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a4d10f92713804d110bbf79600c2680652f67b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb57e98d8a8340598be7fba316aeefbf6e1e5cef")]
 [assembly: System.Reflection.AssemblyProductAttribute("JeBalance.API.InspectionFiscale")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JeBalance.API.InspectionFiscale")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,125 @@
+﻿@page "/counter"
+
+@using JeBalance.Presentation.Data;
+@using JeBalance.Domain.Models.Denonciation;
+
+<PageTitle>Create Denunciation</PageTitle>
+
+<h1>Create Denunciation</h1>
+
+<EditForm Model="@FormModel" OnValidSubmit="@CreateDenunciation">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <!-- Informateur Section -->
+        <div class="col-md-6">
+            <h2>Informateur</h2>
+            <div class="form-group">
+                <label for="InformateurPrenom">Prenom:</label>
+                <InputText id="InformateurPrenom" class="form-control" @bind-Value="@FormModel.InformateurPrenom" />
+                <ValidationMessage For="@(() => FormModel.InformateurPrenom)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurNom">Nom:</label>
+                <InputText id="InformateurNom" class="form-control" @bind-Value="@FormModel.InformateurNom" />
+                <ValidationMessage For="@(() => FormModel.InformateurNom)" />
+            </div>
+            <br />
+            <h5>Adresse Informateur</h5>
+
+            <div class="form-group">
+                <label for="InformateurNumeroVoie">Numéro de voie:</label>
+                <InputText id="InformateurNumeroVoie" class="form-control" @bind-Value="@FormModel.InformateurNumeroVoie" />
+                <ValidationMessage For="@(() => FormModel.InformateurNumeroVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurNomVoie">Nom de voie:</label>
+                <InputText id="InformateurNomVoie" class="form-control" @bind-Value="@FormModel.InformateurNomVoie" />
+                <ValidationMessage For="@(() => FormModel.InformateurNomVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurCodePostal">Code Postal:</label>
+                <InputText id="InformateurCodePostal" class="form-control" @bind-Value="@FormModel.InformateurCodePostal" />
+                <ValidationMessage For="@(() => FormModel.InformateurCodePostal)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurNomCommune">Commune:</label>
+                <InputText id="InformateurNomCommune" class="form-control" @bind-Value="@FormModel.InformateurNomCommune" />
+                <ValidationMessage For="@(() => FormModel.InformateurNomCommune)" />
+            </div>
+        </div>
+        <br />
+
+        <!-- Suspect Section -->
+        <div class="col-md-6">
+            <h2>Suspect</h2>
+            <div class="form-group">
+                <label for="SuspectPrenom">Prenom:</label>
+                <InputText id="SuspectPrenom" class="form-control" @bind-Value="@FormModel.SuspectPrenom" />
+                <ValidationMessage For="@(() => FormModel.SuspectPrenom)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectNom">Nom:</label>
+                <InputText id="SuspectNom" class="form-control" @bind-Value="@FormModel.SuspectNom" />
+                <ValidationMessage For="@(() => FormModel.SuspectNom)" />
+            </div>
+            <br />
+            <h5>Adresse Suspect</h5>
+            <div class="form-group">
+                <label for="SuspectNumeroVoie">Numero de voie:</label>
+                <InputText id="SuspectNumeroVoie" class="form-control" @bind-Value="@FormModel.SuspectNumeroVoie" />
+                <ValidationMessage For="@(() => FormModel.SuspectNumeroVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectNomVoie">Nom de voie:</label>
+                <InputText id="SuspectNomVoie" class="form-control" @bind-Value="@FormModel.SuspectNomVoie" />
+                <ValidationMessage For="@(() => FormModel.SuspectNomVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectCodePostal">Code Postal:</label>
+                <InputText id="SuspectCodePostal" class="form-control" @bind-Value="@FormModel.SuspectCodePostal" />
+                <ValidationMessage For="@(() => FormModel.SuspectCodePostal)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectNomCommune">Commune:</label>
+                <InputText id="SuspectNomCommune" class="form-control" @bind-Value="@FormModel.SuspectNomCommune" />
+                <ValidationMessage For="@(() => FormModel.SuspectNomCommune)" />
+            </div>
+            <!-- Add more denonciateur input fields here -->
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="Delit">Choisissez un délit :</label>
+        <select id="Delit" class="form-control" @bind="@FormModel.Delit">
+            <option value="EVASIONFISCALE" selected>Evasion Fiscale</option>
+            <option value="DISSIMULATIONREVENU">Dissimulation de revenu</option>
+        </select>
+    </div>
+    <p>Delit sélectionné : @FormModel.Delit.ToString()</p>
+
+    <div class="form-group">
+        <label for="PaysEvasion">(Facultatif) Pays d'évasion:</label>
+        <InputText id="PaysEvasion" class="form-control" @bind-Value="@FormModel.PaysEvasion" />
+        <ValidationMessage For="@(() => FormModel.PaysEvasion)" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Create Denunciation</button>
+</EditForm>
+@code {
+
+    private DenonciationFormModel FormModel { get; set; } = new DenonciationFormModel();
+
+    // Add more properties as needed
+
+    private void CreateDenunciation()
+    {
+        AdresseItem adresseInformateur = new AdresseItem(FormModel.InformateurNumeroVoie, FormModel.InformateurNomVoie, FormModel.InformateurCodePostal, FormModel.InformateurNomCommune);
+        PersonneItem informateur = new PersonneItem(FormModel.InformateurPrenom, FormModel.InformateurNom, adresseInformateur);        
+        AdresseItem adresseSuspect = new AdresseItem(FormModel.SuspectNumeroVoie, FormModel.SuspectNomVoie, FormModel.SuspectCodePostal, FormModel.SuspectNomCommune);
+        PersonneItem suspect = new PersonneItem(FormModel.SuspectPrenom, FormModel.SuspectNom, adresseSuspect);
+        DenonciationItem denonciation = new DenonciationItem(informateur, suspect, FormModel.PaysEvasion ?? "NON_RENSEIGNE", FormModel.Delit);
+    }
+
+}
