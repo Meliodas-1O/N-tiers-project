@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JeBalance.API.Admin.Controllers
 {
 	[Authorize(Roles = UserRole.Admin)]
-	[Route("api/personnes/")]
+	[Route("api/vip/")]
 	[ApiController]
 	public class VIPController : ControllerBase
 	{
@@ -33,7 +33,7 @@ namespace JeBalance.API.Admin.Controllers
 		}
 
 		// GET api/<VIPController>/5
-		[HttpGet("vip/{id}")]
+		[HttpGet("{id}")]
 		public async Task<ActionResult> Get(string id)
 		{
 			var personne = await _VIPService.GetOneVIP(id);
@@ -41,7 +41,7 @@ namespace JeBalance.API.Admin.Controllers
 		}
 
 		// POST api/<VIPController>
-        [HttpPost("vip")]
+        [HttpPost]
 		public async Task<ActionResult> Post([FromBody] PersonneAPICreation personneAPI)
 		{
 			Personne personne = personneAPI.ToPersonne();
@@ -50,7 +50,7 @@ namespace JeBalance.API.Admin.Controllers
 		}
 
 		// PUT api/<VIPController>/5
-		[HttpPut("vip/{id}")]
+		[HttpPut("{id}")]
 		public async Task<ActionResult> Put(string id, [FromBody] PersonneAPICreation personneAPI)
 		{
 			Personne personne = personneAPI.ToPersonne();
@@ -58,7 +58,7 @@ namespace JeBalance.API.Admin.Controllers
 			return Ok(PersonneAPI.FromPersonne(updatedPersonne));
 		}
 
-		[HttpPut("vip/{id}/type")]
+		[HttpPut("{id}/type")]
 		public async Task<ActionResult> SetType(string id, [FromBody] UpdateStatusAPI personneAPI)
 		{
 			var updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
@@ -66,7 +66,7 @@ namespace JeBalance.API.Admin.Controllers
 		}
 
 		// DELETE api/<VIPController>/5
-		[HttpDelete("vip/{id}")]
+		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(string id)
 		{
 			var deletedVIPId = await _VIPService.DeleteVIP(id);

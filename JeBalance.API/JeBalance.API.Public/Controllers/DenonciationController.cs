@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JeBalance.Public.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/denonciations")]
     public class DenonciationController : ControllerBase
     {
 		private readonly PersonneService _personneService;

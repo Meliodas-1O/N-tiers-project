@@ -2,7 +2,7 @@
 
 namespace JeBalance.Domain.Parameters
 {
-	public interface IParameters
+	public interface IPersonneParameters
 	{
 		int Limit { get; set; }
 		int Offset { get; set; }

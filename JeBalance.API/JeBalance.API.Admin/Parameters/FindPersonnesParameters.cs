@@ -2,7 +2,7 @@
 using JeBalance.Domain.Parameters;
 
 namespace JeBalance.API.Admin.Parameters;
-public class FindPersonnesParameters : IParameters
+public class FindPersonnesParameters : IPersonneParameters
 {
 	public int Limit { get; set; }
 	public int Offset { get; set; }

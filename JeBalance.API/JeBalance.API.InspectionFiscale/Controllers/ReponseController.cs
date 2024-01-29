@@ -6,6 +6,7 @@ using JeBalance.Domain.Commands.ReponseCommands;
 using JeBalance.Domain.Models.Denonciation;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Queries.DenonciationQueries;
+using JeBalance.Domain.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,65 +14,53 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JeBalance.API.InspectionFiscale.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/denonciations")]
 	[ApiController]
 	public class ReponseController : ControllerBase
 	{
 
-		public readonly IMediator _mediator;
+		public readonly IDenonciationReponseService _denonciationReponseService;
 
-		public ReponseController(IMediator mediator)
+		public ReponseController(IDenonciationReponseService denonciationReponseService)
 		{
-			_mediator = mediator;
+            _denonciationReponseService = denonciationReponseService;
 		}
 
 		// GET: api/<ValuesController>
 		[HttpGet]
 		public async Task<IActionResult> Get([FromQuery] FindDenonciationParameters parameter)
 		{
-			var denonciationQuery = new FindDenonciationQuery(
-				parameter.Limit > 0 ? parameter.Limit : int.MaxValue,
-				parameter.Offset,
-				parameter.PaysEvasion,
-				false
-				);
-			var denonciation = await _mediator.Send(denonciationQuery);
-			return Ok(denonciation);
-		}
 
-		// GET api/<ValuesController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
+			var denonciation = await _denonciationReponseService.GetUnansweredDenonciation(parameter);
+			return Ok(denonciation);
 		}
 
 		// POST api/<ValuesController>
 		[HttpPost("{denonciationId}/reponse")]
 		public async Task<IActionResult> Post(string denonciationId, [FromBody] ReponseAPI reponseAPI)
 		{
-			var query = new FindOneDenonciationQuery(denonciationId);
-			var denonciation = await _mediator.Send(query);
-			if(denonciation == null)
-			{
-				return StatusCode(404, $"Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
-			}
-			if(denonciation.ReponseId != null)
-			{
-				return StatusCode(403, $"Desolé, cette dénonciation a obtenue une réponse. ");
+            var denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);
+            if (denonciation == null)
+            {
+                return StatusCode(404 , "Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+            }
+            if (denonciation.ReponseId != null)
+            {
+                return StatusCode(403, "Desolé, cette dénonciation a obtenue une réponse. ");
 
-			}
-			var reponseQuery = new CreateReponseCommand(DateTime.Now, reponseAPI.Type, reponseAPI.Retribution, denonciationId);
-			var reponseId = await _mediator.Send(reponseQuery);
-			if(reponseId == null)
-			{
-				return StatusCode(500, $"Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
-
-			}
-			var denonciationUpdateQuery = new SetReponseCommand(denonciationId, reponseId);
-			Denonciation denonciationUpdate = await _mediator.Send(denonciationUpdateQuery);
-			return Ok($"Réponse ajoutée à la dénonciation avec success.");
-		}
+            }
+            var reponseId = await _denonciationReponseService.CreateReponse(denonciationId, reponseAPI.Type, reponseAPI.Retribution);
+            if (reponseId == null)
+            {
+                return StatusCode(500 ,"Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+            }
+            Denonciation denonciationUpdate = await _denonciationReponseService.SetReponseInDenonciation(denonciationId, reponseId);
+            if (denonciationUpdate == null)
+            {
+                return StatusCode(500, "Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+            }
+            return Ok("Réponse ajoutée à la dénonciation avec success.");
+        }
 
 	}
 }

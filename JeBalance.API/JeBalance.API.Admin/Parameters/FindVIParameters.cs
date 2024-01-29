@@ -3,7 +3,7 @@ using JeBalance.Domain.Parameters;
 using System.Text.Json.Serialization;
 
 namespace JeBalance.API.Admin.Parameters;
-public class FindVIParameters : IParameters
+public class FindVIParameters : IPersonneParameters
 {
 	public int Limit { get; set; }
 

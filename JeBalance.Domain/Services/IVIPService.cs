@@ -11,6 +11,6 @@ namespace JeBalance.API.Admin.Services.Models
 		Task<Personne> UpdateVIP(string id, Personne personne);
 		Task<Personne> SetType(string id, TypePersonne type);
 		Task<string> DeleteVIP(string id);
-		Task<IEnumerable<Personne>> GetAll(IParameters parameter);
+		Task<IEnumerable<Personne>> GetAll(IPersonneParameters parameter);
 	}
 }

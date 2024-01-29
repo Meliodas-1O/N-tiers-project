@@ -1,5 +1,4 @@
-﻿using JeBalance.API.Admin.Parameters;
-using JeBalance.API.Admin.Services.Models;
+﻿using JeBalance.API.Admin.Services.Models;
 using JeBalance.Domain.Commands.PersonneCommands;
 using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Parameters;
@@ -30,7 +29,7 @@ namespace JeBalance.API.Admin.Services
 			return id;
 		}
 
-		public async Task<IEnumerable<Personne>> GetAll(IParameters parameter)
+		public async Task<IEnumerable<Personne>> GetAll(IPersonneParameters parameter)
 		{
 			var query = new FindPersonneQuery(
 				parameter.Limit <= 0 ?int.MaxValue : parameter.Limit,
