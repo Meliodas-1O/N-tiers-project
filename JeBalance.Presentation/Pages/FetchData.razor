@@ -1,6 +1,6 @@
 ﻿@page "/fetchdata"
 @using System.Text.Json;
-
+@using Newtonsoft.Json;
 <PageTitle>Weather forecast</PageTitle>
 @inject IJSRuntime JSRuntime
 
@@ -16,34 +16,36 @@
 
 @if (denonciation != null)
 {
-    if(denonciation.Reponse == null)
-    {
-        <h3>Vous n'avez pas encoire de réponse à vore dénonciation. Veuillez patienter encore un peu svp.</h3>
-    }
-    else
-    {
-        <h3>Réponse</h3>
-        <p>Date: @denonciation.Reponse.Date</p>
-        <p>Type de rétribution: @denonciation.Reponse.Type</p>
-        <p>Retribution: @denonciation.Reponse.Retribution</p>
-    }
+    <div>
+        @if (denonciation.reponse == null)
+        {
+            <h3>Vous n'avez pas encore de réponse à votre dénonciation. Veuillez patienter encore un peu, s'il vous plaît.</h3>
+        }
+        else
+        {
+            <h3>Réponse</h3>
+            <p>Date: @denonciation.reponse.date</p>
+            <p>Type de rétribution: @denonciation.reponse.type</p>
+            <p>Retribution: @denonciation.reponse.retribution</p>
+        }
 
+        <h3>Date de création de la dénonciation</h3>
+        <p>Date: @denonciation.horodatage</p>
 
+        <h3>Informateur</h3>
+        <p>Prénom: @denonciation.informateur.prenom</p>
+        <p>Nom: @denonciation.informateur.nom</p>
+        <p>Adresse: @denonciation.informateur.adresse.numeroVoie @denonciation.informateur.adresse.nomVoie, @denonciation.informateur.adresse.codePostal @denonciation.informateur.adresse.commune</p>
 
-    <h3>Date de création de la dénonciation</h3>
-    <p>Date: @denonciation.date</p>
-    <h3>Informateur</h3>
-    <p>Prénom: @denonciation.informateur.prenom</p>
-    <p>Nom: @denonciation.informateur.nom</p>
-    <p>Adresse: @denonciation.informateur.adresse.numeroVoie @denonciation.informateur.adresse.nomVoie, @denonciation.informateur.adresse.codePostal @denonciation.informateur.adresse.commune</p>
+        <h3>Suspect</h3>
+        <p>Prénom: @denonciation.suspect.prenom</p>
+        <p>Nom: @denonciation.suspect.nom</p>
+        <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
 
-    <h3>suspect</h3>
-    <p>Prénom: @denonciation.suspect.prenom</p>
-    <p>Nom: @denonciation.suspect.nom</p>
-    <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
-
-    <p>Pays d'évasion: @denonciation.paysEvasion</p>
-    <p>Délit: @denonciation.delit</p>
+        <h3>Informations supplémentaires</h3>
+        <p>Pays d'évasion: @denonciation.paysEvasion</p>
+        <p>Délit: @denonciation.delit</p>
+    </div>
 }
 else
 {
@@ -56,6 +58,7 @@ else
 
     private async Task RechercherDenonciation()
     {
+        denonciation = null;
         // Log the denonciationId before making the request
         await LogMessage($"Recherche de la dénonciation avec l'ID : {denonciationId}");
 
@@ -69,9 +72,9 @@ else
 
         if (response.IsSuccessStatusCode)
         {
-            var content = await response.Content.ReadAsStringAsync();
-            denonciation = JsonSerializer.Deserialize<DenonciationItem>(content);
-            await LogMessage($"MDRR recherche de la dénonciation avec l'ID : {denonciation}");
+            string content = await response.Content.ReadAsStringAsync();
+            denonciation = JsonConvert.DeserializeObject<DenonciationItem>(content);
+            await LogMessage($"MDRR recherche de la dénonciation avec l'ID : {content}");
 
         }
         else

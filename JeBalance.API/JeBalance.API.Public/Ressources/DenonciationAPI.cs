@@ -7,7 +7,7 @@ namespace JeBalance.Public.API.Ressources
     public class DenonciationAPI : DenonciationAPICreation
     {
         public ReponseAPI? Reponse { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Horodatage { get; set; }
 
         public DenonciationAPI() { }
         public static DenonciationAPI FromDenonciation(Denonciation denonciation,PersonneAPI informateur, PersonneAPI suspect, ReponseAPI? reponse)
@@ -18,7 +18,7 @@ namespace JeBalance.Public.API.Ressources
                 Informateur = informateur,
                 Suspect = suspect,
                 Reponse = reponse,
-                Date = denonciation.Horodatage,
+                Horodatage = denonciation.Horodatage,
                 Delit = denonciation.Delit,
                 PaysEvasion = denonciation.PaysEvasion.Value,
             };
