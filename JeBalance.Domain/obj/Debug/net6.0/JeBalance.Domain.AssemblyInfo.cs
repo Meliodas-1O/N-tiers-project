@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JeBalance.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f65c89e51707dbc15f604aa9ece283721085c5bf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47caaff6987b396e209500dcdc19b28e8820031c")]
 [assembly: System.Reflection.AssemblyProductAttribute("JeBalance.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JeBalance.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
