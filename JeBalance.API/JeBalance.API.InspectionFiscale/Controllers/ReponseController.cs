@@ -28,19 +28,24 @@ namespace JeBalance.API.InspectionFiscale.Controllers
 		public async Task<IActionResult> Get([FromQuery] FindDenonciationParameters parameter)
 		{
 			var denonciation = await _denonciationReponseService.GetUnansweredDenonciation(parameter);
-			return Ok(denonciation);
+			return Ok(denonciation.Select(d=> DenonciationAPI.FromDenonciation(d)));
 		}
 
         // POST api/<ValuesController>
         [HttpPost("{denonciationId}/reponse")]
 		public async Task<IActionResult> Post(string denonciationId, [FromBody] ReponseAPI reponseAPI)
 		{
+            if(reponseAPI.Type != Domain.Models.Reponse.TypeReponse.REJET && reponseAPI.Type != Domain.Models.Reponse.TypeReponse.CONFIRMATION)
+            {
+                return StatusCode(400, "Desolé, vos paramètres pour délit sont invalides.");
+
+            }
             var denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);
             if (denonciation == null)
             {
                 return StatusCode(404 , "Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
             }
-            if (denonciation.ReponseId != null)
+            if (denonciation.ReponseId != null || denonciation.Reponse != null)
             {
                 return StatusCode(403, "Desolé, cette dénonciation a obtenue une réponse. ");
 

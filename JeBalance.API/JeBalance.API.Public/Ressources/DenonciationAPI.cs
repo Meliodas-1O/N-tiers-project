@@ -10,14 +10,14 @@ namespace JeBalance.Public.API.Ressources
         public DateTime Horodatage { get; set; }
 
         public DenonciationAPI() { }
-        public static DenonciationAPI FromDenonciation(Denonciation denonciation,PersonneAPI informateur, PersonneAPI suspect, ReponseAPI? reponse)
+        public static DenonciationAPI FromDenonciation(Denonciation denonciation)
         {
             return new DenonciationAPI
             {
                 Id = denonciation.Id,
-                Informateur = informateur,
-                Suspect = suspect,
-                Reponse = reponse,
+                Informateur = PersonneAPI.FromPersonne(denonciation.Informateur!),
+                Suspect =  PersonneAPI.FromPersonne(denonciation.Suspect!),
+                Reponse = denonciation.Reponse!=null ? ReponseAPI.FromReponse(denonciation.Reponse):null,
                 Horodatage = denonciation.Horodatage,
                 Delit = denonciation.Delit,
                 PaysEvasion = denonciation.PaysEvasion.Value,

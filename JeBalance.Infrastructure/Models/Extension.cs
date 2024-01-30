@@ -2,11 +2,6 @@
 using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JeBalance.Infrastructure.Models
 {
@@ -85,12 +80,12 @@ namespace JeBalance.Infrastructure.Models
             return new(
                 denonciation.Id,
                 denonciation.Horodatage,
-                denonciation.InformateurId,
-                denonciation.SuspectId,
-                (Delit)Enum.Parse(typeof(Delit),denonciation.Delit),
+                denonciation.Informateur.ToDomain(),
+                denonciation.Suspect.ToDomain(),
+                (Delit)Enum.Parse(typeof(Delit), denonciation.Delit),
                 denonciation.PaysEvasion,
-                denonciation.ReponseId
-              ); 
+                denonciation.Reponse?.ToDomain()
+              ); ;
         }
 
 

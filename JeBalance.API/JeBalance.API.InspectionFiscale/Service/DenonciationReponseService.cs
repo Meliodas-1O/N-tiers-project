@@ -22,7 +22,7 @@ namespace JeBalance.API.InspectionFiscale.Service
         public async Task<IEnumerable<Denonciation>> GetUnansweredDenonciation(IDenonciationParameters parameter)
         {
             var denonciationQuery = new FindDenonciationQuery(
-                parameter.Limit > 0 ? parameter.Limit : int.MaxValue,
+                parameter.Limit > 0 ? parameter.Limit : 5,
                 parameter.Offset,
                 parameter.PaysEvasion,
                 false
