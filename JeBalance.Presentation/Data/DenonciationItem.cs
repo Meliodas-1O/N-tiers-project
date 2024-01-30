@@ -1,24 +1,41 @@
 ﻿using JeBalance.Domain.Models.Denonciation;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace JeBalance.Presentation.Data
 {
     public class DenonciationItem
     {
+        public DateTime date {  get; set; }
+        [JsonPropertyName("reponse")]
+        public ReponseItem Reponse { get; set; } = null!;
         [Required(ErrorMessage = "L'Informateur est requis.")]
-        public PersonneItem Informateur { get; set; } = null!;
+        public PersonneItem informateur { get; set; } = null!;
         [Required(ErrorMessage = "Le suspect est requis.")]
-        public PersonneItem Suspect { get; set; } = null!;
-        public string PaysEvasion { get; set; } = null!;
+        public PersonneItem suspect { get; set; } = null!;
+        public string paysEvasion { get; set; } = null!;
+        public string Id { get; set; } = null!;
         public Delit delit { get; set; }
 
-        public DenonciationItem(PersonneItem informateur, PersonneItem suspect, string paysEvasion, Delit delit)
+        public DenonciationItem(PersonneItem _informateur, PersonneItem _suspect, string _paysEvasion, Delit _delit)
         {
-            Informateur = informateur;
-            Suspect = suspect;
-            PaysEvasion = paysEvasion;
-            this.delit = delit;
+            informateur = _informateur;
+            suspect = _suspect;
+            paysEvasion = _paysEvasion;
+            delit = _delit;
         }
+        public DenonciationItem(PersonneItem _informateur, PersonneItem _suspect, string _paysEvasion, Delit _delit, ReponseItem reponse)
+        {
+            informateur = _informateur;
+            suspect = _suspect;
+            paysEvasion = _paysEvasion;
+            delit = _delit;
+            Reponse = reponse;
+        }
+
         public DenonciationItem() { }  
+
+
     }
 }

@@ -6,20 +6,20 @@ namespace JeBalance.Presentation.Data
     {
         [Required(ErrorMessage = "Le prénom est requis.")]
         [StringLength(2, ErrorMessage = "Le prénom doit contenir au moins deux lettres.", MinimumLength = 2)]
-        public string Prenom { get; set; }
+        public string prenom { get; set; }
 
         [Required(ErrorMessage = "Le nom est requis.")]
         [StringLength(2, ErrorMessage = "Le nom doit contenir au moins deux lettres.", MinimumLength = 2)]
-        public string Nom { get; set; }
+        public string nom { get; set; }
 
         [Required(ErrorMessage = "L'adresse est requise.")]
-        public AdresseItem Adresse { get; set; }
+        public AdresseItem adresse { get; set; }
 
-        public PersonneItem(string prenom, string nom, AdresseItem adresse)
+        public PersonneItem(string _prenom, string _nom, AdresseItem _adresse)
         {
-            Prenom = prenom;
-            Nom = nom;
-            Adresse = adresse;
+            prenom = _prenom;
+            nom = _nom;
+            adresse = _adresse;
         }
         public PersonneItem() { }
     }

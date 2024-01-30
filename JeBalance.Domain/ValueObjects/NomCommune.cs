@@ -9,7 +9,6 @@ namespace JeBalance.Domain.ValueObjects
 {
 	public class NomCommune : SimpleValueObject<string>
 	{
-		private const int MIN_LENGTH = 1;
 		private const int MAX_LENGTH = 50;
 
 		public NomCommune(string value) : base(value)

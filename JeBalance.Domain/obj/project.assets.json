@@ -771,19 +771,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\fode.cissokho\\.nuget\\packages\\": {}
+    "C:\\Users\\cisko\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.Domain\\JeBalance.Domain.csproj",
       "projectName": "JeBalance.Domain",
-      "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj",
-      "packagesPath": "C:\\Users\\fode.cissokho\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\obj\\",
+      "projectPath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.Domain\\JeBalance.Domain.csproj",
+      "packagesPath": "C:\\Users\\cisko\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.Domain\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\fode.cissokho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cisko\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -836,7 +841,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

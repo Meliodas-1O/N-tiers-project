@@ -19,7 +19,7 @@ namespace JeBalance.Public.API.Controllers
             _denonciationService = denonciationService;
         }
         [HttpPost]
-		public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPI denonciationApi)
+		public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPICreation denonciationApi)
 		{
 			Personne informateur = denonciationApi.Informateur.ToPersonne();
 			Personne suspect = denonciationApi.Suspect.ToPersonne();
@@ -47,7 +47,7 @@ namespace JeBalance.Public.API.Controllers
 				return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement.");
 			}
 			string suspectId = await _personneService.GetOrCreatePersonId(suspect);
-			Denonciation denonciation = new (DateTime.Now, informateurId, suspectId, denonciationApi.delit, denonciationApi.PaysEvasion, null);
+			Denonciation denonciation = new (DateTime.Now, informateurId, suspectId, denonciationApi.Delit, denonciationApi.PaysEvasion, null);
 
 			string id = await _denonciationService.GetOrCreateDenonciation(denonciation);
 			if (string.IsNullOrEmpty(id))
@@ -61,7 +61,7 @@ namespace JeBalance.Public.API.Controllers
 		[HttpGet("{id}")]
         public async Task<ActionResult> FindDenonciation(string id)
         {
-            Denonciation denonciation = await _denonciationService.GetDenonciation(id);
+            DenonciationAPI? denonciation = await _denonciationService.GetDenonciation(id);
 			if (denonciation == null)
 			{
 				return StatusCode(404, $"Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");

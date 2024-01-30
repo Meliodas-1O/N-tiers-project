@@ -9,7 +9,6 @@ namespace JeBalance.Domain.ValueObjects
 {
 	public class NomVoie : SimpleValueObject<string>
 	{
-		private const int MIN_LENGTH = 1;
 		private const int MAX_LENGTH = 50;
 
 		public NomVoie(string value) : base(value)
