@@ -44,7 +44,7 @@ namespace JeBalance.Domain.Models.Denonciation
 
 		}
 
-        public Denonciation(string id, DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, DenonciationReponse? reponseId)
+        public Denonciation(string id, DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, DenonciationReponse? reponse)
 			: base("0")
         {
             Horodatage = horodatage;
@@ -54,9 +54,9 @@ namespace JeBalance.Domain.Models.Denonciation
             Suspect = suspect;
             Delit = delit;
             PaysEvasion = new PaysEvasion(paysEvasion);
-            Reponse = reponseId;
+            Reponse = reponse;
+			ReponseId = reponse != null ? reponse.Id : null;
             Id = id.ToString();
-
         }
 
         public Denonciation() : base("-1")

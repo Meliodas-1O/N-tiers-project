@@ -5,7 +5,8 @@ namespace JeBalance.API.InspectionFiscale.Ressources
 {
 	public class ReponseAPI
 	{
-        public DateTime Date {  get; set; }
+        [JsonIgnore]
+        public DateTime? Date {  get; set; }
 		public TypeReponse Type { get; set; }
 		public int Retribution { get; set; }
 

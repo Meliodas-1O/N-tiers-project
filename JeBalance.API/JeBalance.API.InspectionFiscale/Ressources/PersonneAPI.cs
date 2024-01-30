@@ -1,10 +1,12 @@
 ﻿using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace JeBalance.API.InspectionFiscale.Ressources
 {
     public class PersonneAPI
     {
+        [JsonIgnore]
         public string? Id { get; set; }
         public string Prenom { get; set; }
         public string Nom { get; set; }
