@@ -1,4 +1,4 @@
-﻿@page "/fetchdata"
+﻿@page "/suivi"
 @using System.Text.Json;
 @using Newtonsoft.Json;
 <PageTitle>Weather forecast</PageTitle>
@@ -13,53 +13,71 @@
     <input type="text" id="denonciationId" @bind="denonciationId" />
     <button @onclick="RechercherDenonciation">Rechercher</button>
 </div>
+<br />
 
 @if (denonciation != null)
 {
-    <div>
-        @if (denonciation.reponse == null)
-        {
-            <h3>Vous n'avez pas encore de réponse à votre dénonciation. Veuillez patienter encore un peu, s'il vous plaît.</h3>
-        }
-        else
-        {
-            <h3>Réponse</h3>
-            <p>Date: @formatedReponseTime</p>
-            <p>Type de rétribution: @denonciation.reponse.type</p>
-            <p>Retribution: @denonciation.reponse.retribution</p>
-        }
+    <div style="display: flex;">
+        <div style="flex: 1;">
+            <h3>Date de création de la dénonciation</h3>
+            <p>Date: @formatedDenonciationTime</p>
 
-        <h3>Date de création de la dénonciation</h3>
-        <p>Date: @formatedDenonciationTime</p>
+            <h3>Informateur</h3>
+            <p>Prénom: @denonciation.informateur.prenom</p>
+            <p>Nom: @denonciation.informateur.nom</p>
+            <p>Adresse: @denonciation.informateur.adresse.numeroVoie @denonciation.informateur.adresse.nomVoie, @denonciation.informateur.adresse.codePostal @denonciation.informateur.adresse.commune</p>
 
-        <h3>Informateur</h3>
-        <p>Prénom: @denonciation.informateur.prenom</p>
-        <p>Nom: @denonciation.informateur.nom</p>
-        <p>Adresse: @denonciation.informateur.adresse.numeroVoie @denonciation.informateur.adresse.nomVoie, @denonciation.informateur.adresse.codePostal @denonciation.informateur.adresse.commune</p>
+            <h3>Suspect</h3>
+            <p>Prénom: @denonciation.suspect.prenom</p>
+            <p>Nom: @denonciation.suspect.nom</p>
+            <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
 
-        <h3>Suspect</h3>
-        <p>Prénom: @denonciation.suspect.prenom</p>
-        <p>Nom: @denonciation.suspect.nom</p>
-        <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
+            <h3>Informations supplémentaires</h3>
+            <p>Pays d'évasion: @denonciation.paysEvasion</p>
+            <p>Délit: @denonciation.delit</p>
+        </div>
 
-        <h3>Informations supplémentaires</h3>
-        <p>Pays d'évasion: @denonciation.paysEvasion</p>
-        <p>Délit: @denonciation.delit</p>
+        <div style="flex: 1;">
+            @if (denonciation.reponse == null)
+            {
+                <div>
+                    <h3>Réponse</h3>
+                    <p>Vous n'avez pas encore de réponse à votre dénonciation. Veuillez patienter encore un peu, s'il vous plaît.</p>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h3>Réponse</h3>
+                    <p>Date: @formatedReponseTime</p>
+                    <p>Type de rétribution: @denonciation.reponse.type</p>
+                    <p>Retribution: @denonciation.reponse.retribution</p>
+                </div>
+            }
+        </div>
     </div>
+}
+else if (denonciation ==null && string.IsNullOrEmpty(denonciationId))
+{
+    <h5> Veuiller coller l'id de la dénonciation dans l'espace text svp.</h5>
 }
 else
 {
-    <p>Données de dénonciation non disponibles.</p>
+    <h5>@errorMessage</h5>
 }
+
+
 
 @code {
     private string denonciationId;
     private string formatedDenonciationTime;
     private string formatedReponseTime;
     private DenonciationItem denonciation;
+    private string errorMessage;
 
     private async Task RechercherDenonciation()
     {
+        errorMessage = "";
         denonciation = null;
         await LogMessage($"Recherche de la dénonciation avec l'ID : {denonciationId}");
         var httpClient = new HttpClient();
@@ -71,10 +89,11 @@ else
             denonciation = JsonConvert.DeserializeObject<DenonciationItem>(content);
             await LogMessage($"MDRR recherche de la dénonciation avec l'ID : {content}");
             formatedDenonciationTime = $"{denonciation.horodatage.ToString("dddd, dd MMMM yyyy")}, {denonciation.horodatage.ToString("HH'h' mm")}";
-            formatedReponseTime = $"{denonciation.reponse.date.ToString("dddd, dd MMMM yyyy")}, {denonciation.reponse.date.ToString("HH'h' mm")}";
+            formatedReponseTime = $"{denonciation.reponse?.date.ToString("dddd, dd MMMM yyyy")}, {denonciation.reponse?.date.ToString("HH'h' mm")}";
         }
         else
         {
+            errorMessage = "Id de dénonciation non valide. Veuillez revérifier votre ID svp ou réesaayer utltérieurement.";
             await LogMessage($"Erreur lors de la recherche de la dénonciation avec l'ID : {denonciationId}");
         }
     }

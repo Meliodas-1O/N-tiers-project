@@ -75,8 +75,12 @@ namespace JeBalance.Infrastructure.Models
             };
         }
 
-        public static Denonciation ToDomain(this DenonciationSQLite denonciation)
+        public static Denonciation? ToDomain(this DenonciationSQLite denonciation)
         {
+            if(denonciation == null)
+            {
+                return null;
+            }
             return new(
                 denonciation.Id,
                 denonciation.Horodatage,
