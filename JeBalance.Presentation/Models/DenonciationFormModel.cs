@@ -12,7 +12,7 @@ namespace JeBalance.Presentation.Models
         public string InformateurPrenom { get; set; }
 
         [Required(ErrorMessage = "Le nom de l'informateur est requis.")]
-        [StringLength(50, ErrorMessage = "Le nom de l'informateur ne peut pas dépasser 50 caractères.")]
+        //[StringLength(50, ErrorMessage = "Le nom de l'informateur ne peut pas dépasser 50 caractères.")]
         [RegularExpression(@"^[^\d]+$", ErrorMessage = "Le nom de l'informateur ne peut pas contenir de chiffres.")]
         public string InformateurNom { get; set; }
 

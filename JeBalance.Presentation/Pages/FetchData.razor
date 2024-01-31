@@ -1,6 +1,6 @@
 ﻿@page "/fetchdata"
 @using System.Text.Json;
-
+@using Newtonsoft.Json;
 <PageTitle>Weather forecast</PageTitle>
 @inject IJSRuntime JSRuntime
 
@@ -16,34 +16,36 @@
 
 @if (denonciation != null)
 {
-    if(denonciation.Reponse == null)
-    {
-        <h3>Vous n'avez pas encoire de réponse à vore dénonciation. Veuillez patienter encore un peu svp.</h3>
-    }
-    else
-    {
-        <h3>Réponse</h3>
-        <p>Date: @denonciation.Reponse.Date</p>
-        <p>Type de rétribution: @denonciation.Reponse.Type</p>
-        <p>Retribution: @denonciation.Reponse.Retribution</p>
-    }
+    <div>
+        @if (denonciation.reponse == null)
+        {
+            <h3>Vous n'avez pas encore de réponse à votre dénonciation. Veuillez patienter encore un peu, s'il vous plaît.</h3>
+        }
+        else
+        {
+            <h3>Réponse</h3>
+            <p>Date: @formatedReponseTime</p>
+            <p>Type de rétribution: @denonciation.reponse.type</p>
+            <p>Retribution: @denonciation.reponse.retribution</p>
+        }
 
+        <h3>Date de création de la dénonciation</h3>
+        <p>Date: @formatedDenonciationTime</p>
 
+        <h3>Informateur</h3>
+        <p>Prénom: @denonciation.informateur.prenom</p>
+        <p>Nom: @denonciation.informateur.nom</p>
+        <p>Adresse: @denonciation.informateur.adresse.numeroVoie @denonciation.informateur.adresse.nomVoie, @denonciation.informateur.adresse.codePostal @denonciation.informateur.adresse.commune</p>
 
-    <h3>Date de création de la dénonciation</h3>
-    <p>Date: @denonciation.date</p>
-    <h3>Informateur</h3>
-    <p>Prénom: @denonciation.informateur.prenom</p>
-    <p>Nom: @denonciation.informateur.nom</p>
-    <p>Adresse: @denonciation.informateur.adresse.numeroVoie @denonciation.informateur.adresse.nomVoie, @denonciation.informateur.adresse.codePostal @denonciation.informateur.adresse.commune</p>
+        <h3>Suspect</h3>
+        <p>Prénom: @denonciation.suspect.prenom</p>
+        <p>Nom: @denonciation.suspect.nom</p>
+        <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
 
-    <h3>suspect</h3>
-    <p>Prénom: @denonciation.suspect.prenom</p>
-    <p>Nom: @denonciation.suspect.nom</p>
-    <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
-
-    <p>Pays d'évasion: @denonciation.paysEvasion</p>
-    <p>Délit: @denonciation.delit</p>
+        <h3>Informations supplémentaires</h3>
+        <p>Pays d'évasion: @denonciation.paysEvasion</p>
+        <p>Délit: @denonciation.delit</p>
+    </div>
 }
 else
 {
@@ -52,35 +54,27 @@ else
 
 @code {
     private string denonciationId;
+    private string formatedDenonciationTime;
+    private string formatedReponseTime;
     private DenonciationItem denonciation;
 
     private async Task RechercherDenonciation()
     {
-        // Log the denonciationId before making the request
+        denonciation = null;
         await LogMessage($"Recherche de la dénonciation avec l'ID : {denonciationId}");
-
-        // Faire une requête GET à votre API pour récupérer les détails de la dénonciation
-        // Utilisez HttpClient ou tout autre mécanisme pour effectuer la requête
-        // Assurez-vous d'injecter HttpClient dans la classe si vous utilisez Blazor Server
-
-        // Exemple avec HttpClient:
         var httpClient = new HttpClient();
         var response = await httpClient.GetAsync($"https://localhost:7180/api/denonciations/{denonciationId}");
 
         if (response.IsSuccessStatusCode)
         {
-            var content = await response.Content.ReadAsStringAsync();
-            denonciation = JsonSerializer.Deserialize<DenonciationItem>(content);
-            await LogMessage($"MDRR recherche de la dénonciation avec l'ID : {denonciation}");
-
+            string content = await response.Content.ReadAsStringAsync();
+            denonciation = JsonConvert.DeserializeObject<DenonciationItem>(content);
+            await LogMessage($"MDRR recherche de la dénonciation avec l'ID : {content}");
+            formatedDenonciationTime = $"{denonciation.horodatage.ToString("dddd, dd MMMM yyyy")}, {denonciation.horodatage.ToString("HH'h' mm")}";
+            formatedReponseTime = $"{denonciation.reponse.date.ToString("dddd, dd MMMM yyyy")}, {denonciation.reponse.date.ToString("HH'h' mm")}";
         }
         else
         {
-            // Gérer les erreurs de requête, par exemple:
-            // Afficher un message d'erreur à l'utilisateur
-            // Réinitialiser la variable denonciation à null ou à une nouvelle instance
-
-            // Log the error message
             await LogMessage($"Erreur lors de la recherche de la dénonciation avec l'ID : {denonciationId}");
         }
     }

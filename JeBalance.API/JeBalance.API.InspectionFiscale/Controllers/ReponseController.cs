@@ -2,6 +2,8 @@
 using JeBalance.API.InspectionFiscale.Parameters;
 using JeBalance.API.InspectionFiscale.Ressources;
 using JeBalance.Domain.Models.Denonciation;
+using JeBalance.Domain.Models.Person;
+using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,28 +30,46 @@ namespace JeBalance.API.InspectionFiscale.Controllers
 		public async Task<IActionResult> Get([FromQuery] FindDenonciationParameters parameter)
 		{
 			var denonciation = await _denonciationReponseService.GetUnansweredDenonciation(parameter);
-			return Ok(denonciation);
+			return Ok(denonciation.Select(d=> DenonciationAPI.FromDenonciation(d)));
 		}
 
         // POST api/<ValuesController>
         [HttpPost("{denonciationId}/reponse")]
 		public async Task<IActionResult> Post(string denonciationId, [FromBody] ReponseAPI reponseAPI)
 		{
-            var denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);
+            if(reponseAPI.Type !=TypeReponse.REJET && reponseAPI.Type != TypeReponse.CONFIRMATION)
+            {
+                return StatusCode(400, "Desolé, vos paramètres pour délit sont invalides.");
+
+            }
+            Denonciation denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);
             if (denonciation == null)
             {
                 return StatusCode(404 , "Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
             }
-            if (denonciation.ReponseId != null)
+            if (denonciation.ReponseId != null || denonciation.Reponse != null)
             {
                 return StatusCode(403, "Desolé, cette dénonciation a obtenue une réponse. ");
 
             }
-            var reponseId = await _denonciationReponseService.CreateReponse(denonciationId, reponseAPI.Type, reponseAPI.Retribution);
+            if(reponseAPI.Type==TypeReponse.REJET)
+            {
+                string informateurId = denonciation.InformateurId;
+                if(denonciation.Informateur!.NombreAvertissement == 2)
+                {
+                    await _denonciationReponseService.SetCalomniateurType(informateurId);
+                }
+                else
+                {
+                   await _denonciationReponseService.IncreaseWarningNumber(informateurId, denonciation.Informateur!);
+                }
+            }
+            string reponseId = await _denonciationReponseService.CreateReponse(denonciationId, reponseAPI.Type, reponseAPI.Retribution);
             if (reponseId == null)
             {
                 return StatusCode(500 ,"Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
             }
+
             Denonciation denonciationUpdate = await _denonciationReponseService.SetReponseInDenonciation(denonciationId, reponseId);
             if (denonciationUpdate == null)
             {

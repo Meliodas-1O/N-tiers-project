@@ -25,18 +25,18 @@ namespace JeBalance.API.Admin.Controllers
 		[HttpGet("vip")]
 		public async Task<IActionResult> Get([FromQuery] FindVIParameters parameter)
 		{
-			var vips = await _VIPService.GetAll(parameter);
+			IEnumerable<Personne> vips = await _VIPService.GetAll(parameter);
 			Response.Headers.Add("X-Pagination-Limit", parameter.Limit.ToString());
 			Response.Headers.Add("X-Pagination-Offset", parameter.Offset.ToString());
 			Response.Headers.Add("X-Pagination-Count", vips.Count().ToString());
-			return Ok(vips.Select(v => PersonneAPI.FromPersonne(v)));
+			return Ok(vips);
 		}
 
 		// GET api/<VIPController>/5
 		[HttpGet("{id}")]
 		public async Task<ActionResult> Get(string id)
 		{
-			var personne = await _VIPService.GetOneVIP(id);
+			Personne personne = await _VIPService.GetOneVIP(id);
 			return Ok(PersonneAPI.FromPersonne(personne));
 		}
 
@@ -44,24 +44,41 @@ namespace JeBalance.API.Admin.Controllers
         [HttpPost]
 		public async Task<ActionResult> Post([FromBody] PersonneAPICreation personneAPI)
 		{
-			Personne personne = personneAPI.ToPersonne();
-			var id = await _VIPService.GetOrCreateVIPId(personne);
-			return Ok(id);
+			try
+			{
+				Personne personne = personneAPI.ToPersonne();
+				string id = await _VIPService.GetOrCreateVIPId(personne);
+				return Ok(id);
+			}
+			catch (Exception ex)
+			{
+                string errorMessage = ex.Message;
+                return BadRequest(errorMessage);
+            }
+
 		}
 
 		// PUT api/<VIPController>/5
 		[HttpPut("{id}")]
 		public async Task<ActionResult> Put(string id, [FromBody] PersonneAPICreation personneAPI)
 		{
-			Personne personne = personneAPI.ToPersonne();
-			var updatedPersonne = await _VIPService.UpdateVIP(id, personne);
-			return Ok(PersonneAPI.FromPersonne(updatedPersonne));
-		}
+			try
+			{
+                Personne personne = personneAPI.ToPersonne();
+                Personne updatedPersonne = await _VIPService.UpdateVIP(id, personne);
+                return Ok(PersonneAPI.FromPersonne(updatedPersonne));
+            }
+			catch (Exception ex)
+			{
+                string errorMessage = ex.Message;
+                return BadRequest(errorMessage);
+            }
+        }
 
 		[HttpPut("{id}/type")]
 		public async Task<ActionResult> SetType(string id, [FromBody] UpdateStatusAPI personneAPI)
 		{
-			var updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
+			Personne updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
 			return Ok(PersonneAPI.FromPersonne(updateVipId));
 		}
 
@@ -69,7 +86,7 @@ namespace JeBalance.API.Admin.Controllers
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(string id)
 		{
-			var deletedVIPId = await _VIPService.DeleteVIP(id);
+			string deletedVIPId = await _VIPService.DeleteVIP(id);
 			return Ok(deletedVIPId);
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using JeBalance.API.Admin.Services.Models;
+﻿using JeBalance.API.Admin.Ressources;
+using JeBalance.API.Admin.Services.Models;
 using JeBalance.Domain.Commands.PersonneCommands;
 using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Parameters;
@@ -19,44 +20,44 @@ namespace JeBalance.API.Admin.Services
 
 		public async Task<string> DeleteVIP(string id)
 		{
-			var personne = await GetOneVIP(id);
+            Personne personne = await GetOneVIP(id);
 			if(personne == null)
 			{
 				return id;
 			}
-			var command = new DeletePersonneCommand(id);
+            DeletePersonneCommand command = new (id);
 			await _mediator.Send(command);
 			return id;
 		}
 
 		public async Task<IEnumerable<Personne>> GetAll(IPersonneParameters parameter)
 		{
-			var query = new FindPersonneQuery(
+            FindPersonneQuery query = new (
 				parameter.Limit <= 0 ?int.MaxValue : parameter.Limit,
 				parameter.Offset,
 				parameter.Prenom,
 				parameter.Nom,
 				TypePersonne.VIP,
 				parameter.Adresse);
-			var response = await _mediator.Send(query);
-			return response;
+            IEnumerable<Personne> personnes = await _mediator.Send(query);
+			return personnes;
 		}
 
 		public async Task<Personne> GetOneVIP(string id)
 		{
-			var query = new FindOneVIPQuery(id);
-			var vip = await _mediator.Send(query);
+            FindOneVIPQuery query = new (id);
+			Personne vip = await _mediator.Send(query);
 			return vip;
 		}
 
 		public async Task<string> GetOrCreateVIPId(Personne personne)
 		{
-			var existingVIPQuery = new FindPersonneQuery(int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, TypePersonne.VIP, personne.Adresse.Value);
-			var existingVIP = await _mediator.Send(existingVIPQuery);
+            FindPersonneQuery existingVIPQuery = new (int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, TypePersonne.VIP, personne.Adresse.Value);
+			IEnumerable<Personne> existingVIP = await _mediator.Send(existingVIPQuery);
 
 			if (existingVIP == null || !existingVIP.Any())
 			{
-				var newVIPCommand = new CreatePersonneCommand(personne.Prenom.Value, personne.Nom.Value, TypePersonne.VIP, 0, personne.Adresse);
+                CreatePersonneCommand newVIPCommand = new (personne.Prenom.Value, personne.Nom.Value, TypePersonne.VIP, 0, personne.Adresse);
 				return await _mediator.Send(newVIPCommand);
 			}
 
@@ -65,19 +66,19 @@ namespace JeBalance.API.Admin.Services
 
 		public async Task<Personne> SetType(string id, TypePersonne type)
 		{
-			var personne = await GetOneVIP(id);
+            Personne personne = await GetOneVIP(id);
 			if(personne.TypePersonne == type)
 			{
 				return personne;
 			}
-			var command = new UpdateTypePersonneCommand(id, type);
-			var updatedVIP = await _mediator.Send(command);
-			return updatedVIP;
+            UpdateTypePersonneCommand command = new (id, type);
+            Personne updatedVIP = await _mediator.Send(command);
+            return updatedVIP;
 		}
 
 		public async Task<Personne> UpdateVIP(string id, Personne personne)
 		{
-			var dbPersonne = await GetOneVIP(id);
+			Personne dbPersonne = await GetOneVIP(id);
 			bool sameNom = dbPersonne.Nom.Value == personne.Nom.Value;
 			bool samePrenom = dbPersonne.Prenom.Value == personne.Prenom.Value;
 			bool sameAdresse = dbPersonne.Adresse.Value == personne.Adresse.Value;
@@ -86,8 +87,8 @@ namespace JeBalance.API.Admin.Services
 			{
 				return personne;
 			}
-			var command = new UpdatePersonneCommand(id, personne.Prenom.Value, personne.Nom.Value, personne.TypePersonne, personne.NombreAvertissement, personne.Adresse);
-			var updatedVIP = await _mediator.Send(command);
+            UpdatePersonneCommand command = new (id, personne.Prenom.Value, personne.Nom.Value, personne.TypePersonne, personne.NombreAvertissement, personne.Adresse);
+            Personne updatedVIP = await _mediator.Send(command);
 			return updatedVIP;
 		}
 	}

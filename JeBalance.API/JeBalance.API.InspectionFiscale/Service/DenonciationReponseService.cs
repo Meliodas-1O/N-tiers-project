@@ -1,11 +1,14 @@
 ﻿using JeBalance.API.InspectionFiscale.Ressources;
 using JeBalance.Domain.Commands.DenonciationCommands;
+using JeBalance.Domain.Commands.PersonneCommands;
 using JeBalance.Domain.Commands.ReponseCommands;
 using JeBalance.Domain.Models.Denonciation;
+using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Parameters;
 using JeBalance.Domain.Queries.DenonciationQueries;
 using JeBalance.Domain.Services;
+using JeBalance.DomainCommands.PersonneCommands;
 using MediatR;
 
 namespace JeBalance.API.InspectionFiscale.Service
@@ -22,7 +25,7 @@ namespace JeBalance.API.InspectionFiscale.Service
         public async Task<IEnumerable<Denonciation>> GetUnansweredDenonciation(IDenonciationParameters parameter)
         {
             var denonciationQuery = new FindDenonciationQuery(
-                parameter.Limit > 0 ? parameter.Limit : int.MaxValue,
+                parameter.Limit > 0 ? parameter.Limit : 5,
                 parameter.Offset,
                 parameter.PaysEvasion,
                 false
@@ -33,8 +36,8 @@ namespace JeBalance.API.InspectionFiscale.Service
 
         public async Task<Denonciation> FindDenonciation(string denonciationId)
         {
-            var query = new FindOneDenonciationQuery(denonciationId);
-            var denonciation = await _mediator.Send(query);
+            FindOneDenonciationQuery query = new (denonciationId);
+            Denonciation denonciation = await _mediator.Send(query);
             return denonciation;
         }
 
@@ -52,5 +55,18 @@ namespace JeBalance.API.InspectionFiscale.Service
             return denonciationUpdate;
         }
 
+        public async Task<bool> IncreaseWarningNumber(string informateurId, Personne informateur)
+        {
+            var personneUpdateQuery = new UpdatePersonneCommand(informateurId, informateur.Prenom.Value, informateur.Nom.Value, informateur.TypePersonne, informateur.NombreAvertissement+1, informateur.Adresse);
+            Personne denonciationUpdate = await _mediator.Send(personneUpdateQuery);
+            return denonciationUpdate != null;
+        }
+
+        public async Task <bool> SetCalomniateurType(string informateurId)
+        {
+            var personneUpdateQuery = new UpdateTypePersonneCommand(informateurId, TypePersonne.CALOMNIATEUR);
+            Personne denonciationUpdate = await _mediator.Send(personneUpdateQuery);
+            return denonciationUpdate != null;
+        }
     }
 }

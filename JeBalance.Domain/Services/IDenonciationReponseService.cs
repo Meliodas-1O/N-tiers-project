@@ -1,4 +1,5 @@
 ﻿using JeBalance.Domain.Models.Denonciation;
+using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Parameters;
 using System;
@@ -15,5 +16,7 @@ namespace JeBalance.Domain.Services
         Task<Denonciation> FindDenonciation(string denonciationId);
         Task<Denonciation> SetReponseInDenonciation(string denonciationId, string reponseId);
         Task<string> CreateReponse(string denonciationId, TypeReponse type, int retribution);
+        Task<bool> IncreaseWarningNumber(string informateurId, Personne informateur);
+        Task<bool> SetCalomniateurType(string informateurId);
     }
 }

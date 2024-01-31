@@ -7,9 +7,8 @@ namespace JeBalance.Presentation.Data
 {
     public class DenonciationItem
     {
-        public DateTime date {  get; set; }
-        [JsonPropertyName("reponse")]
-        public ReponseItem Reponse { get; set; } = null!;
+        public DateTime horodatage {  get; set; }
+        public ReponseItem reponse { get; set; } = null!;
         [Required(ErrorMessage = "L'Informateur est requis.")]
         public PersonneItem informateur { get; set; } = null!;
         [Required(ErrorMessage = "Le suspect est requis.")]
@@ -31,7 +30,7 @@ namespace JeBalance.Presentation.Data
             suspect = _suspect;
             paysEvasion = _paysEvasion;
             delit = _delit;
-            Reponse = reponse;
+            this.reponse = reponse;
         }
 
         public DenonciationItem() { }  

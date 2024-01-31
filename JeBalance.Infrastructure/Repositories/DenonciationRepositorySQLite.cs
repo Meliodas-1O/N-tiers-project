@@ -50,7 +50,10 @@ namespace JeBalance.Infrastructure.Repositories
 				.OrderByDescending(d => d.Horodatage)
 				.Skip(offset)
                 .Take(limit)
-				.AsEnumerable()
+                .Include(d => d.Informateur)
+                .Include(d => d.Suspect)
+                .Include(d => d.Reponse)
+                .AsEnumerable()
 				.Select(denonciation => denonciation.ToDomain());
 
 			return Task.FromResult(results);
@@ -58,18 +61,18 @@ namespace JeBalance.Infrastructure.Repositories
 
         public async Task<Denonciation?> GetOne(string id)
         {
-            var denonciation = _context.Denonciations
-                .Include(d => d.Informateur)
-                .Include(d => d.Suspect)
-                .FirstOrDefault(personne => personne.Id.Equals(id));
-			if (denonciation != null)
-			{
-				return denonciation.ToDomain();
-			}
-			else
-			{
-				return null;
-			}
+            try
+            {
+                var denonciation = await _context.Denonciations
+                    .Include(d => d.Informateur)
+                    .Include(d => d.Suspect)
+                    .Include(d => d.Reponse)
+                    .FirstOrDefaultAsync(personne => personne.Id.Equals(id));
+                return denonciation.ToDomain();
+            }
+            catch {
+                return null;
+            }
 		}
 
         public async Task<Denonciation> SetReponse(string denonciationId, string reponseId)

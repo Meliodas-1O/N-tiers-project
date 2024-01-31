@@ -11,11 +11,14 @@ namespace JeBalance.Domain.Models.Denonciation
     public class Denonciation : Entity
     {
         public DateTime Horodatage { get; set; }
+		public virtual Personne? Informateur { get; set; }
+		public virtual Personne? Suspect { get; set; }
         public string InformateurId { get; set; }
         public string SuspectId { get; set; } 
 		public Delit Delit { get; set; }
         public PaysEvasion PaysEvasion { get; set; } = null!;
 		public string? ReponseId { get; set; }
+		public virtual DenonciationReponse? Reponse { get; set; }
 		public Denonciation(string id, DateTime horodatage, string informateur, string suspect, Delit delit, string paysEvasion, string? reponseId)
 			: base(id)
 		{
@@ -41,7 +44,22 @@ namespace JeBalance.Domain.Models.Denonciation
 
 		}
 
-		public Denonciation() : base("-1")
+        public Denonciation(string id, DateTime horodatage, Personne informateur, Personne suspect, Delit delit, string paysEvasion, DenonciationReponse? reponse)
+			: base("0")
+        {
+            Horodatage = horodatage;
+            InformateurId = informateur.Id;
+            SuspectId = suspect.Id;
+            Informateur = informateur;
+            Suspect = suspect;
+            Delit = delit;
+            PaysEvasion = new PaysEvasion(paysEvasion);
+            Reponse = reponse;
+			ReponseId = reponse != null ? reponse.Id : null;
+            Id = id.ToString();
+        }
+
+        public Denonciation() : base("-1")
         {
         }
 		private string GenerateId()
