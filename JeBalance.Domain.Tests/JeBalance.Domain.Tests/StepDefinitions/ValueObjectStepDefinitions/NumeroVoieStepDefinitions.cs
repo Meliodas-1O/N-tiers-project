@@ -11,15 +11,15 @@ namespace JeBalance.Domain.Tests.StepDefinitions.ValueObjectStepDefinitions
         private int _numeroVoieValue;
         private Exception _exception;
 
-        [Given(@"un numero de voie valide (.*)")]
-        public void GivenUnNumeroDeVoieValide(int p0)
+        [Given(@"un numero  voie valide (.*)")]
+        public void GivenUnNumeroVoieValide(int p0)
         {
             _numeroVoieValue = p0;
             _numeroVoie = new NumeroVoie(_numeroVoieValue);
         }
 
-        [When(@"le numero de voie est cree")]
-        public void WhenLeNumeroDeVoieEstCree()
+        [When(@"le numero voie est cree")]
+        public void WhenLeNumeroVoieEstCree()
         {
             try
             {
@@ -31,14 +31,14 @@ namespace JeBalance.Domain.Tests.StepDefinitions.ValueObjectStepDefinitions
             }
         }
 
-        [Then(@"le numero de voie est (.*)")]
-        public void ThenLeNumeroDeVoieEst(int p0)
+        [Then(@"le numero  voie est (.*)")]
+        public void ThenLeNumeroVoieEst(int p0)
         {
             Assert.Equal(p0, _numeroVoie.Value);
         }
 
-        [Given(@"un numero de voie inferieur a (.*)")]
-        public void GivenUnNumeroDeVoieInferieurA(int p0)
+        [Given(@"un numero  voie inferieur a (.*)")]
+        public void GivenUnNumeroVoieInferieurA(int p0)
         {
             _exception = null;
             try
@@ -51,15 +51,15 @@ namespace JeBalance.Domain.Tests.StepDefinitions.ValueObjectStepDefinitions
             }
         }
 
-        [Then(@"une exception est levee pour numeroVoie avec le message ""([^""]*)""")]
-        public void ThenUneExceptionEstLeveePourNumeroVoieAvecLeMessage(string p0)
+        [Then(@"une exception est levee pour numeroVoie avec message ""([^""]*)""")]
+        public void ThenUneExceptionEstLeveePourNumeroVoieAvecMessage(string p0)
         {
             Assert.NotNull(_exception);
             Assert.Equal(p0, _exception.Message);
         }
 
-        [Given(@"un numero de voie superieur a (.*)")]
-        public void GivenUnNumeroDeVoieSuperieurA(int p0)
+        [Given(@"un numero  voie superieur a (.*)")]
+        public void GivenUnNumeroVoieSuperieurA(int p0)
         {
             _exception = null;
             _numeroVoieValue = p0 + 1;

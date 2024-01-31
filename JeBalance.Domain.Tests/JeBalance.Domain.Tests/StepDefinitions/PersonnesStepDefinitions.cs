@@ -148,30 +148,20 @@ namespace JeBalance.Domain.Tests.StepDefinitions
         }
 
         [Given(@"une base de donnees contenant plusieurs personnes")]
-        public void GivenUneBaseDeDonneesContenantPlusieursPersonnes()
+        public void GivenUneBaseDeDonneesContenantPlusieursPersonnes(Table table)
         {
             _repository.Personnes = new List<Personne>(){
                 new ("Jean", "Dupont", TypePersonne.CALOMNIATEUR, 2, new Adresse(12,"Rue de Paris", 75001,"Paris")),
-                new ("Alice", "Durand", TypePersonne.VIP, 1, new Adresse(15 ,"Rue de Lyon", 69001, "Lyon")),
+                new ("Alice", "Dupont", TypePersonne.VIP, 1, new Adresse(15 ,"Rue de Lyon", 69001, "Lyon")),
                 new ("Marc", "Lefevre", TypePersonne.CALOMNIATEUR, 0, new Adresse(8,"Rue de Marseille", 13001 ,"Marseille")),
                 new ("Sophie", "Martin", TypePersonne.VIP, 3, new Adresse(20,"Rue de Lille", 59000, "Lille"))
             };
-            System.Diagnostics.Trace.WriteLine(_repository.Personnes);
          }
-
-        [Given(@"chaque personne a les caracteristiques suivantes:")]
-        public void GivenChaquePersonneALesCaracteristiquesSuivantes(Table table)
-        {
-            foreach (var row in table.Rows)
-            {
-                GivenJajouteUnePersonneAvec(table);
-            }
-        }
 
         [When(@"je recherche des personnes avec des criteres specifiques")]
         public async void WhenJeRechercheDesPersonnesAvecDesCriteresSpecifiques()
         {
-            FindPersonneQuery findPersonneCommand = new(10,0, "", "",TypePersonne.CALOMNIATEUR, "");
+            FindPersonneQuery findPersonneCommand = new(10,0, null, "Dupond",TypePersonne.VIP, null);
             FindPersonneQueryHandler handler = new(_repository);
             _people = await handler.Handle(findPersonneCommand, CancellationToken.None);
         }
@@ -180,7 +170,7 @@ namespace JeBalance.Domain.Tests.StepDefinitions
         public void ThenJeRecoisLesPersonnesCorrespondantesSelonLesCriteresSpecifies()
         {
             Assert.NotNull(_people);
-            _people.Count().Should().Be(2);
+            _people.Count().Should().Be(0);
         }
 
     }

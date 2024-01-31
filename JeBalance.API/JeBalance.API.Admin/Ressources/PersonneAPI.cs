@@ -17,6 +17,10 @@ namespace JeBalance.API.Admin.Ressources
 
 		public static new PersonneAPI FromPersonne(Personne personne)
 		{
+			if(personne == null)
+			{
+				return null;
+			}
 			return new PersonneAPI
 			{
 				Id = personne.Id,

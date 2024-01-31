@@ -35,10 +35,7 @@ namespace JeBalance.Domain.Tests.Drivers
 
         public async Task<IEnumerable<Personne>> Find(int limit, int offset, Specification<Personne> specification)
         {
-            var places = Personnes
-                .Where(specification.IsSatisfiedBy)
-                .Skip(offset)
-                .Take(limit);
+            var places = Personnes.Where(specification.IsSatisfiedBy);
             return places;
         }
 

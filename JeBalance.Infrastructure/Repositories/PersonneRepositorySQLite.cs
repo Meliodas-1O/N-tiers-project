@@ -68,7 +68,7 @@ namespace JeBalance.Infrastructure.Repositories
 	
 		public async Task<Personne?> GetOne(string id)
         {
-			var personne = _context.Personnes.FirstOrDefault(p => p.Id.Equals(id));
+			var personne =await _context.Personnes.FirstOrDefaultAsync(p => p.Id.Equals(id));
 			if (personne != null)
 			{
 				return personne.ToDomain();

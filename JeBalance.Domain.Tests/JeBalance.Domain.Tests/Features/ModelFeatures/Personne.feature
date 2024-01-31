@@ -31,7 +31,6 @@ Scenario: Recuperer une personne de type "VIP"
 
 Scenario: Rechercher des personnes specifiques
     Given une base de donnees contenant plusieurs personnes
-    And chaque personne a les caracteristiques suivantes:
         | Prénom  | Nom       | Type         | Avertissements | Adresse                        |
         | "Jean"  | "Dupont"  | "CALOMNIATEUR" | 2            | "12 Rue de Paris, 75001 Paris" |
         | "Alice" | "Durand"  | "VIP"        | 1            | "15 Rue de Lyon, 69001 Lyon"   |
