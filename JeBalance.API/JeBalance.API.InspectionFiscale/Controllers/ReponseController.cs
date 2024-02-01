@@ -30,52 +30,60 @@ namespace JeBalance.API.InspectionFiscale.Controllers
 		public async Task<IActionResult> Get([FromQuery] FindDenonciationParameters parameter)
 		{
 			var denonciation = await _denonciationReponseService.GetUnansweredDenonciation(parameter);
-			return Ok(denonciation.Select(d=> DenonciationAPI.FromDenonciation(d)));
+			return Ok(DenonciationAPI.PaginationFromDenonciations(denonciation));
 		}
 
         // POST api/<ValuesController>
         [HttpPost("{denonciationId}/reponse")]
 		public async Task<IActionResult> Post(string denonciationId, [FromBody] ReponseAPI reponseAPI)
 		{
-            if(reponseAPI.Type !=TypeReponse.REJET && reponseAPI.Type != TypeReponse.CONFIRMATION)
+            try
             {
-                return StatusCode(400, "Desolé, vos paramètres pour délit sont invalides.");
-
-            }
-            Denonciation denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);
-            if (denonciation == null)
-            {
-                return StatusCode(404 , "Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
-            }
-            if (denonciation.ReponseId != null || denonciation.Reponse != null)
-            {
-                return StatusCode(403, "Desolé, cette dénonciation a obtenue une réponse. ");
-
-            }
-            if(reponseAPI.Type==TypeReponse.REJET)
-            {
-                string informateurId = denonciation.InformateurId;
-                if(denonciation.Informateur!.NombreAvertissement == 2)
+                if (reponseAPI.Type != TypeReponse.REJET && reponseAPI.Type != TypeReponse.CONFIRMATION)
                 {
-                    await _denonciationReponseService.SetCalomniateurType(informateurId);
+                    return StatusCode(400, "Desolé, vos paramètres pour délit sont invalides.");
+
                 }
-                else
+                Denonciation denonciation = await _denonciationReponseService.FindDenonciation(denonciationId);
+                if (denonciation == null)
                 {
-                   await _denonciationReponseService.IncreaseWarningNumber(informateurId, denonciation.Informateur!);
+                    return StatusCode(404, "Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
                 }
+                if (denonciation.ReponseId != null || denonciation.Reponse != null)
+                {
+                    return StatusCode(400, "Desolé, cette dénonciation a obtenue une réponse. ");
+
+                }
+                if (reponseAPI.Type == TypeReponse.REJET)
+                {
+                    string informateurId = denonciation.InformateurId;
+                    if (denonciation.Informateur!.NombreAvertissement == 2)
+                    {
+                        await _denonciationReponseService.SetCalomniateurType(informateurId);
+                    }
+                    else
+                    {
+                        await _denonciationReponseService.IncreaseWarningNumber(informateurId, denonciation.Informateur!);
+                    }
+                }
+                string reponseId = await _denonciationReponseService.CreateReponse(denonciationId, reponseAPI.Type, reponseAPI.Retribution);
+                if (reponseId == null)
+                {
+                    return StatusCode(500, "Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+                }
+
+                Denonciation denonciationUpdate = await _denonciationReponseService.SetReponseInDenonciation(denonciationId, reponseId);
+                if (denonciationUpdate == null)
+                {
+                    return StatusCode(500, "Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+                }
+                return Ok("Réponse ajoutée à la dénonciation avec success.");
             }
-            string reponseId = await _denonciationReponseService.CreateReponse(denonciationId, reponseAPI.Type, reponseAPI.Retribution);
-            if (reponseId == null)
+            catch (Exception e)
             {
-                return StatusCode(500 ,"Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+                return BadRequest(e.Message); 
             }
 
-            Denonciation denonciationUpdate = await _denonciationReponseService.SetReponseInDenonciation(denonciationId, reponseId);
-            if (denonciationUpdate == null)
-            {
-                return StatusCode(500, "Une erreur est survenue. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
-            }
-            return Ok("Réponse ajoutée à la dénonciation avec success.");
         }
 
 	}

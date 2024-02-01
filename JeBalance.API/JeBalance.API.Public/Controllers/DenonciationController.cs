@@ -22,18 +22,17 @@ namespace JeBalance.Public.API.Controllers
 		public async Task<ActionResult> CreateDenonciation([FromBody] DenonciationAPICreation denonciationApi)
 		{
 			try { 
-						
 				Personne informateur = denonciationApi.Informateur.ToPersonne();
 				Personne suspect = denonciationApi.Suspect.ToPersonne();
 				if (informateur == null || suspect == null)
 				{
-					return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Les informations sur l'informateur ou le suspect sont invalides.");
+					return StatusCode(500, "Une erreur s'est produite lors du traitement de la requï¿½te. Les informations sur l'informateur ou le suspect sont invalides.");
 				}
 
 				bool estCalomniateur = await _personneService.EstCalomniateur(informateur);
 				if (estCalomniateur)
 				{
-					return StatusCode(403, "Vous êtes banni de ce site et n'avez plus le droit de créer des dénonciations.");
+					return StatusCode(400, "Vous ï¿½tes banni de ce site et n'avez plus le droit de crï¿½er des dï¿½nonciations.");
 				}
 
 				string informateurId = await _personneService.GetOrCreatePersonId(informateur);
@@ -43,9 +42,9 @@ namespace JeBalance.Public.API.Controllers
 					Personne calomniateurInformateur = await _personneService.ChangeStatus(informateurId, TypePersonne.CALOMNIATEUR);
 					if (calomniateurInformateur != null)
 					{
-						return StatusCode(403, "Vous êtes banni de ce site et n'avez plus le droit de créer des dénonciations.");
+						return StatusCode(400, "Vous ï¿½tes banni de ce site et n'avez plus le droit de crï¿½er des dï¿½nonciations.");
 					}
-					return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement.");
+					return StatusCode(500, "Une erreur s'est produite lors du traitement de la requï¿½te. Veuillez rï¿½essayer ultï¿½rieurement.");
 				}
 				string suspectId = await _personneService.GetOrCreatePersonId(suspect);
 				Denonciation denonciation = new(DateTime.Now, informateurId, suspectId, denonciationApi.Delit, denonciationApi.PaysEvasion, null);
@@ -53,7 +52,7 @@ namespace JeBalance.Public.API.Controllers
 				string id = await _denonciationService.GetOrCreateDenonciation(denonciation);
 				if (string.IsNullOrEmpty(id))
 				{
-					return StatusCode(500, "Une erreur s'est produite lors du traitement de la requête. Veuillez réessayer ultérieurement.");
+					return StatusCode(500, "Une erreur s'est produite lors du traitement de la requï¿½te. Veuillez rï¿½essayer ultï¿½rieurement.");
 				}
 				return Ok(id);
 			}
@@ -71,7 +70,7 @@ namespace JeBalance.Public.API.Controllers
             DenonciationAPI? denonciation = await _denonciationService.GetDenonciation(id);
 			if (denonciation == null)
 			{
-				return StatusCode(404, $"Aucune Dénonciation correspondante n'a été trouvée. Veuillez vérifier l'Id de la dénonciation ou réessayer ultérieurement");
+				return StatusCode(404, $"Aucune Dï¿½nonciation correspondante n'a ï¿½tï¿½ trouvï¿½e. Veuillez vï¿½rifier l'Id de la dï¿½nonciation ou rï¿½essayer ultï¿½rieurement");
 			}
 			return Ok(denonciation);
         }

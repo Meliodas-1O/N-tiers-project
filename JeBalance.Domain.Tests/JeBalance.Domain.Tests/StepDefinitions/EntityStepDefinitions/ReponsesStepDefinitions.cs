@@ -1,15 +1,9 @@
 using JeBalance.Domain.Commands.ReponseCommands;
 using JeBalance.Domain.Models.Denonciation;
-using JeBalance.Domain.Models.Person;
 using JeBalance.Domain.Models.Reponse;
-using JeBalance.Domain.Queries.PersonneQueries;
 using JeBalance.Domain.Queries.ReponseQueries;
 using JeBalance.Domain.Tests.Drivers;
-using JeBalance.DomainCommands.PersonneCommands;
-using System;
-using TechTalk.SpecFlow;
-
-namespace JeBalance.Domain.Tests.StepDefinitions
+namespace JeBalance.Domain.Tests.StepDefinitions.EntityStepDefinitions
 {
     [Binding]
     public class ReponsesStepDefinitions
@@ -117,7 +111,7 @@ namespace JeBalance.Domain.Tests.StepDefinitions
         public void ThenLaRetributionDeLaReponseEstMiseAJourAvecSuccesDansLaBaseDeDonnees()
         {
             Assert.Null(_exception);
-            Assert.True(_reponse.Type==TypeReponse.REJET);
+            Assert.True(_reponse.Type == TypeReponse.REJET);
         }
 
         [When(@"je supprime cette reponse de la base de donnees")]

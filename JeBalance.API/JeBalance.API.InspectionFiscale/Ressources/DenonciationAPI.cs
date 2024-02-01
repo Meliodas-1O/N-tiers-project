@@ -1,11 +1,12 @@
-﻿using JeBalance.Domain.Models.Denonciation;
+﻿using JeBalance.API.InspectionFiscale.Models;
+using JeBalance.Domain.Models.Denonciation;
+using System.Globalization;
 
 namespace JeBalance.API.InspectionFiscale.Ressources
 {
     public class DenonciationAPI
     {
-        public ReponseAPI? Reponse { get; set; }
-        public DateTime Horodatage { get; set; }
+        public string Horodatage { get; set; }
         public string? Id { get; set; }
         public PersonneAPI Informateur { get; set; }
         public PersonneAPI Suspect { get; set; }
@@ -13,24 +14,31 @@ namespace JeBalance.API.InspectionFiscale.Ressources
         public Delit Delit { get; set; }
         public DenonciationAPI() { }
 
-        public Denonciation ToDenonciation()
-        {
-            Denonciation denonciation = new(DateTime.Now, (string)Informateur.Id!, (string)Suspect.Id!, Delit, PaysEvasion, null);
-            return denonciation;
-        }
-
         public static DenonciationAPI FromDenonciation(Denonciation denonciation)
         {
+            CultureInfo culture = new ("fr-FR");
+
+            DateTime date = denonciation.Horodatage;
+            string formatedReponseTime = $"{date.ToString("dddd, dd MMMM yyyy", culture)}, {date.ToString("HH'h' mm", culture)}";
+
             return new DenonciationAPI
             {
                 Id = denonciation.Id,
                 Informateur = PersonneAPI.FromPersonne(denonciation.Informateur!),
                 Suspect = PersonneAPI.FromPersonne(denonciation.Suspect!),
-                Reponse = denonciation.Reponse != null ? ReponseAPI.FromReponse(denonciation.Reponse) : null,
-                Horodatage = denonciation.Horodatage,
+                Horodatage = formatedReponseTime,
                 Delit = denonciation.Delit,
                 PaysEvasion = denonciation.PaysEvasion.Value,
             };
+        }
+        public static Pagination PaginationFromDenonciations(IEnumerable<Denonciation> denonciations)
+        {
+            Pagination pagination = new ()
+            {
+                Data = denonciations.Select(d => FromDenonciation(d)),
+                Length = denonciations.Count()
+            };
+            return pagination;
         }
     }
 }
