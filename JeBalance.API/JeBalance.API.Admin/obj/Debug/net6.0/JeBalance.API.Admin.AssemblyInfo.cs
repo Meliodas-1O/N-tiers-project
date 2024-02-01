@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JeBalance.API.Admin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a34671d8e88e7e62c5205062211d371a92ee29d6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73f9fdea7c597f68481f470a2ba04efaa2215f2a")]
 [assembly: System.Reflection.AssemblyProductAttribute("JeBalance.API.Admin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JeBalance.API.Admin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
