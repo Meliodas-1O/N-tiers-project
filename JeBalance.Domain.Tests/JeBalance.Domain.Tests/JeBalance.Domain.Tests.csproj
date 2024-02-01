@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Drivers\" />
+    <Folder Include="Features\ModelFeatures\" />
     <Folder Include="Support\" />
   </ItemGroup>
 

@@ -52,6 +52,7 @@ namespace JeBalance.API.Admin.Services
 
 		public async Task<string> GetOrCreateVIPId(Personne personne)
 		{
+
             FindPersonneQuery existingVIPQuery = new (int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, TypePersonne.VIP, personne.Adresse.Value);
 			IEnumerable<Personne> existingVIP = await _mediator.Send(existingVIPQuery);
 
@@ -76,7 +77,7 @@ namespace JeBalance.API.Admin.Services
             return updatedVIP;
 		}
 
-		public async Task<Personne> UpdateVIP(string id, Personne personne)
+		public async Task<Personne?> UpdateVIP(string id, Personne personne)
 		{
 			Personne dbPersonne = await GetOneVIP(id);
 			bool sameNom = dbPersonne.Nom.Value == personne.Nom.Value;

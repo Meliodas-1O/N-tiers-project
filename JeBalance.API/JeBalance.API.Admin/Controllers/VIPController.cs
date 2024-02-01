@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JeBalance.API.Admin.Controllers
 {
-	[Authorize(Roles = UserRole.Admin)]
-	[Route("api/vip/")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRole.Admin)]
+    [Route("api/vip/")]
 	[ApiController]
 	public class VIPController : ControllerBase
 	{
@@ -22,14 +22,14 @@ namespace JeBalance.API.Admin.Controllers
 			_VIPService = vipService;
 		}
 
-		[HttpGet("vip")]
+		[HttpGet]
 		public async Task<IActionResult> Get([FromQuery] FindVIParameters parameter)
 		{
 			IEnumerable<Personne> vips = await _VIPService.GetAll(parameter);
 			Response.Headers.Add("X-Pagination-Limit", parameter.Limit.ToString());
 			Response.Headers.Add("X-Pagination-Offset", parameter.Offset.ToString());
 			Response.Headers.Add("X-Pagination-Count", vips.Count().ToString());
-			return Ok(vips);
+			return Ok(vips.Select(v => PersonneAPI.FromPersonne(v)));
 		}
 
 		// GET api/<VIPController>/5
@@ -37,7 +37,11 @@ namespace JeBalance.API.Admin.Controllers
 		public async Task<ActionResult> Get(string id)
 		{
 			Personne personne = await _VIPService.GetOneVIP(id);
-			return Ok(PersonneAPI.FromPersonne(personne));
+			if(personne == null)
+			{
+                return NotFound("Id invalide. VIP non trouvé !");
+            }
+            return Ok(PersonneAPI.FromPersonne(personne));
 		}
 
 		// POST api/<VIPController>
@@ -64,6 +68,11 @@ namespace JeBalance.API.Admin.Controllers
 		{
 			try
 			{
+                Personne dbPersonne = await _VIPService.GetOneVIP(id);
+                if (dbPersonne == null)
+                {
+                    return NotFound("Id invalide. VIP non trouvé !");
+                }
                 Personne personne = personneAPI.ToPersonne();
                 Personne updatedPersonne = await _VIPService.UpdateVIP(id, personne);
                 return Ok(PersonneAPI.FromPersonne(updatedPersonne));
@@ -78,7 +87,12 @@ namespace JeBalance.API.Admin.Controllers
 		[HttpPut("{id}/type")]
 		public async Task<ActionResult> SetType(string id, [FromBody] UpdateStatusAPI personneAPI)
 		{
-			Personne updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
+            Personne dbPersonne = await _VIPService.GetOneVIP(id);
+            if (dbPersonne == null)
+            {
+                return NotFound("Id invalide. VIP non trouvé !");
+            }
+            Personne updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
 			return Ok(PersonneAPI.FromPersonne(updateVipId));
 		}
 
@@ -86,7 +100,12 @@ namespace JeBalance.API.Admin.Controllers
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(string id)
 		{
-			string deletedVIPId = await _VIPService.DeleteVIP(id);
+            Personne dbPersonne = await _VIPService.GetOneVIP(id);
+            if (dbPersonne == null)
+            {
+                return NotFound("Id invalide. VIP non trouvé !");
+            }
+            string deletedVIPId = await _VIPService.DeleteVIP(id);
 			return Ok(deletedVIPId);
 		}
 	}

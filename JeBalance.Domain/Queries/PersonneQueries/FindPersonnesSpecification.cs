@@ -26,7 +26,7 @@ namespace JeBalance.Domain.Queries.AdresseQueries
 
 		public override Expression<Func<Personne, bool>> ToExpression()
 		{
-			return personne =>
+            return personne =>
 				(personne.Prenom.Equals(_prenom) || _prenom == string.Empty) &&
 				(personne.Nom.Equals(_nom) || _nom == string.Empty) &&
 				( personne.TypePersonne.Equals(_typePersonne) || TypePersonne.NONE.Equals(_typePersonne))&&
