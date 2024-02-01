@@ -1,7 +1,11 @@
 ﻿@page "/suivi"
 @using System.Text.Json;
 @using Newtonsoft.Json;
-<PageTitle>Weather forecast</PageTitle>
+@using System.Globalization;
+
+<PageTitle>
+    Suivi de dénonciation
+</PageTitle>
 @inject IJSRuntime JSRuntime
 
 @using JeBalance.Presentation.Data
@@ -32,7 +36,7 @@
             <p>Nom: @denonciation.suspect.nom</p>
             <p>Adresse: @denonciation.suspect.adresse.numeroVoie @denonciation.suspect.adresse.nomVoie, @denonciation.suspect.adresse.codePostal @denonciation.suspect.adresse.commune</p>
 
-            <h3>Informations supplémentaires</h3>
+            <h3>Informations de la dénonciation</h3>
             <p>Pays d'évasion: @denonciation.paysEvasion</p>
             <p>Délit: @denonciation.delit</p>
         </div>
@@ -85,11 +89,12 @@ else
 
         if (response.IsSuccessStatusCode)
         {
+            CultureInfo culture = new CultureInfo("fr-FR");
             string content = await response.Content.ReadAsStringAsync();
             denonciation = JsonConvert.DeserializeObject<DenonciationItem>(content);
             await LogMessage($"MDRR recherche de la dénonciation avec l'ID : {content}");
-            formatedDenonciationTime = $"{denonciation.horodatage.ToString("dddd, dd MMMM yyyy")}, {denonciation.horodatage.ToString("HH'h' mm")}";
-            formatedReponseTime = $"{denonciation.reponse?.date.ToString("dddd, dd MMMM yyyy")}, {denonciation.reponse?.date.ToString("HH'h' mm")}";
+            formatedDenonciationTime = $"{denonciation.horodatage.ToString("dddd, dd MMMM yyyy", culture)}, {denonciation.horodatage.ToString("HH'h' mm", culture)}";
+            formatedReponseTime = $"{denonciation.reponse?.date.ToString("dddd, dd MMMM yyyy",culture)}, {denonciation.reponse?.date.ToString("HH'h' mm", culture)}";
         }
         else
         {
