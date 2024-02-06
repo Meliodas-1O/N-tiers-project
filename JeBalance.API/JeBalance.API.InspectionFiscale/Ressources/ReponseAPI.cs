@@ -14,11 +14,6 @@ namespace JeBalance.API.InspectionFiscale.Ressources
 		public string? DenonciationId { get; set; }
 		public ReponseAPI() { }
 
-        public DenonciationReponse ToReponse()
-        {
-            return new(DateTime.Now, Type, Retribution, DenonciationId);
-        }
-
         public static ReponseAPI FromReponse(DenonciationReponse reponse)
         {
             return new ReponseAPI()

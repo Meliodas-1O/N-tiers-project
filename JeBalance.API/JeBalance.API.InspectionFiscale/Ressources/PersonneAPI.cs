@@ -14,13 +14,6 @@ namespace JeBalance.API.InspectionFiscale.Ressources
         public string? TypePersonne { get; set; }
         public PersonneAPI() { }
 
-        public Personne ToPersonne()
-        {
-            Adresse adresse = new(Adresse.NumeroVoie, Adresse.NomVoie, Adresse.CodePostal, Adresse.Commune); ;
-            Personne personne = new(Prenom, Nom, 0, adresse);
-            return personne;
-        }
-
         public static PersonneAPI FromPersonne(Personne personne)
         {
             PersonneAPI personneApi = new()

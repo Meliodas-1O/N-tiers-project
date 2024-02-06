@@ -7,7 +7,7 @@ using JeBalance.DomainCommands.PersonneCommands;
 using System;
 using TechTalk.SpecFlow;
 
-namespace JeBalance.Domain.Tests.StepDefinitions
+namespace JeBalance.Domain.Tests.StepDefinitions.EntityStepDefinitions
 {
     [Binding]
     public class PersonnesStepDefinitions
@@ -42,8 +42,8 @@ namespace JeBalance.Domain.Tests.StepDefinitions
             string type = "CALOMNIATEUR";
             TypePersonne typePersonne = (TypePersonne)Enum.Parse(typeof(TypePersonne), type);
             int nombreAvertissement = int.Parse(personneData["Avertissements"]);
-            CreatePersonneCommand nouvellePersonneCommand = new (prenom, nom, typePersonne, nombreAvertissement, new Adresse(12, "Rue de Paris", 75001, "Paris"));
-            CreatePersonneCommandHandler handler = new (_repository);
+            CreatePersonneCommand nouvellePersonneCommand = new(prenom, nom, typePersonne, nombreAvertissement, new Adresse(12, "Rue de Paris", 75001, "Paris"));
+            CreatePersonneCommandHandler handler = new(_repository);
             _result = await handler.Handle(nouvellePersonneCommand, CancellationToken.None);
             _personne = _repository.Personnes.First();
         }
@@ -71,7 +71,7 @@ namespace JeBalance.Domain.Tests.StepDefinitions
         public async void WhenJeMetsAJourLeTypeDeCettePersonneA(string vIP)
         {
             TypePersonne typePersonne = (TypePersonne)Enum.Parse(typeof(TypePersonne), vIP);
-            UpdateTypePersonneCommand updateTypePersonneCommand = new(_personne.Id,typePersonne);
+            UpdateTypePersonneCommand updateTypePersonneCommand = new(_personne.Id, typePersonne);
             UpdateTypePersonneCommandHandler handler = new(_repository);
             _personneBis = await handler.Handle(updateTypePersonneCommand, CancellationToken.None);
         }
@@ -156,12 +156,12 @@ namespace JeBalance.Domain.Tests.StepDefinitions
                 new ("Marc", "Lefevre", TypePersonne.CALOMNIATEUR, 0, new Adresse(8,"Rue de Marseille", 13001 ,"Marseille")),
                 new ("Sophie", "Martin", TypePersonne.VIP, 3, new Adresse(20,"Rue de Lille", 59000, "Lille"))
             };
-         }
+        }
 
         [When(@"je recherche des personnes avec des criteres specifiques")]
         public async void WhenJeRechercheDesPersonnesAvecDesCriteresSpecifiques()
         {
-            FindPersonneQuery findPersonneCommand = new(10,0, null, "Dupond",TypePersonne.VIP, null);
+            FindPersonneQuery findPersonneCommand = new(10, 0, null, "Dupond", TypePersonne.VIP, null);
             FindPersonneQueryHandler handler = new(_repository);
             _people = await handler.Handle(findPersonneCommand, CancellationToken.None);
         }

@@ -9,7 +9,7 @@ using JeBalance.Domain.ValueObjects;
 using System;
 using TechTalk.SpecFlow;
 
-namespace JeBalance.Domain.Tests.StepDefinitions
+namespace JeBalance.Domain.Tests.StepDefinitions.EntityStepDefinitions
 {
     [Binding]
     public class DenonciatoinStepDefinitions
@@ -103,7 +103,7 @@ namespace JeBalance.Domain.Tests.StepDefinitions
         public async Task WhenJeMetsEJourLaReponseDeLaDenonciation()
         {
             var reponseId = "NouvelleReponseId";
-            SetReponseCommand setReponseCommand = new(_denonciation.Id,reponseId);
+            SetReponseCommand setReponseCommand = new(_denonciation.Id, reponseId);
             SetReponseCommandHandler handler = new(_repository);
             _denonciation = await handler.Handle(setReponseCommand, CancellationToken.None);
         }
