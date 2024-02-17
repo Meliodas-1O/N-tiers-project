@@ -10,8 +10,8 @@ namespace JeBalance.Domain.Queries.ReponseQueries
 {
     public class FindOneReponseQuery : IRequest<DenonciationReponse>
 	{
-		public int Id { get; }
+		public string Id { get; }
 
-		public FindOneReponseQuery(int id) => Id = id;
+		public FindOneReponseQuery(string id) => Id = id;
 	}
 }

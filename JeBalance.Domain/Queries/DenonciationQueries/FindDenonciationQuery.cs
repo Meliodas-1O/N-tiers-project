@@ -4,11 +4,6 @@ using JeBalance.Domain.Models.Reponse;
 using JeBalance.Domain.Queries.AdresseQueries;
 using JeBalance.Domain.ValueObjects;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Queries.DenonciationQueries
 {
@@ -18,10 +13,10 @@ namespace JeBalance.Domain.Queries.DenonciationQueries
 
 		public FindDenonciationsSpecification Specification { get; }
 
-		public FindDenonciationQuery(int limit, int offset, DateTime Horodatage, Personne Informateur, Personne Suspect, Delit delit, PaysEvasion PaysEvasion, TypeReponse ReponseType)
+		public FindDenonciationQuery(int limit, int offset, string? PaysEvasion, bool? estRepondu)
 		{
 			Pagination = (limit, offset);
-			Specification = new FindDenonciationsSpecification(Horodatage, Informateur, Suspect, delit, PaysEvasion, ReponseType);
+			Specification = new FindDenonciationsSpecification(PaysEvasion, estRepondu);
 		}
-		}
+	}
 }

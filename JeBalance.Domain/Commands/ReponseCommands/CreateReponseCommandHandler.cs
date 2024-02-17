@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.ReponseCommands
 {
-	public class CreateReponseCommandHandler : IRequestHandler<CreateReponseCommand, int>
+	public class CreateReponseCommandHandler : IRequestHandler<CreateReponseCommand, string>
 	{
 		private readonly IReponseRepository _repository;
 
 		public CreateReponseCommandHandler(IReponseRepository repository) => _repository = repository;
 
-		public Task<int> Handle(CreateReponseCommand command, CancellationToken cancellationToken)
+		public Task<string> Handle(CreateReponseCommand command, CancellationToken cancellationToken)
 		{
 			return _repository.Create(command.Reponse);
 		}

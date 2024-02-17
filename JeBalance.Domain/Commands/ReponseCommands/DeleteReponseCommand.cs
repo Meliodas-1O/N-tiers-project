@@ -9,7 +9,7 @@ namespace JeBalance.Domain.Commands.ReponseCommands
 {
 	public class DeleteReponseCommand : IRequest<bool>
 	{
-		public int Id { get; }
-		public DeleteReponseCommand(int id) => Id = id;
+		public string Id { get; }
+		public DeleteReponseCommand(string id) => Id = id;
 	}
 }

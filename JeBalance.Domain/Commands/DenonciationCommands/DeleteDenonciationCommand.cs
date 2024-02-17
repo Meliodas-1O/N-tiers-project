@@ -9,7 +9,7 @@ namespace JeBalance.Domain.Commands.DenonciationCommands
 {
 	public class DeleteDenonciationCommand : IRequest<bool>
 	{
-		public int Id { get; }
-		public DeleteDenonciationCommand(int id) => Id = id;
+		public string Id { get; }
+		public DeleteDenonciationCommand(string id) => Id = id;
 	}
 }

@@ -14,26 +14,24 @@ namespace JeBalance.Domain.Queries.AdresseQueries
 	{
 		private readonly string _prenom ;
 		private readonly string _nom ;
-		private readonly TypePersonne _typePersonne;
-		private readonly int _nombreAvertissement;
-		private readonly Adresse _adresse ;
-		public FindPersonnesSpecification(string? Prenom, string? Nom, TypePersonne? PersonneType, int? NombreAvertissement, Adresse? Adresse)
+		private readonly string _typePersonne;
+		private readonly string _adresse;
+		public FindPersonnesSpecification(string? Prenom, string? Nom, string? PersonneType, string adresse)
 		{
-			_prenom = Prenom?.Trim()?.ToLower() ?? string.Empty;
-			_nom = Nom?.Trim()?.ToLower() ?? string.Empty;
-			_typePersonne = PersonneType ?? TypePersonne.NONE;
-			_nombreAvertissement = NombreAvertissement ?? 0;
-			_adresse = Adresse ?? new Adresse(0,"none",0,"none");
+			_prenom = Prenom?.Trim() ?? string.Empty;
+			_nom = Nom?.Trim() ?? string.Empty;
+			_typePersonne = PersonneType ?? "VIP";
+			_adresse = adresse?.Trim() ?? string.Empty;
 		}
 
 		public override Expression<Func<Personne, bool>> ToExpression()
 		{
-			return personne =>
-				(string.IsNullOrEmpty(_prenom) || personne.Prenom.Value.ToLower().Contains(_prenom)) &&
-				(string.IsNullOrEmpty(_nom) || personne.Nom.Value.ToLower().Contains(_nom)) &&
-				(!_typePersonne.Equals(TypePersonne.NONE) || personne.TypePersonne.Equals(_typePersonne)) &&
-				(_nombreAvertissement == 0|| personne.NombreAvertissement == _nombreAvertissement) &&
-				(_adresse.NomVoie.Equals("none") || (personne.Adresse != null && personne.Adresse.Id.Equals(_adresse.Id)));
+            return personne =>
+				(personne.Prenom.Equals(_prenom) || _prenom == string.Empty) &&
+				(personne.Nom.Equals(_nom) || _nom == string.Empty) &&
+				( personne.TypePersonne.Equals(_typePersonne) || TypePersonne.NONE.Equals(_typePersonne))&&
+				(personne.Adresse.Equals(_adresse) || _adresse == string.Empty);
+				;
 		}
 	}
 }

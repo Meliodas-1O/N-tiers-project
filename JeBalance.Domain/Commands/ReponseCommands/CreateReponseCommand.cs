@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.ReponseCommands
 {
-	public class CreateReponseCommand : IRequest<int>
+	public class CreateReponseCommand : IRequest<string>
 	{
 		public DenonciationReponse Reponse { get; set; }
-		public CreateReponseCommand(DateTime timestamp, TypeReponse type, int retribution)
-			=> Reponse = new DenonciationReponse(timestamp, type, retribution);
+		public CreateReponseCommand(DateTime timestamp, TypeReponse type, int retribution, string denonciationId)
+			=> Reponse = new DenonciationReponse(timestamp, type, retribution, denonciationId);
 	}
 }

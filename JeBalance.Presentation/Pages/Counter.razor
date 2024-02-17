@@ -1,0 +1,176 @@
+﻿@page "/creation"
+
+@using System.Text.Json;
+@using JeBalance.Presentation.Data;
+@using JeBalance.Domain.Models.Denonciation;
+@using System.Text;
+@using System.Net.Http;
+@using System.Threading.Tasks;
+@using JeBalance.Presentation.Models;
+
+<PageTitle>Create Denunciation</PageTitle>
+
+<h1>Création de dénonciation</h1>
+
+<EditForm Model="@FormModel" OnValidSubmit="@CreateDenunciation">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <!-- Informateur Section -->
+        <div class="col-md-6">
+            <h2>Informateur</h2>
+            <div class="form-group">
+                <label for="InformateurPrenom">Prenom:</label>
+                <InputText id="InformateurPrenom" class="form-control" @bind-Value="@FormModel.InformateurPrenom" />
+                <ValidationMessage For="@(() => FormModel.InformateurPrenom)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurNom">Nom:</label>
+                <InputText id="InformateurNom" class="form-control" @bind-Value="@FormModel.InformateurNom" />
+                <ValidationMessage For="@(() => FormModel.InformateurNom)" />
+            </div>
+            <br />
+            <h5>Adresse Informateur</h5>
+
+            <div class="form-group">
+                <label for="InformateurNumeroVoie">Numéro de voie:</label>
+                <InputNumber id="InformateurNumeroVoie" class="form-control" @bind-Value="@FormModel.InformateurNumeroVoie" />
+                <ValidationMessage For="@(() => FormModel.InformateurNumeroVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurNomVoie">Nom de voie:</label>
+                <InputText id="InformateurNomVoie" class="form-control" @bind-Value="@FormModel.InformateurNomVoie" />
+                <ValidationMessage For="@(() => FormModel.InformateurNomVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurCodePostal">Code Postal:</label>
+                <InputNumber id="InformateurCodePostal" class="form-control" @bind-Value="@FormModel.InformateurCodePostal" />
+                <ValidationMessage For="@(() => FormModel.InformateurCodePostal)" />
+            </div>
+            <div class="form-group">
+                <label for="InformateurNomCommune">Commune:</label>
+                <InputText id="InformateurNomCommune" class="form-control" @bind-Value="@FormModel.InformateurNomCommune" />
+                <ValidationMessage For="@(() => FormModel.InformateurNomCommune)" />
+            </div>
+            @if (FormModel.Id != null)
+            {
+                <div class="form-group">
+                    <label for="Id">Identifiant de la dénonciation:</label>
+                    <div class="input-group">
+                        <InputText id="Id" class="form-control" @bind-Value="@FormModel.Id" disabled />
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-check-circle-fill text-success"></i></span>
+                        </div>
+                    </div>
+                    <small class="text-success">La dénonciation a été créée.</small>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="Id">Identifiant de la dénonciation:</label>
+                    <InputText id="Id" class="form-control" @bind-Value="@FormModel.Id" disabled />
+                    <ValidationMessage For="@(() => FormModel.Id)" />
+                </div>
+            }
+        </div>
+        <br />
+
+        <!-- Suspect Section -->
+        <div class="col-md-6">
+            <h2>Suspect</h2>
+            <div class="form-group">
+                <label for="SuspectPrenom">Prenom:</label>
+                <InputText id="SuspectPrenom" class="form-control" @bind-Value="@FormModel.SuspectPrenom" />
+                <ValidationMessage For="@(() => FormModel.SuspectPrenom)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectNom">Nom:</label>
+                <InputText id="SuspectNom" class="form-control" @bind-Value="@FormModel.SuspectNom" />
+                <ValidationMessage For="@(() => FormModel.SuspectNom)" />
+            </div>
+            <br />
+            <h5>Adresse Suspect</h5>
+            <div class="form-group">
+                <label for="SuspectNumeroVoie">Numero de voie:</label>
+                <InputNumber id="SuspectNumeroVoie" class="form-control" @bind-Value="@FormModel.SuspectNumeroVoie" />
+                <ValidationMessage For="@(() => FormModel.SuspectNumeroVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectNomVoie">Nom de voie:</label>
+                <InputText id="SuspectNomVoie" class="form-control" @bind-Value="@FormModel.SuspectNomVoie" />
+                <ValidationMessage For="@(() => FormModel.SuspectNomVoie)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectCodePostal">Code Postal:</label>
+                <InputNumber id="SuspectCodePostal" class="form-control" @bind-Value="@FormModel.SuspectCodePostal" />
+                <ValidationMessage For="@(() => FormModel.SuspectCodePostal)" />
+            </div>
+            <div class="form-group">
+                <label for="SuspectNomCommune">Commune:</label>
+                <InputText id="SuspectNomCommune" class="form-control" @bind-Value="@FormModel.SuspectNomCommune" />
+                <ValidationMessage For="@(() => FormModel.SuspectNomCommune)" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="Delit">Choisissez un délit :</label>
+        <select id="Delit" class="form-control" @bind="@FormModel.Delit">
+            <option value="EVASIONFISCALE" selected>Evasion Fiscale</option>
+            <option value="DISSIMULATIONREVENU">Dissimulation de revenu</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="PaysEvasion">(Si connu) Pays d'évasion:</label>
+        <InputText id="PaysEvasion" class="form-control" @bind-Value="@FormModel.PaysEvasion" />
+        <ValidationMessage For="@(() => FormModel.PaysEvasion)" />
+    </div>
+    @if (!string.IsNullOrEmpty(FormModel.ErreurMessage))
+    {
+        <p class="text-danger">@FormModel.ErreurMessage</p>
+    }
+    <br />
+    <button type="submit" class="btn btn-primary">Create Denunciation</button>
+</EditForm>
+
+
+
+@code {
+
+    private DenonciationFormModel FormModel { get; set; } = new DenonciationFormModel();
+    protected override void OnInitialized()
+    {
+        FormModel.Delit = Delit.EVASIONFISCALE;
+    }
+    private async Task CreateDenunciation()
+    {
+        FormModel.Id = null;
+        FormModel.ErreurMessage = null;
+        AdresseItem adresseInformateur = new AdresseItem(FormModel.InformateurNumeroVoie, FormModel.InformateurNomVoie, FormModel.InformateurCodePostal, FormModel.InformateurNomCommune);
+        PersonneItem informateur = new PersonneItem(FormModel.InformateurPrenom, FormModel.InformateurNom, adresseInformateur);        
+        AdresseItem adresseSuspect = new AdresseItem(FormModel.SuspectNumeroVoie, FormModel.SuspectNomVoie, FormModel.SuspectCodePostal, FormModel.SuspectNomCommune);
+        PersonneItem suspect = new PersonneItem(FormModel.SuspectPrenom, FormModel.SuspectNom, adresseSuspect);
+        DenonciationItem denonciation = new DenonciationItem(informateur, suspect, FormModel.PaysEvasion ?? "NON_RENSEIGNE", FormModel.Delit);
+
+        var httpClient = new HttpClient();
+        var url = "https://localhost:7180/api/denonciations";
+        var json = JsonSerializer.Serialize(denonciation);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await httpClient.PostAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            FormModel.Id = $"Identifiant de la dénonciation créée : {responseContent}";
+        }
+        else
+        {
+            FormModel.ErreurMessage = await response.Content.ReadAsStringAsync();
+        }
+    }
+
+}

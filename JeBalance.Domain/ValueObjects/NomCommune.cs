@@ -9,14 +9,16 @@ namespace JeBalance.Domain.ValueObjects
 {
 	public class NomCommune : SimpleValueObject<string>
 	{
-		private const int MIN_LENGTH = 1;
 		private const int MAX_LENGTH = 50;
 
 		public NomCommune(string value) : base(value)
 		{
 		}
+        public NomCommune() : base("ALBERT")
+        {
+        }
 
-		public override string Validate(string value)
+        public override string Validate(string value)
 		{
 			var trimmedValue = value.Trim();
 

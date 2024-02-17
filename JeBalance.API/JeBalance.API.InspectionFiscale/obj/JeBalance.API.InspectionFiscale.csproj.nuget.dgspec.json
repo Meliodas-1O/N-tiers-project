@@ -1,24 +1,109 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj": {}
+    "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj": {
+    "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj",
+        "projectUniqueName": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj",
         "projectName": "JeBalance.API.InspectionFiscale",
-        "projectPath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj",
-        "packagesPath": "C:\\Users\\cisko\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.API\\JeBalance.API.InspectionFiscale\\obj\\",
+        "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.API\\JeBalance.API.InspectionFiscale\\JeBalance.API.InspectionFiscale.csproj",
+        "packagesPath": "C:\\Users\\fode.cissokho\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.API\\JeBalance.API.InspectionFiscale\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\cisko\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\fode.cissokho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj": {
+                "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj"
+              },
+              "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Infrastructure\\JeBalance.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Infrastructure\\JeBalance.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.35.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj",
+        "projectName": "JeBalance.Domain",
+        "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj",
+        "packagesPath": "C:\\Users\\fode.cissokho\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\fode.cissokho\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -44,9 +129,15 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Swashbuckle.AspNetCore": {
+            "MediatR": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[12.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.26, )"
             }
           },
           "imports": [
@@ -61,14 +152,88 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Infrastructure\\JeBalance.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Infrastructure\\JeBalance.Infrastructure.csproj",
+        "projectName": "JeBalance.Infrastructure",
+        "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Infrastructure\\JeBalance.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\fode.cissokho\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\fode.cissokho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj": {
+                "projectPath": "C:\\Users\\fode.cissokho\\source\\repos\\N-tiers-project\\JeBalance.Domain\\JeBalance.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.26, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

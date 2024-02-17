@@ -9,14 +9,16 @@ namespace JeBalance.Domain.ValueObjects
 {
 	public class Prenom : SimpleValueObject<string>
 	{
-		private const int MIN_LENGTH = 1;
 		private const int MAX_LENGTH = 50;
 
 		public Prenom(string value) : base(value)
 		{
 		}
+        public Prenom() : base("FRANCE")
+        {
+        }
 
-		public override string Validate(string value)
+        public override string Validate(string value)
 		{
 			var trimmedValue = value.Trim();
 
@@ -32,6 +34,10 @@ namespace JeBalance.Domain.ValueObjects
 			return Value == obj?.ToString();
 		}
 
+		public bool Contains(object? obj)
+		{
+			return Value.Contains(obj?.ToString());
+		}
 		public override int GetHashCode()
 		{
 			return HashCode.Combine(Value);

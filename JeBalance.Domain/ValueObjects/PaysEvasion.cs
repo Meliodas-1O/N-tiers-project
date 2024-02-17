@@ -16,7 +16,11 @@ namespace JeBalance.Domain.ValueObjects
 		{
 		}
 
-		public override string Validate(string value)
+        public PaysEvasion() : base("FRANCE")
+        {
+        }
+
+        public override string Validate(string value)
 		{
 			var trimmedValue = value.Trim();
 

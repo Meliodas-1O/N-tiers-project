@@ -1,107 +1,112 @@
-﻿using JeBalance.API.Admin.Models;
+﻿using JeBalance.API.Admin.Authentication;
+using JeBalance.API.Admin.Parameters;
 using JeBalance.API.Admin.Ressources;
+using JeBalance.API.Admin.Services.Models;
 using JeBalance.Domain.Models.Person;
-using JeBalance.Domain.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using static System.Reflection.Metadata.BlobBuilder;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+
 namespace JeBalance.API.Admin.Controllers
 {
-	[Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRole.Admin)]
+    [Route("api/vip/")]
 	[ApiController]
 	public class VIPController : ControllerBase
 	{
-		public static List<Personne> GenererListePersonnes()
-		{
-			List<Personne> personnes = new List<Personne>();
-			Adresse adresse = new Adresse(42, "Rue de l'Exemple", 12345, "Ville Exemple");
-
-			for (int i = 1; i <= 5; i++)
-			{
-				personnes.Add(new Personne($"PrénomVIP{i}", $"NomVIP{i}", TypePersonne.VIP, 0, adresse));
-			}
-
-			for (int i = 6; i <= 15; i++)
-			{
-				personnes.Add(new Personne($"PrénomInformateur{i}", $"NomInformateur{i}", TypePersonne.INFORMATEUR, 0, adresse));
-			}
-
-			for (int i = 16; i <= 18; i++)
-			{
-				personnes.Add(new Personne($"PrénomSuspect{i}", $"NomSuspect{i}", TypePersonne.SUSPECT, 0, adresse));
-			}
-
-			for (int i = 19; i <= 20; i++)
-			{
-				personnes.Add(new Personne($"PrénomCalomniateur{i}", $"NomCalomniateur{i}", TypePersonne.CALOMNIATEUR, 0, adresse));
-			}
-
-			return personnes;
+		private readonly IVIPService _VIPService;
+        public VIPController(IVIPService vipService)
+        {
+			_VIPService = vipService;
 		}
 
-		List < Personne > personnes = GenererListePersonnes();
-
-		// GET: api/<VIPController>
 		[HttpGet]
-		public ActionResult<IEnumerable<Personne>> Get()
+		public async Task<IActionResult> Get([FromQuery] FindVIParameters parameter)
 		{
-			return Ok(personnes);
-
+			IEnumerable<Personne> vips = await _VIPService.GetAll(parameter);
+			Response.Headers.Add("X-Pagination-Limit", parameter.Limit.ToString());
+			Response.Headers.Add("X-Pagination-Offset", parameter.Offset.ToString());
+			Response.Headers.Add("X-Pagination-Count", vips.Count().ToString());
+			return Ok(vips.Select(v => PersonneAPI.FromPersonne(v)));
 		}
 
 		// GET api/<VIPController>/5
 		[HttpGet("{id}")]
-		public ActionResult<Personne> Get(int id)
+		public async Task<ActionResult> Get(string id)
 		{
-			var personne = personnes.FirstOrDefault(b => b.Id == id);
-
-			if (personne == null)
-				return NotFound();
-
-			return Ok(personne);
+			Personne personne = await _VIPService.GetOneVIP(id);
+			if(personne == null)
+			{
+                return NotFound("Id invalide. VIP non trouvé !");
+            }
+            return Ok(PersonneAPI.FromPersonne(personne));
 		}
 
 		// POST api/<VIPController>
-		[HttpPost]
-		public ActionResult<Personne> Post([FromBody] IPersonneAPI personneAPI)
+        [HttpPost]
+		public async Task<ActionResult> Post([FromBody] PersonneAPICreation personneAPI)
 		{
+			try
+			{
+				Personne personne = personneAPI.ToPersonne();
+				string id = await _VIPService.GetOrCreateVIPId(personne);
+				return Ok(id);
+			}
+			catch (Exception ex)
+			{
+                string errorMessage = ex.Message;
+                return BadRequest(errorMessage);
+            }
 
-			Personne personne = personneAPI.ToPersonne();
-			personnes.Add(personne);
-			return CreatedAtAction(nameof(Get), new { id = personne.Id }, personne);
 		}
 
 		// PUT api/<VIPController>/5
 		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody] Personne value)
+		public async Task<ActionResult> Put(string id, [FromBody] PersonneAPICreation personneAPI)
 		{
-			var existingPersonne = personnes.FirstOrDefault(b => b.Id == id);
+			try
+			{
+                Personne dbPersonne = await _VIPService.GetOneVIP(id);
+                if (dbPersonne == null)
+                {
+                    return NotFound("Id invalide. VIP non trouvé !");
+                }
+                Personne personne = personneAPI.ToPersonne();
+                Personne updatedPersonne = await _VIPService.UpdateVIP(id, personne);
+                return Ok(PersonneAPI.FromPersonne(updatedPersonne));
+            }
+			catch (Exception ex)
+			{
+                string errorMessage = ex.Message;
+                return BadRequest(errorMessage);
+            }
+        }
 
-			if (existingPersonne == null)
-				return NotFound();
-
-			existingPersonne.Prenom = value.Prenom;
-			existingPersonne.Nom = value.Nom;
-			existingPersonne.Adresse = value.Adresse;
-
-			return NoContent();
+		[HttpPut("{id}/type")]
+		public async Task<ActionResult> SetType(string id, [FromBody] UpdateStatusAPI personneAPI)
+		{
+            Personne dbPersonne = await _VIPService.GetOneVIP(id);
+            if (dbPersonne == null)
+            {
+                return NotFound("Id invalide. VIP non trouvé !");
+            }
+            Personne updateVipId = await _VIPService.SetType(id, personneAPI.TypePersonne);
+			return Ok(PersonneAPI.FromPersonne(updateVipId));
 		}
 
 		// DELETE api/<VIPController>/5
 		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
+		public async Task<ActionResult> Delete(string id)
 		{
-			var book = personnes.FirstOrDefault(b => b.Id == id);
-
-			if (book == null)
-				return NotFound();
-
-			personnes.Remove(book);
-
-			return NoContent();
+            Personne dbPersonne = await _VIPService.GetOneVIP(id);
+            if (dbPersonne == null)
+            {
+                return NotFound("Id invalide. VIP non trouvé !");
+            }
+            string deletedVIPId = await _VIPService.DeleteVIP(id);
+			return Ok(deletedVIPId);
 		}
 	}
 }

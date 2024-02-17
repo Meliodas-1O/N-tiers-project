@@ -10,8 +10,8 @@ namespace JeBalance.Domain.Queries.PersonneQueries
 {
 	public class FindOnePersonneQuery : IRequest<Personne>
 	{
-		public int Id { get; }
+		public string Id { get; }
 
-		public FindOnePersonneQuery(int id) => Id = id;
+		public FindOnePersonneQuery(string id) => Id = id;
 	}
 }

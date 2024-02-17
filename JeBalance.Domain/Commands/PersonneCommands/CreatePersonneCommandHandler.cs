@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace JeBalance.DomainCommands.PersonneCommands
 {
-	public class CreatePersonneCommandHandler : IRequestHandler<CreatePersonneCommand, int>
+	public class CreatePersonneCommandHandler : IRequestHandler<CreatePersonneCommand, string>
 	{
 	
 		private readonly IPersonneRepository _repository;
 
 		public CreatePersonneCommandHandler(IPersonneRepository repository) => _repository = repository;
 
-		public Task<int> Handle(CreatePersonneCommand command, CancellationToken cancellationToken)
+		public Task<string> Handle(CreatePersonneCommand command, CancellationToken cancellationToken)
 		{
 			return _repository.Create(command.Personne);
 		}

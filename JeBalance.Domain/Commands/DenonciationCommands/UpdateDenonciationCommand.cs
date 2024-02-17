@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.DenonciationCommands
 {
-	public class UpdateDenonciationCommand : IRequest<int>
+	public class UpdateDenonciationCommand : IRequest<Denonciation>
 	{
-		public int Id { get; }
+		public string Id { get; }
 		public Denonciation Denonciation { get; }
-		public UpdateDenonciationCommand(int id,
+		public UpdateDenonciationCommand(string id,
 			DateTime horodatage,
-			Personne informateur,
-			Personne suspect,
+			string informateur,
+			string suspect,
 			Delit delit,
 			string paysEvasion,
 			DenonciationReponse? reponse)
 		{
 			Id = id;
-			Denonciation = new Denonciation(horodatage, informateur, suspect, delit, paysEvasion, reponse);
+			Denonciation = new Denonciation(horodatage, informateur, suspect, delit, paysEvasion, reponse?.DenonciationId);
 		}
 	}
 }

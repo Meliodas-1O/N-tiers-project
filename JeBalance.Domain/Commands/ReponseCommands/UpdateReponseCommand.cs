@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace JeBalance.Domain.Commands.ReponseCommands
 {
-	public class UpdateReponseCommand : IRequest<int>
+	public class UpdateReponseCommand : IRequest<DenonciationReponse>
 	{
-		public int Id { get; }
+		public string Id { get; }
 		public DenonciationReponse Response { get; }
 
-		public UpdateReponseCommand(int id, DateTime timestamp, TypeReponse type, int retribution)
+		public UpdateReponseCommand(string id, DateTime timestamp, TypeReponse type, int retribution, string denonciationId)
 		{
 			Id = id;
-			Response = new DenonciationReponse (timestamp, type,retribution);
+			Response = new DenonciationReponse (timestamp, type,retribution, denonciationId);
 		}
 	}
 }

@@ -10,6 +10,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("590a145a-d95d-4ebe-b4b8-9d451e923b85")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("JeBalance.API.InspectionFiscale")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
