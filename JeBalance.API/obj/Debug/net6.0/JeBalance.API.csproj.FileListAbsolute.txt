@@ -1,0 +1,8 @@
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.csproj.AssemblyReference.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.AssemblyInfoInputs.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.AssemblyInfo.cs
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.csproj.CoreCompileInputs.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\cisko\source\repos\JeBalance\JeBalance.API\obj\Debug\net6.0\JeBalance.API.sourcelink.json

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\JeBalance.API.InspectionFiscale.props" />
+</Project>

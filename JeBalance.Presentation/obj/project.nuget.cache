@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "6ToCdHn2edHHkjsFie0Rk21w6+dnIFpvAujxjPlpk1+llMGni6kVGuWaMr1Z0mj3V1/r+9ABCAiUP6A+bWd1Sg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cisko\\source\\repos\\JeBalance\\JeBalance.Presentation\\JeBalance.Presentation.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cisko\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\cisko\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

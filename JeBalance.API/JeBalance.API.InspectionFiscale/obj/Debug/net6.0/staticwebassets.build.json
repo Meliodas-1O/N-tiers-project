@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "9jwMr0deCpQo91rpfubWAPrCqYaLiOb4IOT+aKeTYLo=",
+  "Source": "JeBalance.API.InspectionFiscale",
+  "BasePath": "_content/JeBalance.API.InspectionFiscale",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
