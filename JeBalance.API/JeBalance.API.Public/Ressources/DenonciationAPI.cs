@@ -10,8 +10,12 @@ namespace JeBalance.Public.API.Ressources
         public DateTime Horodatage { get; set; }
 
         public DenonciationAPI() { }
-        public static DenonciationAPI FromDenonciation(Denonciation denonciation)
+        public static DenonciationAPI? FromDenonciation(Denonciation denonciation)
         {
+            if(denonciation == null)
+            {
+                return null;
+            }
             return new DenonciationAPI
             {
                 Id = denonciation.Id,

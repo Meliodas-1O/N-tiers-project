@@ -15,7 +15,7 @@ namespace JeBalance.API.Public.Services
 			_mediator = mediator;
 		}
 
-		public async Task<string> GetOrCreatePersonId(Personne personne)
+        public async Task<string> GetOrCreatePersonId(Personne personne)
 		{
 			var existingPersonneCommand = new FindPersonneQuery(int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, TypePersonne.NONE, personne.Adresse.Value);
 			var existingPersonne = await _mediator.Send(existingPersonneCommand);
@@ -25,10 +25,10 @@ namespace JeBalance.API.Public.Services
 				var newVIPCommand = new CreatePersonneCommand(personne.Prenom.Value, personne.Nom.Value, TypePersonne.NONE, 0, personne.Adresse);
 				return await _mediator.Send(newVIPCommand);
 			}
-			return existingPersonne.First().Id;
-		}
+            return existingPersonne.First().Id;
+        }
 
-		public async Task<bool> EstCalomniateur(Personne personne)
+        public async Task<bool> EstCalomniateur(Personne personne)
 		{
 			return await EstTypePersonne(personne, TypePersonne.CALOMNIATEUR);
 		}
@@ -40,10 +40,11 @@ namespace JeBalance.API.Public.Services
 
 		private async Task<bool> EstTypePersonne(Personne personne, TypePersonne type)
 		{
-			var existingPersonneQuery = new FindPersonneQuery(int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, type, personne.Adresse.Value);
-			var existingPersonne = await _mediator.Send(existingPersonneQuery);
+            FindPersonneQuery existingPersonneQuery = new (int.MaxValue, 0, personne.Prenom.Value, personne.Nom.Value, type, personne.Adresse.Value);
+			IEnumerable<Personne> existingPersonne = await _mediator.Send(existingPersonneQuery);
 			return existingPersonne.Any();
 		}
+		
 		public async Task<Personne> GetOnePersonne(string id)
 		{
 			var query = new FindOnePersonneQuery(id);
